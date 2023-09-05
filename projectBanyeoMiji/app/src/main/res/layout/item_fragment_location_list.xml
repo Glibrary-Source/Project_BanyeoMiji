@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linear_item"
     android:orientation="vertical"
@@ -9,8 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:padding="8dp"
     android:elevation="8dp"
-    android:gravity="center"
     android:clickable="true"
     android:focusable="true">
 
@@ -18,14 +16,54 @@
         android:id="@+id/text_item_title"
         tools:text="1004 섬수석미술관"
         android:textSize="28dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
         android:fontFamily="@font/bagelfat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ImageView
-        android:id="@+id/img_item_title"
-        android:padding="2dp"
-        android:layout_width="match_parent"
-        android:layout_height="150dp" />
+    <TextView
+        android:id="@+id/text_item_address"
+        android:textSize="18dp"
+        tools:text="주소: 전라남도 신안군 자은면 백산리 633-54"
+        android:fontFamily="@font/bagelfat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/text_item_rest_day"
+        android:textSize="18dp"
+        tools:text="쉬는날: 매주 월요일"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/bagelfat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/text_item_parking"
+        android:textSize="18dp"
+        tools:text="주차 가능: 가능"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/bagelfat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/text_item_open_time"
+        android:textSize="18dp"
+        tools:text="영업 시간: 화~일 09:00~18:00"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/bagelfat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/text_item_link"
+        android:textSize="18dp"
+        tools:text="관련링크: 이동"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/bagelfat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
