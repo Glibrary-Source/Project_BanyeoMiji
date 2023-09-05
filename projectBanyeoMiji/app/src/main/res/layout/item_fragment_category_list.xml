@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear_item"
+    android:orientation="vertical"
+    android:background="@drawable/btn_category_state"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:elevation="8dp"
+    android:gravity="center"
+    android:clickable="true"
+    android:focusable="true">
+
+    <TextView
+        android:id="@+id/text_item_title"
+        tools:text="알뜰 한집배달"
+        android:textSize="28dp"
+        android:fontFamily="@font/bagelfat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/img_item_title"
+        android:padding="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+
+</LinearLayout>

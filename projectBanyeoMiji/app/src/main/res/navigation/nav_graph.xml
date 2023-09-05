@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragmentCategory">
+
+    <fragment
+        android:id="@+id/fragmentCategory"
+        android:name="com.twproject.banyeomiji.view.FragmentCategory"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_fragmentCategory_to_fragmentLocationList"
+            app:destination="@id/fragmentLocationList" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentLocationList"
+        android:name="com.twproject.banyeomiji.view.FragmentLocationList"
+        android:label="fragment_location_list"
+        tools:layout="@layout/fragment_location_list" />
+</navigation>

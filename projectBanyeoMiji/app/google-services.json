@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "47087915896",
+    "project_id": "project-banyeomiji",
+    "storage_bucket": "project-banyeomiji.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47087915896:android:982d2ec50d49dd883e2e8d",
+        "android_client_info": {
+          "package_name": "com.twproject.banyeomiji"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "47087915896-g440vjtbd63g0qdkdlfvmflaqhccg7qj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.twproject.banyeomiji",
+            "certificate_hash": "948bd590c5487826528c1f98820e07fe7c27b12f"
+          }
+        },
+        {
+          "client_id": "47087915896-lhrlvpajbujlmkea4scuru5okf70lm3q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAstNaHIUO51ah7Jf8CY9uhWvpZYL7aW0I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "47087915896-lhrlvpajbujlmkea4scuru5okf70lm3q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
