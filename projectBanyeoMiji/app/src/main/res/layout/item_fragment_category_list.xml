@@ -14,16 +14,17 @@
     android:focusable="true">
 
     <TextView
-        android:id="@+id/text_item_title"
-        tools:text="알뜰 한집배달"
+        android:id="@+id/text_category_item_title"
+        tools:text="카페"
         android:textSize="28dp"
         android:fontFamily="@font/bagelfat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <ImageView
-        android:id="@+id/img_item_title"
+        android:id="@+id/img_category_item"
         android:padding="2dp"
+        tools:src="@drawable/img_category_item_korea_art_gallery"
         android:layout_width="match_parent"
         android:layout_height="150dp" />
 

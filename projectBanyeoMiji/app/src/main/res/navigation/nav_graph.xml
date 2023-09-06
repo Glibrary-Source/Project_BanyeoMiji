@@ -12,11 +12,22 @@
         tools:layout="@layout/fragment_category" >
         <action
             android:id="@+id/action_fragmentCategory_to_fragmentLocationList"
-            app:destination="@id/fragmentLocationList" />
+            app:destination="@id/fragmentLocationList"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_right"
+            app:popUpTo="@id/fragmentCategory"
+            app:popUpToInclusive="false"
+            />
     </fragment>
     <fragment
         android:id="@+id/fragmentLocationList"
         android:name="com.twproject.banyeomiji.view.FragmentLocationList"
         android:label="fragment_location_list"
-        tools:layout="@layout/fragment_location_list" />
+        tools:layout="@layout/fragment_location_list" >
+        <argument
+            android:name="CategoryName"
+            app:argType="string" />
+    </fragment>
 </navigation>

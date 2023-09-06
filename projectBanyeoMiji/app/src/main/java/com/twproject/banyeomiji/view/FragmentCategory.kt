@@ -31,9 +31,11 @@ class FragmentCategory : Fragment() {
         binding = FragmentCategoryBinding.inflate(inflater)
 
         val navOptions = NavigationOptionsManager(findNavController())
-        val recyclerView = binding.rcCategoryList
-        recyclerView.adapter = CategoryListAdapter(CategoryData().getCategoryList(), navOptions.setBottomTransformOption())
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+
+        val rcCategoryView = binding.rcCategoryList
+        rcCategoryView.setHasFixedSize(true)
+        rcCategoryView.adapter = CategoryListAdapter(CategoryData().getCategoryList(), navOptions.setBottomTransformOption())
+        rcCategoryView.layoutManager = GridLayoutManager(requireContext(), 2)
 
         return binding.root
     }

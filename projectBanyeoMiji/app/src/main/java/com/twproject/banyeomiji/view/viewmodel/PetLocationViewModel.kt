@@ -1,27 +1,42 @@
 package com.twproject.banyeomiji.view.viewmodel
 
+import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.twproject.banyeomiji.view.datamodel.PetCategoryData
 import com.twproject.banyeomiji.view.datamodel.PetLocationData
-import kotlinx.coroutines.launch
 
 class PetLocationViewModel : ViewModel() {
 
     private val db = Firebase.firestore
-    private val petDataList = mutableListOf<PetLocationData>()
-    private val petCategoryData = mutableListOf<PetCategoryData>()
+    private var petDataList = mutableListOf<PetLocationData>()
 
-    private val _petLocationData = MutableLiveData<MutableList<PetLocationData>>()
-    private val _petDataCategory = MutableLiveData<MutableList<PetCategoryData>>()
+    private val _petLocationGateData = MutableLiveData<MutableList<PetLocationData>>()
+    private val _petLocationCafeData = MutableLiveData<MutableList<PetLocationData>>()
+    private val _petLocationArtGalleryData = MutableLiveData<MutableList<PetLocationData>>()
+    private val _petLocationPetSalonData = MutableLiveData<MutableList<PetLocationData>>()
+    private val _petLocationMuseumData = MutableLiveData<MutableList<PetLocationData>>()
+    private val _petLocationToolsData = MutableLiveData<MutableList<PetLocationData>>()
+    private val _petLocationRestaurantData = MutableLiveData<MutableList<PetLocationData>>()
+    private val _petLocationTripData = MutableLiveData<MutableList<PetLocationData>>()
+    private val _petLocationManagementData = MutableLiveData<MutableList<PetLocationData>>()
+    private val _petLocationSwimmingData = MutableLiveData<MutableList<PetLocationData>>()
+    private val _petLocationHotelData = MutableLiveData<MutableList<PetLocationData>>()
+    val petLocationGateData: LiveData<MutableList<PetLocationData>> get() = _petLocationGateData
+    val petLocationCafeData: LiveData<MutableList<PetLocationData>> get() = _petLocationCafeData
+    val petLocationArtGalleryData: LiveData<MutableList<PetLocationData>> get() = _petLocationArtGalleryData
+    val petLocationPetSalonData: LiveData<MutableList<PetLocationData>> get() = _petLocationPetSalonData
+    val petLocationMuseumData: LiveData<MutableList<PetLocationData>> get() = _petLocationMuseumData
+    val petLocationToolsData: LiveData<MutableList<PetLocationData>> get() = _petLocationToolsData
+    val petLocationRestaurantData: LiveData<MutableList<PetLocationData>> get() = _petLocationRestaurantData
+    val petLocationTripData: LiveData<MutableList<PetLocationData>> get() = _petLocationTripData
+    val petLocationManagementData: LiveData<MutableList<PetLocationData>> get() = _petLocationManagementData
+    val petLocationSwimmingData: LiveData<MutableList<PetLocationData>> get() = _petLocationSwimmingData
+    val petLocationHotelData: LiveData<MutableList<PetLocationData>> get() = _petLocationHotelData
 
-    val petLocationData: LiveData<MutableList<PetLocationData>> get() = _petLocationData
-    val petDataCategory: LiveData<MutableList<PetCategoryData>> get() = _petDataCategory
 
 //    init {
 //        getLocationData()
@@ -47,36 +62,35 @@ class PetLocationViewModel : ViewModel() {
 //        }
 //    }
 
-    suspend fun getLocationDataCoroutine() {
+    suspend fun getLocationData(category: String, location: String) {
         db.collection("pet_location_data")
-            .whereEqualTo("CTPRVN_NM", "서울특별시")
-            .whereEqualTo("CTGRY_THREE_NM", "카페")
+            .whereEqualTo("CTGRY_THREE_NM", category)
+            .whereEqualTo("CTPRVN_NM", location)
             .get()
             .addOnSuccessListener {
                 for (document in it) {
                     val petLocationData = document.toObject(PetLocationData::class.java)
                     petDataList.add(petLocationData)
                 }
-                _petLocationData.value = petDataList
+                when(category) {
+                    "문예회관" -> { _petLocationGateData.value = petDataList }
+                    "카페" -> { _petLocationCafeData.value = petDataList }
+                    "미술관" -> { _petLocationArtGalleryData.value = petDataList }
+                    "미용" -> { _petLocationPetSalonData.value = petDataList }
+                    "박물관" -> { _petLocationMuseumData.value = petDataList }
+                    "반려동물용품" -> { _petLocationToolsData.value = petDataList }
+                    "식당" -> { _petLocationRestaurantData.value = petDataList }
+                    "여행지" -> { _petLocationTripData.value = petDataList }
+                    "위탁관리" -> { _petLocationManagementData.value = petDataList }
+                    "펜션" -> { _petLocationSwimmingData.value = petDataList }
+                    "호텔" -> { _petLocationHotelData.value = petDataList }
+                }
+                petDataList = mutableListOf()
+
             }
             .addOnFailureListener { exception ->
                 Log.d("testTag", "Error: $exception")
             }
     }
-
-//    suspend fun getLocationCategory() {
-//        db.collection("pet_data_category")
-//            .get()
-//            .addOnSuccessListener {
-//                for(document in it) {
-//                    val tempPetCategory = document.toObject(PetCategoryData::class.java)
-//                    petCategoryData.add(tempPetCategory)
-//                }
-//                _petDataCategory.value = petCategoryData
-//            }
-//            .addOnFailureListener { exception ->
-//                Log.d("testTag", "Error: $exception")
-//            }
-//    }
 
 }
