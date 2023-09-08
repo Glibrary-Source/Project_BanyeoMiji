@@ -18,8 +18,7 @@
             app:popEnterAnim="@anim/enter_from_right"
             app:popExitAnim="@anim/exit_to_right"
             app:popUpTo="@id/fragmentCategory"
-            app:popUpToInclusive="false"
-            />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLocationList"

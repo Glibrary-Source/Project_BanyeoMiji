@@ -24,7 +24,6 @@ class PetLocationViewModel : ViewModel() {
     private val _petLocationTripData = MutableLiveData<MutableList<PetLocationData>>()
     private val _petLocationManagementData = MutableLiveData<MutableList<PetLocationData>>()
     private val _petLocationSwimmingData = MutableLiveData<MutableList<PetLocationData>>()
-    private val _petLocationHotelData = MutableLiveData<MutableList<PetLocationData>>()
     val petLocationGateData: LiveData<MutableList<PetLocationData>> get() = _petLocationGateData
     val petLocationCafeData: LiveData<MutableList<PetLocationData>> get() = _petLocationCafeData
     val petLocationArtGalleryData: LiveData<MutableList<PetLocationData>> get() = _petLocationArtGalleryData
@@ -35,7 +34,6 @@ class PetLocationViewModel : ViewModel() {
     val petLocationTripData: LiveData<MutableList<PetLocationData>> get() = _petLocationTripData
     val petLocationManagementData: LiveData<MutableList<PetLocationData>> get() = _petLocationManagementData
     val petLocationSwimmingData: LiveData<MutableList<PetLocationData>> get() = _petLocationSwimmingData
-    val petLocationHotelData: LiveData<MutableList<PetLocationData>> get() = _petLocationHotelData
 
 
 //    init {
@@ -83,7 +81,6 @@ class PetLocationViewModel : ViewModel() {
                     "여행지" -> { _petLocationTripData.value = petDataList }
                     "위탁관리" -> { _petLocationManagementData.value = petDataList }
                     "펜션" -> { _petLocationSwimmingData.value = petDataList }
-                    "호텔" -> { _petLocationHotelData.value = petDataList }
                 }
                 petDataList = mutableListOf()
 

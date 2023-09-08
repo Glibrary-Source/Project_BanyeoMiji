@@ -1,18 +1,18 @@
 package com.twproject.banyeomiji.view.adapter
 
-import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.view.FragmentCategoryDirections
+import com.twproject.banyeomiji.view.util.AdapterStringManager
 import com.twproject.banyeomiji.view.util.CategoryButtonAnimation
+import com.twproject.banyeomiji.view.util.onThrottleClick
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
@@ -20,11 +20,9 @@ import kotlinx.coroutines.launch
 
 class CategoryListAdapter(
     private val dataList: MutableMap<String, Int>,
-    private val navOptions: NavOptions
 ) : RecyclerView.Adapter<CategoryListAdapter.ItemViewHolder>() {
 
-    private var categoryButtonAnimator = CategoryButtonAnimation()
-    private var isClickable = true
+    private val stringManager = AdapterStringManager()
 
     inner class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val categoryButton: TextView = view.findViewById(R.id.text_category_item_title)
@@ -44,25 +42,18 @@ class CategoryListAdapter(
     override fun onBindViewHolder(holder: CategoryListAdapter.ItemViewHolder, position: Int) {
         val itemName = dataList.keys.toList()[position]
         val itemImg = dataList.values.toList()[position]
-        holder.categoryButton.text = itemName
+        holder.categoryButton.text = stringManager.checkHotel(itemName)
         holder.categoryImg.setImageResource(itemImg)
-        holder.linearItem.setOnClickListener {
-            if(isClickable) {
-                isClickable = false
-                categoryButtonAnimator.startAnimation(it)
-                CoroutineScope(Main).launch {
-                    val action =
-                        FragmentCategoryDirections.actionFragmentCategoryToFragmentLocationList(itemName)
-                    delay(300)
-                    holder.linearItem.findNavController().navigate(action)
-                }
-                it.postDelayed({
-                    isClickable = true
-                }, 1000)
+        holder.linearItem.onThrottleClick {
+            CategoryButtonAnimation().startAnimation(it)
+            CoroutineScope(Main).launch {
+                val action =
+                    FragmentCategoryDirections.actionFragmentCategoryToFragmentLocationList(itemName)
+                delay(300)
+                holder.linearItem.findNavController().navigate(action)
             }
         }
     }
-
     override fun getItemCount(): Int {
         return dataList.size
     }

@@ -15,7 +15,6 @@ class CategoryData {
         categoryMap["여행지"] = R.drawable.img_category_item_korea_trip
         categoryMap["위탁관리"] = R.drawable.img_category_item_korea_management
         categoryMap["펜션"] = R.drawable.img_category_item_korea_swimming_pool
-        categoryMap["호텔"] = R.drawable.img_category_item_korea_hotel
         return categoryMap
     }
 }

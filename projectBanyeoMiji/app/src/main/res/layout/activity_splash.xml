@@ -13,6 +13,7 @@
         android:text="반려 미지"
         android:fontFamily="@font/bagelfat"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:drawableLeftCompat="@drawable/app_dog_traning_size" />
 
 </FrameLayout>
