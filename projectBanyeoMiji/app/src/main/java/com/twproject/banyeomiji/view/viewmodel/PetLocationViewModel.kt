@@ -1,18 +1,23 @@
 package com.twproject.banyeomiji.view.viewmodel
 
-import android.location.Location
-import android.util.Log
+import android.app.Application
+import android.content.Context
+import android.widget.Toast
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.twproject.banyeomiji.view.LoadingDialog
 import com.twproject.banyeomiji.view.datamodel.PetLocationData
 
-class PetLocationViewModel : ViewModel() {
+class PetLocationViewModel(application: Application) : AndroidViewModel(application) {
 
     private val db = Firebase.firestore
     private var petDataList = mutableListOf<PetLocationData>()
+
+    private val _spinningPosition = MutableLiveData<Int>()
 
     private val _petLocationGateData = MutableLiveData<MutableList<PetLocationData>>()
     private val _petLocationCafeData = MutableLiveData<MutableList<PetLocationData>>()
@@ -24,6 +29,9 @@ class PetLocationViewModel : ViewModel() {
     private val _petLocationTripData = MutableLiveData<MutableList<PetLocationData>>()
     private val _petLocationManagementData = MutableLiveData<MutableList<PetLocationData>>()
     private val _petLocationSwimmingData = MutableLiveData<MutableList<PetLocationData>>()
+
+    val spinningPosition: LiveData<Int> get() = _spinningPosition
+
     val petLocationGateData: LiveData<MutableList<PetLocationData>> get() = _petLocationGateData
     val petLocationCafeData: LiveData<MutableList<PetLocationData>> get() = _petLocationCafeData
     val petLocationArtGalleryData: LiveData<MutableList<PetLocationData>> get() = _petLocationArtGalleryData
@@ -35,6 +43,9 @@ class PetLocationViewModel : ViewModel() {
     val petLocationManagementData: LiveData<MutableList<PetLocationData>> get() = _petLocationManagementData
     val petLocationSwimmingData: LiveData<MutableList<PetLocationData>> get() = _petLocationSwimmingData
 
+    init {
+        setSpinningPosition(-1)
+    }
 
 //    init {
 //        getLocationData()
@@ -60,7 +71,9 @@ class PetLocationViewModel : ViewModel() {
 //        }
 //    }
 
-    suspend fun getLocationData(category: String, location: String) {
+    suspend fun getLocationData(
+        category: String, location: String, loadD: LoadingDialog
+    ) {
         db.collection("pet_location_data")
             .whereEqualTo("CTGRY_THREE_NM", category)
             .whereEqualTo("CTPRVN_NM", location)
@@ -84,10 +97,15 @@ class PetLocationViewModel : ViewModel() {
                 }
                 petDataList = mutableListOf()
 
+                loadD.cancel()
             }
-            .addOnFailureListener { exception ->
-                Log.d("testTag", "Error: $exception")
+            .addOnFailureListener {
+                loadD.cancel()
             }
+    }
+
+    fun setSpinningPosition(position: Int) {
+        _spinningPosition.value = position
     }
 
 }

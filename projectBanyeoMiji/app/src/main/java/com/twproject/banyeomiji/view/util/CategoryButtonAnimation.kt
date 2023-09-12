@@ -31,12 +31,12 @@ class CategoryButtonAnimation {
             buttonView.layoutParams = params
         }
 
-//            heightAnimator.addUpdateListener { animation ->
-//                val newHeight = animation.animatedValue as Int
-//                val params = myLinearLayout.layoutParams
-//                params.height = newHeight
-//                myLinearLayout.layoutParams = params
-//            }
+        heightAnimator.addUpdateListener { animation ->
+            val newHeight = animation.animatedValue as Int
+            val params = buttonView.layoutParams
+            params.height = newHeight
+            buttonView.layoutParams = params
+        }
 
         // Start the animations
         widthAnimator.start()
@@ -56,19 +56,19 @@ class CategoryButtonAnimation {
                 returnWidthAnimator.duration = animationDuration
                 returnHeightAnimator.duration = animationDuration
 
-                returnWidthAnimator.addUpdateListener { animation ->
-                    val newWidth = animation.animatedValue as Int
+                returnWidthAnimator.addUpdateListener { animation1 ->
+                    val newWidth = animation1.animatedValue as Int
                     val params = buttonView.layoutParams
                     params.width = newWidth
                     buttonView.layoutParams = params
                 }
 
-//                    returnHeightAnimator.addUpdateListener { animation ->
-//                        val newHeight = animation.animatedValue as Int
-//                        val params = myLinearLayout.layoutParams
-//                        params.height = newHeight
-//                        myLinearLayout.layoutParams = params
-//                    }
+                returnHeightAnimator.addUpdateListener { animation2 ->
+                    val newHeight = animation2.animatedValue as Int
+                    val params = buttonView.layoutParams
+                    params.height = newHeight
+                    buttonView.layoutParams = params
+                }
 
                 returnWidthAnimator.start()
                 returnHeightAnimator.start()

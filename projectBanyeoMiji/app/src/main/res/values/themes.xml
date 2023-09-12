@@ -7,9 +7,11 @@
         <item name="colorAccent">@android:color/holo_red_dark</item>
 
         <!-- color high light -->
-        <item name="colorControlHighlight">#fd4381</item>
+        <item name="colorControlHighlight">@android:color/holo_blue_light</item>
     </style>
 
     <style name="Theme.BanyeoMiji" parent="Base.Theme.BanyeoMiji" >
+        <item name="android:windowIsTranslucent">true</item>
     </style>
+
 </resources>

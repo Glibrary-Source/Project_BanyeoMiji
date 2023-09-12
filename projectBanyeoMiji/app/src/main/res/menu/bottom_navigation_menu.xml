@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fragmentCategory"
+        android:title="Cateogry"
+        android:enabled="true"
+        android:icon="@drawable/ic_main_activity_categories" />
+    <item
+        android:id="@+id/fragmentStoreMap"
+        android:title="Map"
+        android:enabled="true"
+        android:icon="@drawable/ic_main_activity_map" />
+</menu>

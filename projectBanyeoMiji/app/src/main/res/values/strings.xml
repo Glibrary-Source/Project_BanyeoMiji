@@ -4,4 +4,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_category_text_title">목록</string>
     <string name="fragmentSelectLocationText">보고싶은 지역을 선택해주세요!</string>
+    <string name="dialog_loading_text">정보 불러오는중...</string>
 </resources>

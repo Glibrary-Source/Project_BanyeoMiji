@@ -19,6 +19,13 @@
             app:popExitAnim="@anim/exit_to_right"
             app:popUpTo="@id/fragmentCategory"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_fragmentCategory_to_fragmentStoreMap"
+            app:destination="@id/fragmentStoreMap"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_right" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLocationList"
@@ -28,5 +35,18 @@
         <argument
             android:name="CategoryName"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentStoreMap"
+        android:name="com.twproject.banyeomiji.view.FragmentStoreMap"
+        android:label="fragment_store_map"
+        tools:layout="@layout/fragment_store_map" >
+        <action
+            android:id="@+id/action_fragmentStoreMap_to_fragmentCategory"
+            app:destination="@id/fragmentCategory"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_right"/>
     </fragment>
 </navigation>
