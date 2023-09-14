@@ -2,5 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="category_sub_text">#858585</color>
     <color name="spinner_text">#959191</color>
 </resources>

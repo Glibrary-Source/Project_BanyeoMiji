@@ -1,12 +1,10 @@
 package com.twproject.banyeomiji.view.viewmodel
 
 import android.app.Application
-import android.content.Context
-import android.widget.Toast
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.twproject.banyeomiji.view.LoadingDialog
@@ -16,8 +14,11 @@ class PetLocationViewModel(application: Application) : AndroidViewModel(applicat
 
     private val db = Firebase.firestore
     private var petDataList = mutableListOf<PetLocationData>()
+    private var petAllDataList = mutableListOf<PetLocationData>()
 
+    private val _permissionCheck = MutableLiveData<Boolean>()
     private val _spinningPosition = MutableLiveData<Int>()
+    private val _petAllLiveDataList = MutableLiveData<MutableList<PetLocationData>>()
 
     private val _petLocationGateData = MutableLiveData<MutableList<PetLocationData>>()
     private val _petLocationCafeData = MutableLiveData<MutableList<PetLocationData>>()
@@ -30,7 +31,9 @@ class PetLocationViewModel(application: Application) : AndroidViewModel(applicat
     private val _petLocationManagementData = MutableLiveData<MutableList<PetLocationData>>()
     private val _petLocationSwimmingData = MutableLiveData<MutableList<PetLocationData>>()
 
+    val permissionCheck : LiveData<Boolean> get() = _permissionCheck
     val spinningPosition: LiveData<Int> get() = _spinningPosition
+    val petAllLiveDataList: LiveData<MutableList<PetLocationData>> get() = _petAllLiveDataList
 
     val petLocationGateData: LiveData<MutableList<PetLocationData>> get() = _petLocationGateData
     val petLocationCafeData: LiveData<MutableList<PetLocationData>> get() = _petLocationCafeData
@@ -45,32 +48,8 @@ class PetLocationViewModel(application: Application) : AndroidViewModel(applicat
 
     init {
         setSpinningPosition(-1)
+        setPermissionCheck(true)
     }
-
-//    init {
-//        getLocationData()
-//    }
-
-    //viewModel scope 사용시
-//    private fun getLocationData() {
-//        viewModelScope.launch {
-//            db.collection("pet_location_data")
-//                .whereEqualTo("CTPRVN_NM", "서울특별시")
-//                .whereEqualTo("FCLTY_INFO_DC", "애견카페")
-//                .get()
-//                .addOnSuccessListener {
-//                    for (document in it) {
-//                        val petLocationData = document.toObject(PetLocationData::class.java)
-//                        petDataList.add(petLocationData)
-//                    }
-//                    _petLocationData.value = petDataList
-//                }
-//                .addOnFailureListener { exception ->
-//                    Log.d("testTag", "Error: $exception")
-//                }
-//        }
-//    }
-
     suspend fun getLocationData(
         category: String, location: String, loadD: LoadingDialog
     ) {
@@ -82,6 +61,7 @@ class PetLocationViewModel(application: Application) : AndroidViewModel(applicat
                 for (document in it) {
                     val petLocationData = document.toObject(PetLocationData::class.java)
                     petDataList.add(petLocationData)
+                    petAllDataList.add(petLocationData)
                 }
                 when(category) {
                     "문예회관" -> { _petLocationGateData.value = petDataList }
@@ -104,8 +84,21 @@ class PetLocationViewModel(application: Application) : AndroidViewModel(applicat
             }
     }
 
+    fun getAllLocationData() {
+        Log.d("testList", petAllDataList.size.toString())
+        _petAllLiveDataList.value = petAllDataList
+    }
+
+    fun setAllLocationData() {
+        petAllDataList = mutableListOf()
+    }
+
     fun setSpinningPosition(position: Int) {
         _spinningPosition.value = position
+    }
+
+    fun setPermissionCheck(boolean: Boolean) {
+        _permissionCheck.value = boolean
     }
 
 }

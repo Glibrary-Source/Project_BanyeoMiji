@@ -4,5 +4,19 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_category_text_title">목록</string>
     <string name="fragmentSelectLocationText">보고싶은 지역을 선택해주세요!</string>
-    <string name="dialog_loading_text">정보 불러오는중...</string>
+    <string name="dialog_loading_text">정보 불러오는중…</string>
+    <string name="bottom_menu_list">목록</string>
+    <string name="bottom_menu_map">지도</string>
+    <string name="locationcheck">위치권한을 확인해 주세요</string>
+    <string name="korea_gate">문예회관</string>
+    <string name="korea_cafe">카페</string>
+    <string name="korea_art_gallery">미술관</string>
+    <string name="korea_pet_salon">미용</string>
+    <string name="korea_museum">박물관</string>
+    <string name="korea_dog_tools">반려동물용품</string>
+    <string name="korea_restaurant">식당</string>
+    <string name="korea_trip">여행지</string>
+    <string name="korea_management">위탁관리</string>
+    <string name="korea_swimming_pool">펜션</string>
+    <string name="store_map_filter_category">목록</string>
 </resources>

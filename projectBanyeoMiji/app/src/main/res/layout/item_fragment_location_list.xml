@@ -16,6 +16,7 @@
         android:id="@+id/text_location_item_title"
         tools:text="1004 섬수석미술관"
         android:textSize="28dp"
+        android:textColor="@color/black"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
         android:fontFamily="@font/bagelfat"
@@ -26,54 +27,59 @@
         android:id="@+id/text_location_item_address"
         android:textSize="18dp"
         tools:text="주소: 전라남도 신안군 자은면 백산리 633-54"
+        android:textColor="@color/category_sub_text"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
         android:fontFamily="@font/bagelfat"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/text_location_item_rest_day"
         android:textSize="18dp"
         tools:text="쉬는날: 매주 월요일"
+        android:textColor="@color/category_sub_text"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/bagelfat"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/text_location_item_open_time"
         android:textSize="18dp"
         tools:text="영업 시간: 화~일 09:00~18:00"
+        android:textColor="@color/category_sub_text"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/bagelfat"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/text_location_item_limit"
         android:textSize="18dp"
         tools:text="제한 사항: "
+        android:textColor="@color/category_sub_text"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/bagelfat"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/text_location_item_parking"
         android:textSize="18dp"
         tools:text="주차 가능: 가능"
+        android:textColor="@color/category_sub_text"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/bagelfat"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 

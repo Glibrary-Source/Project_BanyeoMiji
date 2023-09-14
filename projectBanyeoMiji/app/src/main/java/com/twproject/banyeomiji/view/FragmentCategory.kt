@@ -39,12 +39,16 @@ class FragmentCategory : Fragment() {
     private lateinit var userManager: UserSelectManager
     private lateinit var spinner: Spinner
     private lateinit var mContext: Context
+    private lateinit var callback: OnBackPressedCallback
     private val categoryLocationDataManager = CategoryLocationDataManager()
+    private var backPressTime: Long = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
         mContext = context
+
+        setBackPressCallBack()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,8 +66,8 @@ class FragmentCategory : Fragment() {
         spinner = binding.spinnerCategoryLocationSelect
         spinner.adapter = ArrayAdapter(requireContext(), R.layout.item_fragment_category_list_spinner, items)
 
-        setStartSpinnerPosition()
-        setSpinnerSelect(items)
+//        setStartSpinnerPosition()
+//        setSpinnerSelect(items)
 
         val rcCategoryView = binding.rcCategoryList
         rcCategoryView.setHasFixedSize(true)
@@ -82,7 +86,6 @@ class FragmentCategory : Fragment() {
                 id: Long
             ) {
                 val loadD = LoadingDialog(mContext)
-                setStartSpinnerPosition()
                 if (petLocationViewModel.spinningPosition.value != position){
                     loadD.show()
                     categoryLocationDataManager.selectLocationData(
@@ -113,6 +116,21 @@ class FragmentCategory : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setBackPressCallBack() {
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (backPressTime + 3000 > System.currentTimeMillis()) {
+                    requireActivity().finish()
+                } else {
+                    Toast.makeText(requireContext(), "한번 더 뒤로가기 버튼을 누르면 종료됩니다", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                backPressTime = System.currentTimeMillis()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
 }

@@ -19,6 +19,7 @@ class CategoryLocationDataManager() {
             petLocationViewModel.getLocationData("여행지", location, loadD)
             petLocationViewModel.getLocationData("위탁관리", location, loadD)
             petLocationViewModel.getLocationData("펜션", location, loadD)
+            petLocationViewModel.setAllLocationData()
         }
     }
 }

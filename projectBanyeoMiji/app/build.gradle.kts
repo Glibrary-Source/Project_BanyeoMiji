@@ -17,6 +17,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
+
     }
 
     buildTypes {
@@ -41,7 +43,7 @@ android {
 }
 
 dependencies {
-    val nav_version = "2.5.3"
+    val navVersion = "2.5.3"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -61,12 +63,9 @@ dependencies {
     // firebase storage
     implementation("com.google.firebase:firebase-storage:20.2.1")
 
-    //viewmodel scope
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-
-    // navgraph
-    implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
-    implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
+    // navGraph
+    implementation ("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation ("androidx.navigation:navigation-ui-ktx:$navVersion")
 
     // Glide
     implementation ("com.github.bumptech.glide:glide:4.12.0")
@@ -74,5 +73,11 @@ dependencies {
 
     // preference datastore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // navMap
+    implementation("com.naver.maps:map-sdk:3.17.0")
+
+    // google location
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
 }
