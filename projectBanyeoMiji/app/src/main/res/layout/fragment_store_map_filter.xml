@@ -54,7 +54,7 @@
             android:orientation="vertical">
 
             <CheckBox
-                android:id="@+id/ck_korea_gate"
+                android:id="@+id/cb_korea_gate"
                 android:text="@string/korea_gate"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content" />
 
             <CheckBox
-                android:id="@+id/ck_korea_cafe"
+                android:id="@+id/cb_korea_cafe"
                 android:text="@string/korea_cafe"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
@@ -70,14 +70,14 @@
                 android:layout_height="wrap_content" />
 
             <CheckBox
-                android:id="@+id/ck_korea_art_gallery"
+                android:id="@+id/cb_korea_art_gallery"
                 android:text="@string/korea_art_gallery"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <CheckBox
-                android:id="@+id/ck_korea_pet_salon"
+                android:id="@+id/cb_korea_pet_salon"
                 android:text="@string/korea_pet_salon"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content" />
 
             <CheckBox
-                android:id="@+id/ck_korea_museum"
+                android:id="@+id/cb_korea_museum"
                 android:text="@string/korea_museum"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
@@ -93,14 +93,14 @@
                 android:layout_height="wrap_content" />
 
             <CheckBox
-                android:id="@+id/ck_korea_dog_tools"
+                android:id="@+id/cb_korea_dog_tools"
                 android:text="@string/korea_dog_tools"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <CheckBox
-                android:id="@+id/ck_korea_restaurant"
+                android:id="@+id/cb_korea_restaurant"
                 android:text="@string/korea_restaurant"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content" />
 
             <CheckBox
-                android:id="@+id/ck_korea_trip"
+                android:id="@+id/cb_korea_trip"
                 android:text="@string/korea_trip"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
@@ -116,14 +116,14 @@
                 android:layout_height="wrap_content" />
 
             <CheckBox
-                android:id="@+id/ck_korea_management"
+                android:id="@+id/cb_korea_management"
                 android:text="@string/korea_management"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <CheckBox
-                android:id="@+id/ck_korea_swimming_pool"
+                android:id="@+id/cb_korea_swimming_pool"
                 android:text="@string/korea_swimming_pool"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"

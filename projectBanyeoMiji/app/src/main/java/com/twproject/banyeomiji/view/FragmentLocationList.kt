@@ -1,20 +1,17 @@
 package com.twproject.banyeomiji.view
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twproject.banyeomiji.databinding.FragmentLocationListBinding
-import com.twproject.banyeomiji.view.adapter.LocationDataListAdapter
+import com.twproject.banyeomiji.view.datamodel.PetLocationData
 import com.twproject.banyeomiji.view.util.LocationListViewManager
 import com.twproject.banyeomiji.view.viewmodel.PetLocationViewModel
 
@@ -30,9 +27,11 @@ class FragmentLocationList : Fragment() {
         super.onAttach(context)
         mContext = context
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        petLocationViewModel = ViewModelProvider(requireActivity())[PetLocationViewModel::class.java]
+        petLocationViewModel =
+            ViewModelProvider(requireActivity())[PetLocationViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -50,11 +49,40 @@ class FragmentLocationList : Fragment() {
             petLocationViewModel,
             activity,
             mContext,
-            rcLocationListView
+            rcLocationListView,
+            binding
         )
 
         rcLocationListView.layoutManager = LinearLayoutManager(requireContext())
+        setRcPosition(rcLocationListView)
 
         return binding.root
     }
+
+    private fun setRcPosition(rcLocationListView: RecyclerView) {
+        try{
+            if (petLocationViewModel.checkDirectionStoreMap.value!!) {
+                val data: MutableList<PetLocationData> = when (categoryData.CategoryName) {
+                    "문예회관" -> petLocationViewModel.petLocationGateData.value!!
+                    "카페" -> petLocationViewModel.petLocationCafeData.value!!
+                    "미술관" -> petLocationViewModel.petLocationArtGalleryData.value!!
+                    "미용" -> petLocationViewModel.petLocationPetSalonData.value!!
+                    "박물관" -> petLocationViewModel.petLocationMuseumData.value!!
+                    "반려동물용품" -> petLocationViewModel.petLocationToolsData.value!!
+                    "식당" -> petLocationViewModel.petLocationRestaurantData.value!!
+                    "여행지" -> petLocationViewModel.petLocationTripData.value!!
+                    "위탁관리" -> petLocationViewModel.petLocationManagementData.value!!
+                    "펜션" -> petLocationViewModel.petLocationSwimmingData.value!!
+                    else -> { mutableListOf() }
+                }
+                for((index, document) in data.withIndex()) {
+                    if (document.FCLTY_NM == petLocationViewModel.selectPosition.value) {
+                        rcLocationListView.scrollToPosition(index)
+                        petLocationViewModel.setCheckDirection(false)
+                    }
+                }
+            }
+        } catch (_: Exception) {}
+    }
+
 }

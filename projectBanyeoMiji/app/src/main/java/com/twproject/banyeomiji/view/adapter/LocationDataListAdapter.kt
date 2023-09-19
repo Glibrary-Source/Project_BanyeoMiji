@@ -9,15 +9,22 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.twproject.banyeomiji.R
+import com.twproject.banyeomiji.databinding.FragmentLocationListBinding
+import com.twproject.banyeomiji.view.FragmentLocationList
 import com.twproject.banyeomiji.view.datamodel.PetLocationData
 import com.twproject.banyeomiji.view.util.AdapterStringManager
 
 class LocationDataListAdapter(
     private val cafeData: MutableList<PetLocationData>,
-    private val context: Context
+    private val context: Context,
+    private val binding: FragmentLocationListBinding
 ) : RecyclerView.Adapter<LocationDataListAdapter.ItemViewHolder>() {
 
     private val stringManager = AdapterStringManager()
+
+    init {
+        checkEmptyData()
+    }
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val itemTitle: TextView = view.findViewById(R.id.text_location_item_title)
@@ -55,5 +62,9 @@ class LocationDataListAdapter(
 
     override fun getItemCount(): Int {
         return cafeData.size
+    }
+
+    private fun checkEmptyData() {
+        if(cafeData.size == 0) { binding.textEmptyList.visibility = View.VISIBLE}
     }
 }

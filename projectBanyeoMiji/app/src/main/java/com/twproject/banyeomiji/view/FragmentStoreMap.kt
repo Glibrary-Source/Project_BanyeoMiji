@@ -1,16 +1,21 @@
 package com.twproject.banyeomiji.view
 
-import android.Manifest
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
@@ -19,10 +24,13 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
-import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentStoreMapBinding
+import com.twproject.banyeomiji.view.data.LocationLatLng
+import com.twproject.banyeomiji.view.datamodel.PetLocationData
+import com.twproject.banyeomiji.view.util.BackPressCallBackManager
+import com.twproject.banyeomiji.view.util.PermissionManager
 import com.twproject.banyeomiji.view.util.StoreMapSetEditor
 import com.twproject.banyeomiji.view.viewmodel.PetLocationViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -40,8 +48,12 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
     private lateinit var naverFragmentMap: NaverMap
     private lateinit var petLocationViewModel: PetLocationViewModel
     private lateinit var storeMapSetEditor: StoreMapSetEditor
+    private lateinit var callback: OnBackPressedCallback
+    private lateinit var fragmentActivity: FragmentActivity
 
     private val requestMultiplePermission = getPermissionLauncher()
+    private val permissionManager = PermissionManager()
+    private val locationLatLng = LocationLatLng()
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
@@ -51,14 +63,17 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
         super.onAttach(context)
 
         mContext = context
+        fragmentActivity = requireActivity()
+
+        callback = BackPressCallBackManager.setBackPressCallBack(fragmentActivity, mContext)
+        fragmentActivity.onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        locationSource = FusedLocationSource(requireActivity(), LOCATION_PERMISSION_REQUEST_CODE)
-        petLocationViewModel =
-            ViewModelProvider(requireActivity())[PetLocationViewModel::class.java]
+        locationSource = FusedLocationSource(fragmentActivity, LOCATION_PERMISSION_REQUEST_CODE)
+        petLocationViewModel = ViewModelProvider(fragmentActivity)[PetLocationViewModel::class.java]
         petLocationViewModel.getAllLocationData()
     }
 
@@ -71,7 +86,74 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as MapFragment?
         mapFragment!!.getMapAsync(this)
 
-        binding.filterMenu.layout01.setOnClickListener {
+        binding.filterMenu.layout01.setOnClickListener(getFilterMenuOnClickListener())
+
+        return binding.root
+    }
+
+    override fun onMapReady(naverMap: NaverMap) {
+        naverFragmentMap = naverMap
+        storeMapSetEditor = StoreMapSetEditor(naverFragmentMap)
+        storeMapSetEditor.setLocationSource(locationSource)
+        storeMapSetEditor.uiSetting()
+        storeMapSetEditor.setMapExtent()
+        storeMapSetEditor.setMaxMinZoom()
+
+        if (petLocationViewModel.permissionCheck.value!!) {
+            requestMultiplePermission.launch(permissionManager.getPermissionList())
+            petLocationViewModel.setPermissionCheck(false)
+        }
+
+        storeMapSetEditor.locationChangeMoveCamera(petLocationViewModel, locationLatLng)
+
+        val markerList = mutableMapOf<Marker, String>()
+
+        CoroutineScope(IO).launch {
+            for (document in petLocationViewModel.petAllLiveDataList.value!!) {
+
+                val overlayIcon = storeMapSetEditor.getMarkerIcon(document.CTGRY_THREE_NM)
+
+                val infoWindow = InfoWindow().apply {
+                    this.onClickListener = storeMapSetEditor.setMarkerInfoWindowOnClickListener(
+                        document, findNavController(), petLocationViewModel
+                    )
+                    this.adapter = object : InfoWindow.DefaultTextAdapter(mContext) {
+                        override fun getText(p0: InfoWindow): CharSequence {
+                            return document.FCLTY_NM
+                        }
+                    }
+                }
+
+                val marker = Marker().apply {
+                    this.position = LatLng(document.LC_LA, document.LC_LO)
+                    this.icon = overlayIcon
+                    this.onClickListener = getOverlayListener(infoWindow)
+                    this.width = 80
+                    this.height = 80
+                }
+
+                markerList[marker] = document.CTGRY_THREE_NM
+            }
+
+            withContext(Main) {
+                updateMarkerVisibility(markerList)
+            }
+        }
+        //지도 클릭시 실행
+        naverFragmentMap.setOnMapClickListener { _, _ ->
+            for ((marker) in markerList) {
+                if (marker.infoWindow != null) {
+                    marker.infoWindow!!.close()
+                }
+            }
+            binding.filterMenu.layoutDetail01.visibility = View.GONE
+        }
+
+        setCheckBoxListener(getCheckBoxListener(markerList))
+    }
+
+    private fun getFilterMenuOnClickListener() : OnClickListener {
+        return OnClickListener {
             if (binding.filterMenu.layoutDetail01.visibility == View.VISIBLE) {
                 binding.filterMenu.layoutDetail01.visibility = View.GONE
                 binding.filterMenu.layoutBtn01.animate().apply {
@@ -86,87 +168,30 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
                 }
             }
         }
-
-        return binding.root
     }
 
-    override fun onMapReady(naverMap: NaverMap) {
-        naverFragmentMap = naverMap
-        storeMapSetEditor = StoreMapSetEditor(naverFragmentMap)
+    private fun updateMarkerVisibility(markerList: MutableMap<Marker, String>) {
+        for ((marker, category) in markerList) {
+            marker.map = naverFragmentMap
 
-        if (petLocationViewModel.permissionCheck.value!!) {
-            requestMultiplePermission.launch(getPermissionList())
-            petLocationViewModel.setPermissionCheck(false)
-        }
-
-        storeMapSetEditor.setLocationSource(locationSource)
-        storeMapSetEditor.uiSetting()
-//        storeMapSetEditor.setMaxMinZoom()
-
-        val markerList = mutableListOf<Marker>()
-
-        CoroutineScope(IO).launch {
-            for (document in petLocationViewModel.petAllLiveDataList.value!!) {
-                val overlayIcon = getMarkerIcon(document.CTGRY_THREE_NM)
-
-                val infoWindow = InfoWindow()
-                infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(mContext) {
-                    override fun getText(p0: InfoWindow): CharSequence {
-                        return document.FCLTY_NM
-                    }
-                }
-
-                val listener = Overlay.OnClickListener { overlay ->
-                    val marker = overlay as Marker
-
-                    if (marker.infoWindow == null) {
-                        infoWindow.open(marker)
-                    } else {
-                        infoWindow.close()
-                    }
-                    true
-                }
-
-                val marker = Marker()
-                marker.position = LatLng(document.LC_LA, document.LC_LO)
-                marker.icon = overlayIcon
-                marker.width = 100
-                marker.height = 100
-                marker.onClickListener = listener
-
-                markerList.add(marker)
+            val checkBox = when (category) {
+                "문예회관" -> binding.filterMenu.cbKoreaGate
+                "카페" -> binding.filterMenu.cbKoreaCafe
+                "미술관" -> binding.filterMenu.cbKoreaArtGallery
+                "미용" -> binding.filterMenu.cbKoreaPetSalon
+                "박물관" -> binding.filterMenu.cbKoreaMuseum
+                "반려동물용품" -> binding.filterMenu.cbKoreaDogTools
+                "식당" -> binding.filterMenu.cbKoreaRestaurant
+                "여행지" -> binding.filterMenu.cbKoreaTrip
+                "위탁관리" -> binding.filterMenu.cbKoreaManagement
+                "펜션" -> binding.filterMenu.cbKoreaSwimmingPool
+                else -> null
             }
 
-            withContext(Main) {
-                for (marker in markerList) {
-                    marker.map = naverFragmentMap
-                }
-            }
-
-        }
-
-        //지도 클릭시 실행
-        naverFragmentMap.setOnMapClickListener { _, _ ->
-            for (marker in markerList) {
-                if (marker.infoWindow != null) {
-                    marker.infoWindow!!.close()
-                }
+            if (checkBox != null && !checkBox.isChecked) {
+                marker.isVisible = false
             }
         }
-
-        // 지도 카메라 변화시 실행
-//        naverFragmentMap.addOnCameraChangeListener { _, _ ->
-//            for (marker in markerList) {
-//                if(marker.infoWindow != null){ marker.infoWindow!!.close() }
-//            }
-//        }
-
-//        binding.btnTestmap.setOnClickListener {
-//            for (marker in markerList) {
-//                if(marker.infoWindow != null){ marker.infoWindow!!.close() }
-//            }
-//        }
-
     }
 
     private fun getPermissionLauncher(): ActivityResultLauncher<Array<String>> {
@@ -183,28 +208,67 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun getPermissionList(): Array<String> {
-        return arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-        )
-    }
-
-    private fun getMarkerIcon(storeCategory: String): OverlayImage {
-        return when (storeCategory) {
-            "문예회관" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_gate)
-            "카페" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_cafe)
-            "미술관" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_art_gallery)
-            "미용" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_petsalon)
-            "박물관" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_museum)
-            "반려동물용품" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_dog_tools)
-            "식당" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_restaurant)
-            "여행지" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_trip)
-            "위탁관리" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_management)
-            "펜션" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_swimming_pool)
-            else -> {
-                OverlayImage.fromResource(R.drawable.img_category_item_korea_gate)
+    private fun getCheckBoxListener( markerList : MutableMap<Marker, String> ) : CompoundButton.OnCheckedChangeListener {
+        return CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked) {
+                when(buttonView.id) {
+                    R.id.cb_korea_gate -> { for((marker, category) in markerList){ if(category == "문예회관") marker.isVisible = true}}
+                    R.id.cb_korea_cafe -> { for((marker, category) in markerList){ if(category == "카페") marker.isVisible = true}}
+                    R.id.cb_korea_art_gallery -> { for((marker, category) in markerList){ if(category == "미술관") marker.isVisible = true}}
+                    R.id.cb_korea_pet_salon -> { for((marker, category) in markerList){ if(category == "미용") marker.isVisible = true}}
+                    R.id.cb_korea_museum -> { for((marker, category) in markerList){ if(category == "박물관") marker.isVisible = true}}
+                    R.id.cb_korea_dog_tools -> { for((marker, category) in markerList){ if(category == "반려동물용품") marker.isVisible = true}}
+                    R.id.cb_korea_restaurant -> { for((marker, category) in markerList){ if(category == "식당") marker.isVisible = true}}
+                    R.id.cb_korea_trip -> { for((marker, category) in markerList){ if(category == "여행지") marker.isVisible = true}}
+                    R.id.cb_korea_management -> { for((marker, category) in markerList){ if(category == "위탁관리") marker.isVisible = true}}
+                    R.id.cb_korea_swimming_pool -> { for((marker, category) in markerList){ if(category == "펜션") marker.isVisible = true}}
+                }
+            } else {
+                when(buttonView.id) {
+                    R.id.cb_korea_gate -> { for((marker, category) in markerList){ if(category == "문예회관") marker.isVisible = false}}
+                    R.id.cb_korea_cafe -> { for((marker, category) in markerList){ if(category == "카페") marker.isVisible = false}}
+                    R.id.cb_korea_art_gallery -> { for((marker, category) in markerList){ if(category == "미술관") marker.isVisible = false}}
+                    R.id.cb_korea_pet_salon -> { for((marker, category) in markerList){ if(category == "미용") marker.isVisible = false}}
+                    R.id.cb_korea_museum -> { for((marker, category) in markerList){ if(category == "박물관") marker.isVisible = false}}
+                    R.id.cb_korea_dog_tools -> { for((marker, category) in markerList){ if(category == "반려동물용품") marker.isVisible = false}}
+                    R.id.cb_korea_restaurant -> { for((marker, category) in markerList){ if(category == "식당") marker.isVisible = false}}
+                    R.id.cb_korea_trip -> { for((marker, category) in markerList){ if(category == "여행지") marker.isVisible = false}}
+                    R.id.cb_korea_management -> { for((marker, category) in markerList){ if(category == "위탁관리") marker.isVisible = false}}
+                    R.id.cb_korea_swimming_pool -> { for((marker, category) in markerList){ if(category == "펜션") marker.isVisible = false}}
+                }
             }
         }
     }
+
+    private fun setCheckBoxListener(listener :  CompoundButton.OnCheckedChangeListener) {
+        val checkBoxIds = arrayOf(
+            R.id.cb_korea_gate,
+            R.id.cb_korea_cafe,
+            R.id.cb_korea_art_gallery,
+            R.id.cb_korea_pet_salon,
+            R.id.cb_korea_museum,
+            R.id.cb_korea_dog_tools,
+            R.id.cb_korea_restaurant,
+            R.id.cb_korea_trip,
+            R.id.cb_korea_management,
+            R.id.cb_korea_swimming_pool
+        )
+
+        for (checkBoxId in checkBoxIds) {
+            fragmentActivity.findViewById<CheckBox>(checkBoxId).setOnCheckedChangeListener(listener)
+        }
+    }
+
+    private fun getOverlayListener(infoWindow: InfoWindow) : Overlay.OnClickListener {
+        return Overlay.OnClickListener { overlay ->
+            val marker = overlay as Marker
+            if (marker.infoWindow == null) {
+                infoWindow.open(marker)
+            } else {
+                infoWindow.close()
+            }
+            true
+        }
+    }
+
 }

@@ -48,5 +48,10 @@
             app:exitAnim="@anim/exit_to_right"
             app:popEnterAnim="@anim/enter_from_right"
             app:popExitAnim="@anim/exit_to_right"/>
+        <action
+            android:id="@+id/action_fragmentStoreMap_to_fragmentLocationList"
+            app:destination="@id/fragmentLocationList"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/fragmentLocationList"/>
     </fragment>
 </navigation>

@@ -6,7 +6,7 @@ import com.google.firebase.storage.FirebaseStorage
 
 class FirebaseStorageManager {
 
-    private val firebaseStorage = FirebaseStorage.getInstance()
+    val firebaseStorage = FirebaseStorage.getInstance()
 
     private fun fireStoreCategoryImgListGet() : MutableList<Uri> {
         val testList = mutableListOf<Uri>()
