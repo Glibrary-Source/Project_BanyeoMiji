@@ -21,3 +21,4 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.twproject.banyeomiji.view.datamodel.** {*; }
+-keep class com.naver.** {*; }

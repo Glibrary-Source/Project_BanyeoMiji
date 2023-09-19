@@ -8,6 +8,7 @@ plugins {
 android {
     namespace = "com.twproject.banyeomiji"
     compileSdk = 33
+    buildToolsVersion = "33.0.1"
 
     defaultConfig {
         applicationId = "com.twproject.banyeomiji"
@@ -23,13 +24,14 @@ android {
 
     buildTypes {
         debug {
-            isDebuggable = true
-//            isMinifyEnabled = true
-//            proguardFiles(
-//                getDefaultProguardFile("proguard-android-optimize.txt"),
-//                "proguard-rules.pro"
-//            )
+            isDebuggable = false
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
