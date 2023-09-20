@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.FragmentCategory">
+    tools:context=".view.main.FragmentCategory">
 
     <Spinner
         android:id="@+id/spinner_category_location_select"

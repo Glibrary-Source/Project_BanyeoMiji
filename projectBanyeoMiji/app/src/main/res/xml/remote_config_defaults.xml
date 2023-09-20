@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>welcome_msg</key>
+        <value>Welcome to my awesome app!</value>
+    </entry>
+    <entry>
+        <key>app_version</key>
+        <value>0.0.0</value>
+    </entry>
+</defaultsMap>

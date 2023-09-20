@@ -8,7 +8,6 @@ plugins {
 android {
     namespace = "com.twproject.banyeomiji"
     compileSdk = 33
-    buildToolsVersion = "33.0.1"
 
     defaultConfig {
         applicationId = "com.twproject.banyeomiji"
@@ -19,17 +18,16 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
-
     }
 
     buildTypes {
         debug {
-            isDebuggable = false
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isDebuggable = true
+//            isMinifyEnabled = true
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//                "proguard-rules.pro"
+//            )
         }
 
         release {
@@ -65,6 +63,8 @@ dependencies {
 
     // firebase
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
+    //remoteconfig
+    implementation("com.google.firebase:firebase-config-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
 
     // fireStore
@@ -89,5 +89,10 @@ dependencies {
 
     // google location
     implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    // admob
+    implementation("com.google.android.gms:play-services-ads:21.5.0")
+
+
 
 }

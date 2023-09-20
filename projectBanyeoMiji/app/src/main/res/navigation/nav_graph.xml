@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragmentCategory"
-        android:name="com.twproject.banyeomiji.view.FragmentCategory"
+        android:name="com.twproject.banyeomiji.view.main.FragmentCategory"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" >
         <action
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentLocationList"
-        android:name="com.twproject.banyeomiji.view.FragmentLocationList"
+        android:name="com.twproject.banyeomiji.view.main.FragmentLocationList"
         android:label="fragment_location_list"
         tools:layout="@layout/fragment_location_list" >
         <argument
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentStoreMap"
-        android:name="com.twproject.banyeomiji.view.FragmentStoreMap"
+        android:name="com.twproject.banyeomiji.view.main.FragmentStoreMap"
         android:label="fragment_store_map"
         tools:layout="@layout/fragment_store_map" >
         <action

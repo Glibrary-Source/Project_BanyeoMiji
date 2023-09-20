@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    tools:context=".view.main.MainActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:gravity="center"
         android:orientation="horizontal"
         android:background="@drawable/activity_main_title_background"
         android:elevation="10dp"
-        app:layout_constraintVertical_weight="10"
-        app:layout_constraintBottom_toTopOf="@+id/nav_host_fragment"
+        android:gravity="center"
+        app:layout_constraintVertical_weight="15"
+        app:layout_constraintBottom_toTopOf="@id/nav_host_fragment"
         app:layout_constraintTop_toTopOf="parent" >
 
         <TextView
@@ -23,10 +23,25 @@
             android:textSize="28dp"
             android:text="@string/app_name_korea"
             android:fontFamily="@font/bagelfat"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/btn_user_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/baseline_account_box_24"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
@@ -35,20 +50,29 @@
         android:layout_height="0dp"
         app:navGraph="@navigation/nav_graph"
         app:defaultNavHost="true"
-        app:layout_constraintVertical_weight="100"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_bar"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintVertical_weight="130"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav_bar"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="10dp"
-        android:weightSum="2"
         android:background="@drawable/activity_main_bottomnav_background"
         app:menu="@menu/bottom_navigation_menu"
         app:layout_constraintVertical_weight="10"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nav_host_fragment" />
+        app:layout_constraintBottom_toBottomOf="@id/adViewBanner"
+        app:layout_constraintTop_toBottomOf="@id/nav_host_fragment" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewBanner"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        app:layout_constraintVertical_weight="12"
+        app:layout_constraintTop_toBottomOf="@id/bottom_nav_bar"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
