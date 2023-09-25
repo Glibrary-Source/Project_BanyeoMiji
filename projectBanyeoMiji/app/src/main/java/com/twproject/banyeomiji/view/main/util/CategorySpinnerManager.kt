@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Spinner
 import com.twproject.banyeomiji.view.main.LoadingDialog
-import com.twproject.banyeomiji.view.main.UserSelectManager
+import com.twproject.banyeomiji.datastore.UserSelectManager
 import com.twproject.banyeomiji.view.main.viewmodel.PetLocationViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

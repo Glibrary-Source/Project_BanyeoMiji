@@ -1,5 +1,6 @@
 package com.twproject.banyeomiji.view.main.util
 
+import android.util.Log
 import androidx.navigation.NavController
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
@@ -72,12 +73,16 @@ class StoreMapSetEditor(
         petLocationViewModel: PetLocationViewModel,
         locationLatLng: LocationLatLng
     ) {
-        if (petLocationViewModel.checkChange.value!!) {
-            val location = petLocationViewModel.spinnerCurrentItem.value!!
-            val currentLocationLatLng = locationLatLng.getLatLng(location)
-            val cameraUpdate = CameraUpdate.scrollAndZoomTo(currentLocationLatLng, 12.0)
-            naverFragmentMap.moveCamera(cameraUpdate)
-            petLocationViewModel.setCheckChange(false)
+        try{
+            if (petLocationViewModel.checkChange.value!!) {
+                val location = petLocationViewModel.spinnerCurrentItem.value!!
+                val currentLocationLatLng = locationLatLng.getLatLng(location)
+                val cameraUpdate = CameraUpdate.scrollAndZoomTo(currentLocationLatLng, 12.0)
+                naverFragmentMap.moveCamera(cameraUpdate)
+                petLocationViewModel.setCheckChange(false)
+            }
+        } catch (e: Exception) {
+            Log.d("testLog", e.message.toString())
         }
     }
 

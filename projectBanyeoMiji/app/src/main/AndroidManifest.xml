@@ -22,8 +22,7 @@
         <activity
             android:name=".view.splash.SplashActivity"
             android:exported="true"
-            android:launchMode="singleInstance"
-            android:theme="@style/Theme.BanyeoMiji">
+            android:launchMode="singleInstance" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

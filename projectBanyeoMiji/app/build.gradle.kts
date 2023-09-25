@@ -74,12 +74,12 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:20.2.1")
 
     // navGraph
-    implementation ("androidx.navigation:navigation-fragment-ktx:$navVersion")
-    implementation ("androidx.navigation:navigation-ui-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
     // Glide
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
     // preference datastore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
@@ -92,6 +92,10 @@ dependencies {
 
     // admob
     implementation("com.google.android.gms:play-services-ads:21.5.0")
+
+    // firebase auth
+    implementation("com.google.android.gms:play-services-auth:20.2.0")
+    implementation("com.google.firebase:firebase-auth-ktx:21.0.4")
 
 
 

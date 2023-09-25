@@ -3,8 +3,8 @@
     <style name="Base.Theme.BanyeoMiji" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@android:color/holo_blue_light</item>
-        <item name="colorPrimaryDark">@android:color/darker_gray</item>
-        <item name="colorAccent">@android:color/holo_red_dark</item>
+        <item name="colorPrimaryDark">@android:color/holo_blue_light</item>
+        <item name="colorAccent">@android:color/holo_orange_light</item>
 
         <!-- color high light -->
         <item name="colorControlHighlight">@android:color/holo_blue_light</item>

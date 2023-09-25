@@ -21,7 +21,6 @@ import com.twproject.banyeomiji.view.main.viewmodel.PetLocationViewModel
 
 class MainActivity : AppCompatActivity() {
 
-
     private lateinit var binding: ActivityMainBinding
     private lateinit var petLocationViewModel: PetLocationViewModel
 
@@ -50,11 +49,5 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
-    /**
-     * initRemoteConfig()
-     *  - Firebase Remote Config 설정
-     */
-
 
 }

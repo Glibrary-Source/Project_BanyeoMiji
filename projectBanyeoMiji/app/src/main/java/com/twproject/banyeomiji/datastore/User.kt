@@ -1,4 +1,4 @@
-package com.twproject.banyeomiji.view.main
+package com.twproject.banyeomiji.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore

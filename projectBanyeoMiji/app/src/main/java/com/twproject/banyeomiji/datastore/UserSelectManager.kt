@@ -1,7 +1,8 @@
-package com.twproject.banyeomiji.view.main
+package com.twproject.banyeomiji.datastore
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +13,7 @@ class UserSelectManager(
 ) {
     companion object {
         val USER_SELECT_KEY = intPreferencesKey("LOCATION_SELECT")
+        val USER_LOGIN_STATE = intPreferencesKey("LOGIN_STATE")
     }
 
     suspend fun selectUser(
@@ -22,7 +24,19 @@ class UserSelectManager(
         }
     }
 
+    suspend fun setLoginState(
+        state: Int
+    ) {
+        dataStore.edit {
+            it[USER_LOGIN_STATE] = state
+        }
+    }
+
     val userSelectFlow: Flow<Int?> = dataStore.data.map {
         it[USER_SELECT_KEY]
+    }
+
+    val userLoginState: Flow<Int?> = dataStore.data.map {
+        it[USER_LOGIN_STATE]
     }
 }
