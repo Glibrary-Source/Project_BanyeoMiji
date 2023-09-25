@@ -61,17 +61,17 @@ class FragmentCategory : Fragment() {
         val items = resources.getStringArray(R.array.location_array)
         spinner = binding.spinnerCategoryLocationSelect
 
-//        val firebaseAuth = FirebaseAuth.getInstance()
-//        binding.btnTest.setOnClickListener {
-//            Log.d("testLogin", firebaseAuth.currentUser!!.uid)
-//        }
-
         categorySpinnerManager = CategorySpinnerManager(spinner, userManager)
 
         spinner.adapter = ArrayAdapter(mContext, R.layout.item_fragment_category_list_spinner, items)
 
         binding.includeCategoryBottomNav.imgBottomNavMap.setOnClickListener {
             val action = FragmentCategoryDirections.actionFragmentCategoryToFragmentStoreMap()
+            findNavController().navigate(action)
+        }
+
+        binding.includeCategoryTitle.btnUserAccount.setOnClickListener {
+            val action = FragmentCategoryDirections.actionFragmentCategoryToFragmentLogin()
             findNavController().navigate(action)
         }
 

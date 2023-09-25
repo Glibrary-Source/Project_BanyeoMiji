@@ -92,6 +92,11 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
             findNavController().navigate(action)
         }
 
+        binding.includeMapTitle.btnUserAccount.setOnClickListener {
+            val action = FragmentStoreMapDirections.actionFragmentStoreMapToFragmentLogin()
+            findNavController().navigate(action)
+        }
+
         return binding.root
     }
 

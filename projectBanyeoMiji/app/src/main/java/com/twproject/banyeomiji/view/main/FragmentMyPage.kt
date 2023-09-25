@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -26,6 +28,8 @@ class FragmentMyPage : Fragment() {
     private lateinit var binding: FragmentMyPageBinding
     private lateinit var userSelectManager: UserSelectManager
 
+    private lateinit var navController: NavController
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -36,6 +40,7 @@ class FragmentMyPage : Fragment() {
         super.onCreate(savedInstanceState)
 
         userSelectManager = UserSelectManager(mContext.dataStore)
+        navController = findNavController()
     }
 
     override fun onCreateView(
@@ -54,13 +59,11 @@ class FragmentMyPage : Fragment() {
         binding.btnLogoutGoogle.setOnClickListener {
             CoroutineScope(IO).launch{
                 userSelectManager.setLoginState(0)
-
-                withContext(Main){
-
-                }
                 auth.signOut()
                 googleSignInClient.signOut()
             }
+            val action = FragmentMyPageDirections.actionFragmentMyPageToFragmentLogin()
+            navController.navigate(action)
         }
 
         // Inflate the layout for this fragment

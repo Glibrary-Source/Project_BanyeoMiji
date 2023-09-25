@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/activity_main_title_background"
+    android:elevation="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -18,8 +21,8 @@
 
         <ImageView
             android:id="@+id/img_bottom_nav_category"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:padding="8dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_main_activity_categories"/>
@@ -47,8 +50,8 @@
 
         <ImageView
             android:id="@+id/img_bottom_nav_map"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:padding="8dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_main_activity_map"/>

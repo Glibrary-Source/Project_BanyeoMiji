@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -21,8 +23,10 @@ import com.twproject.banyeomiji.datastore.UserSelectManager
 import com.twproject.banyeomiji.datastore.dataStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 //class FragmentLogin : Fragment() {
 //
@@ -83,6 +87,9 @@ class FragmentLogin : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var userSelectManager: UserSelectManager
 
+    private lateinit var navController: NavController
+    private var localState by Delegates.notNull<Int>()
+
     private val auth = FirebaseAuth.getInstance()
     private var signInContracts = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -114,6 +121,13 @@ class FragmentLogin : Fragment() {
         super.onCreate(savedInstanceState)
 
         userSelectManager = UserSelectManager(mContext.dataStore)
+        navController = findNavController()
+
+        CoroutineScope(IO).launch {
+            userSelectManager.userLoginState.collect { state ->
+                localState = state!!
+            }
+        }
     }
 
     override fun onCreateView(
@@ -122,12 +136,9 @@ class FragmentLogin : Fragment() {
     ): View {
         binding = FragmentLoginBinding.inflate(inflater)
 
-        CoroutineScope(Main).launch {
-            userSelectManager.userLoginState.collect { state ->
-                if (state == 1) {
-
-                }
-            }
+        if(localState == 1) {
+            val action = FragmentLoginDirections.actionFragmentLoginToFragmentMyPage()
+            navController.navigate(action)
         }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -150,11 +161,10 @@ class FragmentLogin : Fragment() {
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "Firebase 로그인 성공: ${auth.currentUser?.email}")
-                    CoroutineScope(Dispatchers.IO).launch {
+                    val action = FragmentLoginDirections.actionFragmentLoginToFragmentMyPage()
+                    navController.navigate(action)
+                    CoroutineScope(IO).launch {
                         userSelectManager.setLoginState(1)
-                        userSelectManager.userLoginState.collect {
-                            Log.d("", it.toString())
-                        }
                     }
                 } else {
                     Log.w(TAG, "Firebase 로그인 실패: ${task.exception?.message}")
