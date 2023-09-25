@@ -12,6 +12,7 @@ import android.widget.Spinner
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.twproject.banyeomiji.R
@@ -60,14 +61,19 @@ class FragmentCategory : Fragment() {
         val items = resources.getStringArray(R.array.location_array)
         spinner = binding.spinnerCategoryLocationSelect
 
-        val firebaseAuth = FirebaseAuth.getInstance()
-        binding.btnTest.setOnClickListener {
-            Log.d("testLogin", firebaseAuth.currentUser!!.uid)
-        }
+//        val firebaseAuth = FirebaseAuth.getInstance()
+//        binding.btnTest.setOnClickListener {
+//            Log.d("testLogin", firebaseAuth.currentUser!!.uid)
+//        }
 
         categorySpinnerManager = CategorySpinnerManager(spinner, userManager)
 
         spinner.adapter = ArrayAdapter(mContext, R.layout.item_fragment_category_list_spinner, items)
+
+        binding.includeCategoryBottomNav.imgBottomNavMap.setOnClickListener {
+            val action = FragmentCategoryDirections.actionFragmentCategoryToFragmentStoreMap()
+            findNavController().navigate(action)
+        }
 
 //        categorySpinnerManager.setStartSpinnerPosition()
 //        categorySpinnerManager.setSpinnerSelect(items, mContext, petLocationViewModel, categoryLocationDataManager)

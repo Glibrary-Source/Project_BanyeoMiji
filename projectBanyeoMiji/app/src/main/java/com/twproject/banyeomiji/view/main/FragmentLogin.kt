@@ -1,17 +1,14 @@
-package com.twproject.banyeomiji.view.login
+package com.twproject.banyeomiji.view.main
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -22,7 +19,6 @@ import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentLoginBinding
 import com.twproject.banyeomiji.datastore.UserSelectManager
 import com.twproject.banyeomiji.datastore.dataStore
-import com.twproject.banyeomiji.view.login.util.GoogleLoginManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.Main
@@ -83,7 +79,6 @@ class FragmentLogin : Fragment() {
     private val TAG = "LoginTest"
 
     private lateinit var mContext: Context
-    private lateinit var activity: LoginActivity
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var userSelectManager: UserSelectManager
@@ -113,7 +108,6 @@ class FragmentLogin : Fragment() {
         super.onAttach(context)
 
         mContext = context
-        activity = context as LoginActivity
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,11 +125,7 @@ class FragmentLogin : Fragment() {
         CoroutineScope(Main).launch {
             userSelectManager.userLoginState.collect { state ->
                 if (state == 1) {
-                    Log.d("testState", state.toString())
-                    val transaction = parentFragmentManager.beginTransaction()
-                    transaction.replace(R.id.frame_fragment_host, FragmentMyPage())
-                    transaction.addToBackStack(null)
-                    transaction.commit()
+
                 }
             }
         }
@@ -157,7 +147,7 @@ class FragmentLogin : Fragment() {
     private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         auth.signInWithCredential(credential)
-            .addOnCompleteListener(activity) { task ->
+            .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "Firebase 로그인 성공: ${auth.currentUser?.email}")
                     CoroutineScope(Dispatchers.IO).launch {

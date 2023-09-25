@@ -26,6 +26,9 @@
             app:exitAnim="@anim/exit_to_right"
             app:popEnterAnim="@anim/enter_from_right"
             app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_fragmentCategory_to_fragmentLogin"
+            app:destination="@id/fragmentLogin" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLocationList"
@@ -35,6 +38,9 @@
         <argument
             android:name="CategoryName"
             app:argType="string" />
+        <action
+            android:id="@+id/action_fragmentLocationList_to_fragmentLogin"
+            app:destination="@id/fragmentLogin" />
     </fragment>
     <fragment
         android:id="@+id/fragmentStoreMap"
@@ -53,5 +59,22 @@
             app:destination="@id/fragmentLocationList"
             app:popUpToInclusive="true"
             app:popUpTo="@id/fragmentLocationList"/>
+        <action
+            android:id="@+id/action_fragmentStoreMap_to_fragmentLogin"
+            app:destination="@id/fragmentLogin" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentLogin"
+        android:name="com.twproject.banyeomiji.view.main.FragmentLogin"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_fragmentLogin_to_fragmentMyPage"
+            app:destination="@id/fragmentMyPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentMyPage"
+        android:name="com.twproject.banyeomiji.view.main.FragmentMyPage"
+        android:label="fragment_my_page"
+        tools:layout="@layout/fragment_my_page" />
 </navigation>

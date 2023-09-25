@@ -6,14 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".view.main.FragmentStoreMap">
 
+    <include
+        android:id="@+id/include_map_title"
+        layout="@layout/main_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="15"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/map_fragment" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map_fragment"
         android:name="com.naver.maps.map.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="120"
+        app:layout_constraintBottom_toTopOf="@id/include_map_bottom_nav"
+        app:layout_constraintTop_toBottomOf="@id/include_map_title"/>
 
     <include
         android:id="@+id/filter_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/include_map_title"
         layout="@layout/fragment_store_map_filter" />
+
+    <include
+        android:id="@+id/include_map_bottom_nav"
+        layout="@layout/main_bottom_nav_bar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="15"
+        app:layout_constraintTop_toBottomOf="@id/map_fragment"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

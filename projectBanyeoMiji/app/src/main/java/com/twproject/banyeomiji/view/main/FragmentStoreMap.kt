@@ -87,6 +87,11 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
 
         binding.filterMenu.layout01.setOnClickListener(getFilterMenuOnClickListener())
 
+        binding.includeMapBottomNav.imgBottomNavCategory.setOnClickListener {
+            val action = FragmentStoreMapDirections.actionFragmentStoreMapToFragmentCategory()
+            findNavController().navigate(action)
+        }
+
         return binding.root
     }
 

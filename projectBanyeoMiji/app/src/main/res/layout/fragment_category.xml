@@ -6,36 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".view.main.FragmentCategory">
 
-    <Spinner
-        android:id="@+id/spinner_category_location_select"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:elevation="8dp"
-        android:textAlignment="center"
-        android:background="@drawable/fragment_category_location_spinner_bacground"
-        app:layout_constraintBottom_toTopOf="@+id/rc_category_list"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rc_category_list"
+    <include
+        android:id="@+id/include_category_title"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinner_category_location_select"
-        tools:layout_editor_absoluteX="12dp"
-        tools:listitem="@layout/item_fragment_category_list" />
-
-    <Button
-        android:id="@+id/btn_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        layout="@layout/main_title_bar"
+        app:layout_constraintVertical_weight="15"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/liner_category_main" />
+
+    <LinearLayout
+        android:id="@+id/liner_category_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="120"
+        app:layout_constraintTop_toBottomOf="@id/include_category_title"
+        app:layout_constraintBottom_toTopOf="@id/include_category_bottom_nav"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/spinner_category_location_select"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:elevation="8dp"
+            android:textAlignment="center"
+            android:background="@drawable/fragment_category_location_spinner_bacground" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_category_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            tools:layout_editor_absoluteX="12dp"
+            tools:listitem="@layout/item_fragment_category_list" />
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/include_category_bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="15"
+        app:layout_constraintTop_toBottomOf="@id/liner_category_main"
+        app:layout_constraintBottom_toBottomOf="parent"
+        layout="@layout/main_bottom_nav_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
