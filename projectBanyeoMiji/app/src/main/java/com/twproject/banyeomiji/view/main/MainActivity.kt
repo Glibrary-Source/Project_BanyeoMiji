@@ -2,21 +2,22 @@ package com.twproject.banyeomiji.view.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.ActivityMainBinding
+import com.twproject.banyeomiji.vbutility.onThrottleClick
 import com.twproject.banyeomiji.view.login.LoginActivity
+import com.twproject.banyeomiji.vbutility.ButtonAnimation
 import com.twproject.banyeomiji.view.main.viewmodel.PetLocationViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,9 +44,14 @@ class MainActivity : AppCompatActivity() {
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
 
-        binding.btnUserAccount.setOnClickListener{
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+        binding.btnUserAccount.onThrottleClick {
+            ButtonAnimation().startAnimation(it)
+            CoroutineScope(Main).launch {
+                val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                delay(300)
+                startActivity(intent)
+            }
+
         }
 
     }

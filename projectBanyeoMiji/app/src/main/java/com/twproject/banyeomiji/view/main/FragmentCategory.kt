@@ -2,7 +2,6 @@ package com.twproject.banyeomiji.view.main
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,14 +12,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.firebase.auth.FirebaseAuth
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentCategoryBinding
 import com.twproject.banyeomiji.datastore.UserSelectManager
 import com.twproject.banyeomiji.datastore.dataStore
 import com.twproject.banyeomiji.view.main.adapter.CategoryListAdapter
 import com.twproject.banyeomiji.view.main.data.CategoryData
-import com.twproject.banyeomiji.view.main.util.BackPressCallBackManager
+import com.twproject.banyeomiji.vbutility.BackPressCallBackManager
 import com.twproject.banyeomiji.view.main.util.CategoryLocationDataManager
 import com.twproject.banyeomiji.view.main.util.CategorySpinnerManager
 import com.twproject.banyeomiji.view.main.viewmodel.PetLocationViewModel
@@ -59,11 +57,6 @@ class FragmentCategory : Fragment() {
 
         val items = resources.getStringArray(R.array.location_array)
         spinner = binding.spinnerCategoryLocationSelect
-
-        val firebaseAuth = FirebaseAuth.getInstance()
-        binding.btnTest.setOnClickListener {
-            Log.d("testLogin", firebaseAuth.currentUser!!.uid)
-        }
 
         categorySpinnerManager = CategorySpinnerManager(spinner, userManager)
 

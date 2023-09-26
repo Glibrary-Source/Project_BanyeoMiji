@@ -1,10 +1,10 @@
-package com.twproject.banyeomiji.view.main.util
+package com.twproject.banyeomiji.vbutility
 
 import android.view.View
 
 class OnThrottleClickListener(
     private val clickListener: View.OnClickListener,
-    private val interval: Long = 300
+    private val interval: Long = 1000
 ) : View.OnClickListener {
 
     private var clickable = true

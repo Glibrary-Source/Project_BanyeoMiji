@@ -28,8 +28,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="64dp"
+        android:inputType="textEmailAddress"
+        android:maxLength="40"
+        android:maxLines="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_login_title"/>
+        app:layout_constraintTop_toBottomOf="@id/text_login_title"
+        android:autofillHints="no"
+         />
 
     <TextView
         android:id="@+id/subtext_login_email"
@@ -51,8 +56,12 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="42dp"
+        android:autofillHints="no"
+        android:inputType="textPassword"
+        android:maxLength="20"
+        android:maxLines="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_login_email"/>
+        app:layout_constraintTop_toBottomOf="@id/edit_login_email" />
 
     <TextView
         android:id="@+id/subtext_login_password"
@@ -66,13 +75,26 @@
         app:layout_constraintBottom_toTopOf="@id/edit_login_password"/>
 
     <Button
+        android:id="@+id/btn_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/sign_up_kr"
+        android:fontFamily="@font/bagelfat"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_login_email"
+        app:layout_constraintTop_toBottomOf="@id/edit_login_password"/>
+
+    <Button
         android:id="@+id/btn_login_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="64dp"
-        android:text="@string/login"
+        android:text="@string/login_kr"
         android:fontFamily="@font/bagelfat"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_login_password"/>
@@ -104,21 +126,31 @@
             android:src="@drawable/btn_google_login"
             android:scaleType="centerCrop"
             android:backgroundTint="@android:color/transparent"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_width="56dp"
+            android:layout_height="56dp" />
 
         <ImageButton
             android:id="@+id/btn_login_naver"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_width="56dp"
+            android:layout_height="56dp" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_check_current"
+        android:text="Check Current User"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linear_login_orbtn"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/text_sign_up"
         android:textSize="18dp"
         android:text="회원가입"
         android:fontFamily="@font/bagelfat"
-        android:layout_width="wrap_content"
+        android:layout_width="90dp"
+        android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"
         app:layout_constraintBottom_toBottomOf="parent"

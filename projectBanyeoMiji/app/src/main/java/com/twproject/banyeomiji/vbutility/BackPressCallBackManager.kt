@@ -1,4 +1,4 @@
-package com.twproject.banyeomiji.view.main.util
+package com.twproject.banyeomiji.vbutility
 
 import android.content.Context
 import android.widget.Toast

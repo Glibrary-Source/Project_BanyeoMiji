@@ -54,7 +54,9 @@ class SplashRemoteConfig(
                     dialogInfo = remoteConfig.getString(REMOTE_KEY_DIALOG_INFO)
 
                     if (updateEmergency) {
-                        emergencyAlert(dialogInfo)
+                        emergencyAlert(
+//                            dialogInfo
+                        )
                     } else if (updateNormal) {
                         normalAlert()
                     } else {
@@ -94,7 +96,9 @@ class SplashRemoteConfig(
         dialog.show()
     }
 
-    private fun emergencyAlert(dialogInfo: String?) {
+    private fun emergencyAlert(
+//        dialogInfo: String?
+    ) {
 
 //        val dialogInfoJson = JSONObject(dialogInfo)
 

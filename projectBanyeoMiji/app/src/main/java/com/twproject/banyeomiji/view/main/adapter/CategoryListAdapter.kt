@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.view.main.FragmentCategoryDirections
 import com.twproject.banyeomiji.view.main.util.AdapterStringManager
-import com.twproject.banyeomiji.view.main.util.CategoryButtonAnimation
-import com.twproject.banyeomiji.view.main.util.onThrottleClick
+import com.twproject.banyeomiji.vbutility.ButtonAnimation
+import com.twproject.banyeomiji.vbutility.onThrottleClick
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
@@ -45,7 +45,7 @@ class CategoryListAdapter(
         holder.categoryButton.text = stringManager.checkHotel(itemName)
         holder.categoryImg.setImageResource(itemImg)
         holder.linearItem.onThrottleClick {
-            CategoryButtonAnimation().startAnimation(it)
+            ButtonAnimation().startAnimation(it)
             CoroutineScope(Main).launch {
                 val action =
                     FragmentCategoryDirections.actionFragmentCategoryToFragmentLocationList(itemName)

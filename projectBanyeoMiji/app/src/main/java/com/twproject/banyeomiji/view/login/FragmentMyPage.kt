@@ -16,6 +16,8 @@ import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentMyPageBinding
 import com.twproject.banyeomiji.datastore.UserSelectManager
 import com.twproject.banyeomiji.datastore.dataStore
+import com.twproject.banyeomiji.view.login.util.GoogleLoginModule
+import com.twproject.banyeomiji.view.login.util.GoogleObjectAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -28,6 +30,9 @@ class FragmentMyPage : Fragment() {
 
     private lateinit var binding: FragmentMyPageBinding
     private lateinit var userSelectManager: UserSelectManager
+
+    private val googleLoginModule = GoogleLoginModule()
+    private val auth = GoogleObjectAuth.getFirebaseAuth()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -47,26 +52,20 @@ class FragmentMyPage : Fragment() {
     ): View {
         binding = FragmentMyPageBinding.inflate(inflater)
 
-        val auth = FirebaseAuth.getInstance()
-        val gso =  GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
+        val gso = googleLoginModule.getGoogleSignInOption(getString(R.string.default_web_client_id))
         val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         binding.btnLogoutGoogle.setOnClickListener {
-            CoroutineScope(IO).launch{
-                userSelectManager.setLoginState(0)
 
-                withContext(Main){
-                    val transaction = parentFragmentManager.beginTransaction()
-                    transaction.replace(R.id.frame_fragment_host, FragmentLogin())
-//                    transaction.addToBackStack(null)
-                    transaction.commit()
-                }
+            CoroutineScope(IO).launch {
+                userSelectManager.setLoginState(0)
                 auth.signOut()
                 googleSignInClient.signOut()
             }
+
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.frame_fragment_host, FragmentLogin())
+            transaction.commit()
         }
 
         // Inflate the layout for this fragment

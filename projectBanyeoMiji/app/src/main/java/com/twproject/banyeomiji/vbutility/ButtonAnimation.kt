@@ -1,10 +1,10 @@
-package com.twproject.banyeomiji.view.main.util
+package com.twproject.banyeomiji.vbutility
 
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.view.View
 
-class CategoryButtonAnimation {
+class ButtonAnimation {
 
     fun startAnimation(buttonView: View) {
         // Define the initial width and height

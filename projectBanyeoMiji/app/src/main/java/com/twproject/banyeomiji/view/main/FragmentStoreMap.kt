@@ -28,7 +28,7 @@ import com.naver.maps.map.util.FusedLocationSource
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentStoreMapBinding
 import com.twproject.banyeomiji.view.main.data.LocationLatLng
-import com.twproject.banyeomiji.view.main.util.BackPressCallBackManager
+import com.twproject.banyeomiji.vbutility.BackPressCallBackManager
 import com.twproject.banyeomiji.view.main.util.PermissionManager
 import com.twproject.banyeomiji.view.main.util.StoreMapSetEditor
 import com.twproject.banyeomiji.view.main.viewmodel.PetLocationViewModel
