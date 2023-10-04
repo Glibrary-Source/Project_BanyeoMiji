@@ -1,17 +1,16 @@
 package com.twproject.banyeomiji.view.login
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentMyPageBinding
 import com.twproject.banyeomiji.datastore.UserSelectManager
@@ -22,7 +21,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class FragmentMyPage : Fragment() {
 
@@ -33,6 +31,7 @@ class FragmentMyPage : Fragment() {
 
     private val googleLoginModule = GoogleLoginModule()
     private val auth = GoogleObjectAuth.getFirebaseAuth()
+    private val db = Firebase.firestore
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -68,8 +67,48 @@ class FragmentMyPage : Fragment() {
             transaction.commit()
         }
 
+        CoroutineScope(Main).launch{ userDataCheckChange() }
+
+        binding.btnExtendChangeNickname.setOnClickListener {
+            if(binding.frameChangeNickname.visibility == View.VISIBLE) {
+                binding.frameChangeNickname.visibility = View.GONE
+            } else {
+                binding.frameChangeNickname.visibility = View.VISIBLE
+            }
+
+            val editChangeText = binding.editNickName.text
+            binding.btnChangeNickname.setOnClickListener {
+                val nickname = editChangeText.toString()
+                if(nickname == "") {
+                    Toast.makeText(mContext, "닉네임을 입력해주세요", Toast.LENGTH_SHORT).show()
+                } else {
+                    editChangeText.clear()
+                    val uid = auth.currentUser!!.uid
+                    db.collection("user_db").document(uid)
+                        .update("nickname", nickname)
+                    binding.frameChangeNickname.visibility = View.GONE
+                }
+
+            }
+
+        }
+
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private suspend fun userDataCheckChange() {
+        val userDocRef = db.collection("user_db").document(auth.currentUser!!.uid)
+        userDocRef.addSnapshotListener { value, _ ->
+//            if(error != null ) {}
+            if(value != null && value.exists()) {
+                val userData = value.data!!
+                binding.textEmail.text = userData["email"].toString()
+                binding.textNickName.text = userData["nickname"].toString()
+            }
+        }
+
+
     }
 
 }

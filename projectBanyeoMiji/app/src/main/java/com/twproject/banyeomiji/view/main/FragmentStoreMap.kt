@@ -264,6 +264,7 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
             val marker = overlay as Marker
             if (marker.infoWindow == null) {
                 infoWindow.open(marker)
+                binding.filterMenu.layoutDetail01.visibility = View.GONE
             } else {
                 infoWindow.close()
             }

@@ -27,4 +27,6 @@
     <string name="email_kr">이메일</string>
     <string name="password_kr">패스워드</string>
     <string name="sign_up_kr">회원가입</string>
+    <string name="logout_kr">로그아웃</string>
+    <string name="my_page_kr">마이 페이지</string>
 </resources>

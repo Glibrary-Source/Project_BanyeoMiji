@@ -135,15 +135,6 @@
             android:layout_height="56dp" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_check_current"
-        android:text="Check Current User"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linear_login_orbtn"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
     <TextView
         android:id="@+id/text_sign_up"
         android:textSize="18dp"

@@ -1,16 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.login.FragmentMyPage">
 
-    <Button
-        android:id="@+id/btn_logout_google"
-        android:text="logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <FrameLayout
+        android:id="@+id/framelayout_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:elevation="15dp"
+        app:layout_constraintVertical_weight="10"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/bagelfat"
+            android:text="@string/my_page_kr"
+            android:textSize="28dp" />
+
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="100"
+        app:layout_constraintBottom_toTopOf="@+id/framelayout_logout"
+        app:layout_constraintTop_toBottomOf="@+id/framelayout_title" >
+
+        <Button
+            android:id="@+id/btn_extend_change_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/bagelfat"
+            android:text="닉네임 변경"
+            app:layout_constraintBottom_toTopOf="@id/linear_my_data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linear_my_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="16dp"
+            android:animateLayoutChanges="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="@drawable/fragment_my_page_frame_background"
+                android:elevation="8dp" >
+
+                <TextView
+                    android:id="@+id/text_hint_nick_name"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/bagelfat"
+                    android:text="닉네임"
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/text_nick_name"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/bagelfat"
+                    tools:text="또치와뿌꾸"
+                    android:layout_gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frame_change_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                android:background="@drawable/fragment_my_page_frame_background"
+                android:elevation="8dp" >
+
+                <EditText
+                    android:id="@+id/edit_nick_name"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/bagelfat"
+                    android:hint="최대 여덟글자"
+                    android:maxLength="8"
+                    android:layout_marginStart="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/btn_change_nickname"
+                    android:text="변경"
+                    android:layout_marginEnd="8dp"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="end|center" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:padding="8dp"
+                android:elevation="8dp"
+                android:background="@drawable/fragment_my_page_frame_background"
+                >
+
+                <TextView
+                    android:id="@+id/text_hint_email"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/bagelfat"
+                    android:text="대표 이메일"
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/text_email"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/bagelfat"
+                    tools:text="salkjckl@layo.com"
+                    android:layout_gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+    <FrameLayout
+        android:id="@+id/framelayout_logout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="15"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-</FrameLayout>
+        <Button
+            android:id="@+id/btn_logout_google"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/bagelfat"
+            android:text="@string/logout_kr" />
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
