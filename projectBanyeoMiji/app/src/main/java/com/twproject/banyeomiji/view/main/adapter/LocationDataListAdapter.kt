@@ -7,16 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentLocationListBinding
+import com.twproject.banyeomiji.view.main.FragmentLocationListDirections
+import com.twproject.banyeomiji.view.main.MainActivity
 import com.twproject.banyeomiji.view.main.datamodel.PetLocationData
 import com.twproject.banyeomiji.view.main.util.AdapterStringManager
 
 class LocationDataListAdapter(
     private val cafeData: MutableList<PetLocationData>,
     private val context: Context,
-    private val binding: FragmentLocationListBinding
+    private val binding: FragmentLocationListBinding,
+    private val categoryName: String
 ) : RecyclerView.Adapter<LocationDataListAdapter.ItemViewHolder>() {
 
     private val stringManager = AdapterStringManager()
@@ -32,7 +37,8 @@ class LocationDataListAdapter(
         val itemOpenTime: TextView = view.findViewById(R.id.text_location_item_open_time)
         val itemLimit: TextView = view.findViewById(R.id.text_location_item_limit)
         val itemPark: TextView = view.findViewById(R.id.text_location_item_parking)
-        val itemLink: Button = view.findViewById(R.id.text_location_item_link)
+        val itemLink: Button = view.findViewById(R.id.btn_location_item_link)
+        val itemReview: Button = view.findViewById(R.id.btn_location_item_review)
     }
 
     override fun onCreateViewHolder(
@@ -56,6 +62,13 @@ class LocationDataListAdapter(
         holder.itemLink.text = stringManager.checkHomePage(item, holder)
         holder.itemLink.setOnClickListener {
             stringManager.checkItemLink(item, context, holder)
+        }
+        holder.itemReview.setOnClickListener {
+            val action = FragmentLocationListDirections.actionFragmentLocationListToFragmentReview(categoryName)
+            it.findNavController().navigate(action)
+
+            val mainActivity = context as MainActivity
+            mainActivity.findViewById<BottomNavigationView>(R.id.bottom_nav_bar).visibility = View.GONE
         }
     }
 

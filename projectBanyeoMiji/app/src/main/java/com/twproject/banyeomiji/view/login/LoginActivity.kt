@@ -18,7 +18,6 @@ class LoginActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame_fragment_host, FragmentLogin())
         transaction.commit()
-
     }
 
 }

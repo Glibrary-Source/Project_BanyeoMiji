@@ -82,17 +82,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
-    <Button
-        android:id="@+id/text_location_item_link"
-        android:textSize="18dp"
-        tools:text="홈페이지"
+    <FrameLayout
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
-        android:textColor="#3D3D3D"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/bagelfat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
+        <Button
+            android:id="@+id/btn_location_item_link"
+            android:textSize="18dp"
+            tools:text="홈페이지"
+            android:textColor="#3D3D3D"
+            android:fontFamily="@font/bagelfat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_location_item_review"
+            android:textSize="18dp"
+            android:text="리뷰보기"
+            android:textColor="#3D3D3D"
+            android:layout_gravity="end"
+            android:fontFamily="@font/bagelfat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 </LinearLayout>

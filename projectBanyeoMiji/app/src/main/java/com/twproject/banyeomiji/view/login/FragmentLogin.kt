@@ -59,8 +59,7 @@ class FragmentLogin : Fragment() {
                     userSelectManager,
                     transaction
                 )
-            } catch (_: ApiException) {
-            }
+            } catch (_: ApiException) {}
         }
     }
 
@@ -75,6 +74,7 @@ class FragmentLogin : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         userSelectManager = UserSelectManager(mContext.dataStore)
+
         CoroutineScope(IO).launch {
             userSelectManager.userLoginState.collect { state ->
                 localState = state ?: 0

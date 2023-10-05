@@ -13,6 +13,7 @@ import com.twproject.banyeomiji.view.main.MainActivity
 import com.twproject.banyeomiji.view.splash.SplashActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -64,9 +65,13 @@ class SplashRemoteConfig(
                     }
                 } else {
                     Toast.makeText(
-                        context, "실패",
+                        context, "인터넷 연결을 확인해주세요",
                         Toast.LENGTH_SHORT
                     ).show()
+                    CoroutineScope(Main).launch {
+                        delay(2000)
+                        activity.finish()
+                    }
                 }
             }
     }

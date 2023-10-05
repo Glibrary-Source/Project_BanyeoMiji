@@ -74,30 +74,40 @@
         app:layout_constraintStart_toStartOf="@id/edit_login_password"
         app:layout_constraintBottom_toTopOf="@id/edit_login_password"/>
 
-    <Button
-        android:id="@+id/btn_sign_up"
+    <LinearLayout
+        android:id="@+id/linear_sign_in_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:animateLayoutChanges="true"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/sign_up_kr"
-        android:fontFamily="@font/bagelfat"
-        android:visibility="gone"
+        android:layout_marginTop="28dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_login_email"
-        app:layout_constraintTop_toBottomOf="@id/edit_login_password"/>
+        app:layout_constraintTop_toBottomOf="@id/edit_login_password">
 
-    <Button
-        android:id="@+id/btn_login_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="64dp"
-        android:text="@string/login_kr"
-        android:fontFamily="@font/bagelfat"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_login_password"/>
+        <Button
+            android:id="@+id/btn_sign_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="@string/sign_up_kr"
+            android:fontFamily="@font/bagelfat"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_login_email"
+            app:layout_constraintTop_toBottomOf="@id/edit_login_password"/>
+
+        <Button
+            android:id="@+id/btn_login_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_kr"
+            android:fontFamily="@font/bagelfat"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_login_password"/>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/text_login_ortitle"
@@ -109,7 +119,7 @@
         android:textSize="14dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_login_email"/>
+        app:layout_constraintTop_toBottomOf="@id/linear_sign_in_out"/>
 
     <LinearLayout
         android:id="@+id/linear_login_orbtn"

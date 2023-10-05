@@ -170,6 +170,8 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
         }
     }
 
+
+
     private fun updateMarkerVisibility(markerList: MutableMap<Marker, String>) {
         for ((marker, category) in markerList) {
             marker.map = naverFragmentMap

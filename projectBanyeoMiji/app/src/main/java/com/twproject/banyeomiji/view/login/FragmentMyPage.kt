@@ -70,12 +70,7 @@ class FragmentMyPage : Fragment() {
         CoroutineScope(Main).launch{ userDataCheckChange() }
 
         binding.btnExtendChangeNickname.setOnClickListener {
-            if(binding.frameChangeNickname.visibility == View.VISIBLE) {
-                binding.frameChangeNickname.visibility = View.GONE
-            } else {
-                binding.frameChangeNickname.visibility = View.VISIBLE
-            }
-
+            checkExpandNickNameView()
             val editChangeText = binding.editNickName.text
             binding.btnChangeNickname.setOnClickListener {
                 val nickname = editChangeText.toString()
@@ -107,7 +102,11 @@ class FragmentMyPage : Fragment() {
                 binding.textNickName.text = userData["nickname"].toString()
             }
         }
+    }
 
+    private fun checkExpandNickNameView() {
+        binding.frameChangeNickname.visibility =
+            if(binding.frameChangeNickname.visibility == View.VISIBLE) View.GONE else View.VISIBLE
 
     }
 

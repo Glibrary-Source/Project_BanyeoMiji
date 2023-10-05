@@ -62,8 +62,8 @@ class FragmentCategory : Fragment() {
 
         spinner.adapter = ArrayAdapter(mContext, R.layout.item_fragment_category_list_spinner, items)
 
-//        categorySpinnerManager.setStartSpinnerPosition()
-//        categorySpinnerManager.setSpinnerSelect(items, mContext, petLocationViewModel, categoryLocationDataManager)
+        categorySpinnerManager.setStartSpinnerPosition()
+        categorySpinnerManager.setSpinnerSelect(items, mContext, petLocationViewModel, categoryLocationDataManager)
 
         val rcCategoryView = binding.rcCategoryList
         rcCategoryView.setHasFixedSize(true)

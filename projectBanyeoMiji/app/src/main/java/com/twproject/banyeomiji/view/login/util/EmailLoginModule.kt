@@ -87,6 +87,9 @@ class EmailLoginModule(
             ?.addOnCompleteListener {
                 if(it.isSuccessful) {
                     Toast.makeText(mContext, "이메일을 인증해주세요", Toast.LENGTH_SHORT).show()
+                    Log.d("testLogin", "성공")
+                } else {
+                    Log.d("testLogin", "실패")
                 }
             }
     }

@@ -50,7 +50,8 @@ class FragmentLocationList : Fragment() {
             activity,
             mContext,
             rcLocationListView,
-            binding
+            binding,
+            categoryData.CategoryName
         )
 
         rcLocationListView.layoutManager = LinearLayoutManager(requireContext())

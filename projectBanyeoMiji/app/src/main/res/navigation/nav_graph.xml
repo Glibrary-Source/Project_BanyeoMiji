@@ -35,6 +35,9 @@
         <argument
             android:name="CategoryName"
             app:argType="string" />
+        <action
+            android:id="@+id/action_fragmentLocationList_to_fragmentReview"
+            app:destination="@id/fragmentReview" />
     </fragment>
     <fragment
         android:id="@+id/fragmentStoreMap"
@@ -53,5 +56,23 @@
             app:destination="@id/fragmentLocationList"
             app:popUpToInclusive="true"
             app:popUpTo="@id/fragmentLocationList"/>
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentReview"
+        android:name="com.twproject.banyeomiji.view.main.FragmentReview"
+        android:label="fragment_review"
+        tools:layout="@layout/fragment_review" >
+        <action
+            android:id="@+id/action_fragmentReview_to_fragmentLocationList"
+            app:destination="@id/fragmentLocationList"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_right"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/fragmentLocationList"/>
+        <argument
+            android:name="TempCategoryName"
+            app:argType="string" />
     </fragment>
 </navigation>

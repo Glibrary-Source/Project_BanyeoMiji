@@ -1,10 +1,15 @@
 package com.twproject.banyeomiji.vbutility
 
 import android.content.Context
+import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentActivity
-import kotlin.system.exitProcess
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.twproject.banyeomiji.R
+import com.twproject.banyeomiji.view.main.FragmentReviewDirections
 
 object BackPressCallBackManager {
     fun setBackPressCallBack(activity: FragmentActivity, context: Context) : OnBackPressedCallback {
@@ -21,4 +26,5 @@ object BackPressCallBackManager {
             }
         }
     }
+
 }
