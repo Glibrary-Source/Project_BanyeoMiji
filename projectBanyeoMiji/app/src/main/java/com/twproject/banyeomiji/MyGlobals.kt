@@ -2,7 +2,9 @@ package com.twproject.banyeomiji
 
 class MyGlobals {
 
-    var checkPermissionFirst = true
+    var userNickName = " "
+    var firstExplain = true
+
     companion object {
         @get:Synchronized
         var instance: MyGlobals? = null

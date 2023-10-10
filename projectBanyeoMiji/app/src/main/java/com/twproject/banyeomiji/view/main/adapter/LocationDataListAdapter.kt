@@ -64,7 +64,7 @@ class LocationDataListAdapter(
             stringManager.checkItemLink(item, context, holder)
         }
         holder.itemReview.setOnClickListener {
-            val action = FragmentLocationListDirections.actionFragmentLocationListToFragmentReview(categoryName)
+            val action = FragmentLocationListDirections.actionFragmentLocationListToFragmentReview(categoryName, item.DOC_ID)
             it.findNavController().navigate(action)
 
             val mainActivity = context as MainActivity

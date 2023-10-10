@@ -15,6 +15,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
@@ -25,6 +26,7 @@ import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.util.FusedLocationSource
+import com.twproject.banyeomiji.MyGlobals
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentStoreMapBinding
 import com.twproject.banyeomiji.view.main.data.LocationLatLng
@@ -49,6 +51,7 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
     private lateinit var storeMapSetEditor: StoreMapSetEditor
     private lateinit var callback: OnBackPressedCallback
     private lateinit var fragmentActivity: FragmentActivity
+    private lateinit var navController: NavController
 
     private val requestMultiplePermission = getPermissionLauncher()
     private val permissionManager = PermissionManager()
@@ -74,6 +77,7 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
         locationSource = FusedLocationSource(fragmentActivity, LOCATION_PERMISSION_REQUEST_CODE)
         petLocationViewModel = ViewModelProvider(fragmentActivity)[PetLocationViewModel::class.java]
         petLocationViewModel.getAllLocationData()
+        navController = findNavController()
     }
 
     override fun onCreateView(
@@ -81,6 +85,12 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentStoreMapBinding.inflate(inflater)
+
+
+        if(MyGlobals.instance!!.firstExplain) {
+            Toast.makeText(mContext, "목록에서 보고싶은 카테고리를 체크해주세요", Toast.LENGTH_SHORT).show()
+            MyGlobals.instance!!.firstExplain = false
+        }
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as MapFragment?
         mapFragment!!.getMapAsync(this)
@@ -114,7 +124,7 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
 
                 val infoWindow = InfoWindow().apply {
                     this.onClickListener = storeMapSetEditor.setMarkerInfoWindowOnClickListener(
-                        document, findNavController(), petLocationViewModel
+                        document, navController, petLocationViewModel
                     )
                     this.adapter = object : InfoWindow.DefaultTextAdapter(mContext) {
                         override fun getText(p0: InfoWindow): CharSequence {
@@ -127,8 +137,8 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
                     this.position = LatLng(document.LC_LA, document.LC_LO)
                     this.icon = overlayIcon
                     this.onClickListener = getOverlayListener(infoWindow)
-                    this.width = 80
-                    this.height = 80
+                    this.width = 100
+                    this.height = 100
                 }
 
                 markerList[marker] = document.CTGRY_THREE_NM
@@ -257,7 +267,8 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
         )
 
         for (checkBoxId in checkBoxIds) {
-            fragmentActivity.findViewById<CheckBox>(checkBoxId).setOnCheckedChangeListener(listener)
+            val checkBox = binding.root.findViewById<CheckBox>(checkBoxId)
+            checkBox.setOnCheckedChangeListener(listener)
         }
     }
 

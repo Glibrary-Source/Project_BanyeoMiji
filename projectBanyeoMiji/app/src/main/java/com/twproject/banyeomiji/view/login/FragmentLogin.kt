@@ -113,7 +113,6 @@ class FragmentLogin : Fragment() {
                     Toast.makeText(mContext, "올바른 이메일을 작성해주세요", Toast.LENGTH_SHORT).show()
                 }
             }
-
         }
 
         return binding.root

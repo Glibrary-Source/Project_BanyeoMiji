@@ -8,6 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:padding="2dp"
     android:elevation="8dp"
     android:gravity="center"
     android:clickable="true"
@@ -23,7 +24,7 @@
 
     <ImageView
         android:id="@+id/img_category_item"
-        android:padding="2dp"
+        android:padding="4dp"
         tools:src="@drawable/img_category_item_korea_art_gallery"
         android:layout_width="match_parent"
         android:layout_height="150dp" />

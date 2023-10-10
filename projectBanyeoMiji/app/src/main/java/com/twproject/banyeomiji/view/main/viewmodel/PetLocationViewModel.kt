@@ -25,6 +25,7 @@ class PetLocationViewModel(application: Application) : AndroidViewModel(applicat
     private val _checkChange = MutableLiveData<Boolean>()
     private val _selectPosition = MutableLiveData<String>()
     private val _checkDirectionStoreMap = MutableLiveData<Boolean>()
+    private val _reviewDocData = MutableLiveData<Map<String, Any>>()
 
     private val _petLocationGateData = MutableLiveData<MutableList<PetLocationData>>()
     private val _petLocationCafeData = MutableLiveData<MutableList<PetLocationData>>()
@@ -37,6 +38,7 @@ class PetLocationViewModel(application: Application) : AndroidViewModel(applicat
     private val _petLocationManagementData = MutableLiveData<MutableList<PetLocationData>>()
     private val _petLocationSwimmingData = MutableLiveData<MutableList<PetLocationData>>()
 
+
     val permissionCheck: LiveData<Boolean> get() = _permissionCheck
     val spinningPosition: LiveData<Int> get() = _spinningPosition
     val petAllLiveDataList: LiveData<MutableList<PetLocationData>> get() = _petAllLiveDataList
@@ -44,6 +46,7 @@ class PetLocationViewModel(application: Application) : AndroidViewModel(applicat
     val checkChange: LiveData<Boolean> get() = _checkChange
     val selectPosition: LiveData<String> get() = _selectPosition
     val checkDirectionStoreMap: LiveData<Boolean> get() = _checkDirectionStoreMap
+    val reviewDocData: LiveData<Map<String, Any>> get() = _reviewDocData
 
     val petLocationGateData: LiveData<MutableList<PetLocationData>> get() = _petLocationGateData
     val petLocationCafeData: LiveData<MutableList<PetLocationData>> get() = _petLocationCafeData
@@ -65,7 +68,9 @@ class PetLocationViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     suspend fun getLocationData(
-        location: String, loadD: LoadingDialog, context: Context
+        location: String,
+        loadD: LoadingDialog,
+        context: Context
     ) {
         db.collection("pet_location_data")
             .whereEqualTo("CTPRVN_NM", location)

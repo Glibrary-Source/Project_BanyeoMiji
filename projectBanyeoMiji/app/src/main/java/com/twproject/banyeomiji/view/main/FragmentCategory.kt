@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.activity.OnBackPressedCallback
@@ -38,7 +39,7 @@ class FragmentCategory : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
-        activity = requireActivity()
+        activity = context as MainActivity
 
         callback = BackPressCallBackManager.setBackPressCallBack(activity, mContext)
         activity.onBackPressedDispatcher.addCallback(this, callback)
@@ -63,7 +64,12 @@ class FragmentCategory : Fragment() {
         spinner.adapter = ArrayAdapter(mContext, R.layout.item_fragment_category_list_spinner, items)
 
         categorySpinnerManager.setStartSpinnerPosition()
-        categorySpinnerManager.setSpinnerSelect(items, mContext, petLocationViewModel, categoryLocationDataManager)
+        categorySpinnerManager.setSpinnerSelect(
+            items,
+            mContext,
+            petLocationViewModel,
+            categoryLocationDataManager
+        )
 
         val rcCategoryView = binding.rcCategoryList
         rcCategoryView.setHasFixedSize(true)

@@ -20,5 +20,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.twproject.banyeomiji.view.datamodel.** {*; }
+-keep class com.twproject.banyeomiji.view.main.datamodel.** {*; }
+-keep class com.twproject.banyeomiji.view.login.datamodel.** {*; }
 -keep class com.naver.** {*; }
+-keepclassmembers class com.twproject.banyeomiji.view.main.datamodel.PetLocationData
+-keepclassmembers class com.twproject.banyeomiji.view.login.datamodel.UserDataModel

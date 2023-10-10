@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 
 class CategorySpinnerManager(
     private val spinner: Spinner,
-    private val userManager: UserSelectManager
+    private val userManager: UserSelectManager,
 ) {
     fun setSpinnerSelect(
         items: Array<String>,

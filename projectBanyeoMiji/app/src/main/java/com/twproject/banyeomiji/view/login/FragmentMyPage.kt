@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.twproject.banyeomiji.MyGlobals
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentMyPageBinding
 import com.twproject.banyeomiji.datastore.UserSelectManager
@@ -54,6 +55,15 @@ class FragmentMyPage : Fragment() {
         val gso = googleLoginModule.getGoogleSignInOption(getString(R.string.default_web_client_id))
         val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
+        val userUid = GoogleObjectAuth.mAuth.currentUser?.uid
+        if (userUid != null) {
+            db.collection("user_db").document(userUid)
+                .get()
+                .addOnSuccessListener { user ->
+                    MyGlobals.instance!!.userNickName = user.data!!["nickname"].toString()
+                }
+        }
+
         binding.btnLogoutGoogle.setOnClickListener {
 
             CoroutineScope(IO).launch {
@@ -67,25 +77,29 @@ class FragmentMyPage : Fragment() {
             transaction.commit()
         }
 
-        CoroutineScope(Main).launch{ userDataCheckChange() }
+        CoroutineScope(Main).launch { userDataCheckChange() }
 
         binding.btnExtendChangeNickname.setOnClickListener {
             checkExpandNickNameView()
             val editChangeText = binding.editNickName.text
             binding.btnChangeNickname.setOnClickListener {
                 val nickname = editChangeText.toString()
-                if(nickname == "") {
+                if (nickname == "") {
                     Toast.makeText(mContext, "닉네임을 입력해주세요", Toast.LENGTH_SHORT).show()
                 } else {
                     editChangeText.clear()
+
                     val uid = auth.currentUser!!.uid
+
                     db.collection("user_db").document(uid)
                         .update("nickname", nickname)
+                        .addOnSuccessListener {
+                            nickNameChangeGlobal(nickname)
+                        }
                     binding.frameChangeNickname.visibility = View.GONE
                 }
 
             }
-
         }
 
         // Inflate the layout for this fragment
@@ -93,21 +107,28 @@ class FragmentMyPage : Fragment() {
     }
 
     private suspend fun userDataCheckChange() {
-        val userDocRef = db.collection("user_db").document(auth.currentUser!!.uid)
-        userDocRef.addSnapshotListener { value, _ ->
+        try {
+            val userDocRef = db.collection("user_db").document(auth.currentUser!!.uid)
+            userDocRef.addSnapshotListener { value, _ ->
 //            if(error != null ) {}
-            if(value != null && value.exists()) {
-                val userData = value.data!!
-                binding.textEmail.text = userData["email"].toString()
-                binding.textNickName.text = userData["nickname"].toString()
+                if (value != null && value.exists()) {
+                    val userData = value.data!!
+                    binding.textEmail.text = userData["email"].toString()
+                    binding.textNickName.text = userData["nickname"].toString()
+                }
             }
+        } catch (_: Exception) {
         }
     }
 
     private fun checkExpandNickNameView() {
         binding.frameChangeNickname.visibility =
-            if(binding.frameChangeNickname.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+            if (binding.frameChangeNickname.visibility == View.VISIBLE) View.GONE else View.VISIBLE
 
+    }
+
+    private fun nickNameChangeGlobal(nickname: String) {
+        MyGlobals.instance!!.userNickName = nickname
     }
 
 }

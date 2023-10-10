@@ -38,16 +38,16 @@ class StoreMapSetEditor(
 
     fun getMarkerIcon(storeCategory: String): OverlayImage {
         return when (storeCategory) {
-            "문예회관" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_gate)
-            "카페" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_cafe)
-            "미술관" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_art_gallery)
-            "미용" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_petsalon)
-            "박물관" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_museum)
-            "반려동물용품" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_dog_tools)
-            "식당" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_restaurant)
-            "여행지" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_trip)
-            "위탁관리" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_management)
-            "펜션" -> OverlayImage.fromResource(R.drawable.img_category_item_korea_swimming_pool)
+            "문예회관" -> OverlayImage.fromResource(R.drawable.icon_map_korea_gate)
+            "카페" -> OverlayImage.fromResource(R.drawable.icon_map_cafe)
+            "미술관" -> OverlayImage.fromResource(R.drawable.icon_map_art_gallery)
+            "미용" -> OverlayImage.fromResource(R.drawable.icon_map_salon)
+            "박물관" -> OverlayImage.fromResource(R.drawable.icon_map_museum)
+            "반려동물용품" -> OverlayImage.fromResource(R.drawable.icon_map_tools)
+            "식당" -> OverlayImage.fromResource(R.drawable.icon_map_restaurant)
+            "여행지" -> OverlayImage.fromResource(R.drawable.icon_map_trip)
+            "위탁관리" -> OverlayImage.fromResource(R.drawable.icon_map_management)
+            "펜션" -> OverlayImage.fromResource(R.drawable.icon_map_hotel)
             else -> {
                 OverlayImage.fromResource(R.drawable.img_category_item_korea_gate)
             }
