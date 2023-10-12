@@ -33,20 +33,31 @@
         <EditText
             android:id="@+id/edit_review_title"
             android:hint="제목"
-            android:textSize="24dp"
-            android:fontFamily="@font/bagelfat"
+            android:textSize="28dp"
+            android:maxLines="1"
+            android:maxLength="19"
+            android:layout_marginBottom="4dp"
+            android:inputType="text"
+            tools:text="제목입니다"
+            android:textStyle="bold"
+            android:fontFamily="@font/singledayregular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <EditText
             android:id="@+id/edit_review"
             android:hint="내용"
-            android:background="@drawable/fragment_review_review_bord"
             android:textSize="24dp"
             android:padding="4dp"
-            android:fontFamily="@font/bagelfat"
+            android:background="@drawable/fragment_review_review_bord"
+            android:fontFamily="@font/singledayregular"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            android:lines="9"
+            android:maxLines="9"
+            android:maxLength="300"
             android:layout_width="match_parent"
-            android:layout_height="250dp" />
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/btn_review_upload"
@@ -62,10 +73,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_review_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linear_review_edit" />
+        app:layout_constraintTop_toBottomOf="@id/linear_review_edit"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/text_review_gone"

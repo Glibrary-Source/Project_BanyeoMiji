@@ -3,7 +3,6 @@ package com.twproject.banyeomiji.view.login
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,12 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentLoginBinding
 import com.twproject.banyeomiji.datastore.UserSelectManager

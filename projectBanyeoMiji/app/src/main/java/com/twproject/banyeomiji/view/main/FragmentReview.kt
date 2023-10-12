@@ -2,7 +2,6 @@ package com.twproject.banyeomiji.view.main
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -81,6 +80,7 @@ class FragmentReview : Fragment() {
                 reviewEditExtendController()
                 binding.textReviewGone.visibility = View.GONE
             }
+
         }
 
         binding.btnReviewUpload.setOnClickListener {
@@ -95,22 +95,33 @@ class FragmentReview : Fragment() {
 
                 val reviewTitle = binding.editReviewTitle.text.toString()
                 val reviewMain = binding.editReview.text.toString()
-                val reviewItem =
-                    mapOf("USER_REVIEW" to
-                            mapOf( uid to listOf(reviewTitle, reviewMain, MyGlobals.instance!!.userNickName) )
-                    )
+                val countLine = reviewMain.count{ it == '\n' }
 
-                if(reviewTitle == "" || reviewMain == "") {
-                    Toast.makeText(mContext, "내용을 작성해주세요", Toast.LENGTH_SHORT).show()
-                } else {
-                    CoroutineScope(IO).launch{
-                        db.collection("pet_location_data")
-                            .document(reviewData.DocId)
-                            .set(reviewItem, SetOptions.merge())
-                            .addOnSuccessListener {}
+                db.collection("user_db").document(uid)
+                    .get()
+                    .addOnSuccessListener {
+                        val reviewItem =
+                            mapOf("USER_REVIEW" to
+                                    mapOf( uid to listOf(reviewTitle, reviewMain, it.data!!["nickname"]) )
+                            )
+                        if(reviewTitle == "" || reviewMain == "") {
+                            Toast.makeText(mContext, "내용을 작성해주세요", Toast.LENGTH_SHORT).show()
+                        } else if(countLine > 15){
+                            Toast.makeText(mContext, "15줄 이하로 작성해주세요", Toast.LENGTH_SHORT).show()
+                        }
+                        else {
+                            CoroutineScope(IO).launch{
+                                db.collection("pet_location_data")
+                                    .document(reviewData.DocId)
+                                    .set(reviewItem, SetOptions.merge())
+                                    .addOnSuccessListener {
+                                        Toast.makeText(mContext, "리뷰가 작성되었습니다", Toast.LENGTH_SHORT).show()
+                                        reviewEditExtendController()
+                                    }
+                            }
+
+                        }
                     }
-                    Toast.makeText(mContext, "리뷰가 작성되었습니다", Toast.LENGTH_SHORT).show()
-                }
             }
         }
 

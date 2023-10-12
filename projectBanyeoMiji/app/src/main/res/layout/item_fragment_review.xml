@@ -16,27 +16,28 @@
 
     <TextView
         android:id="@+id/text_review_item_title"
-        android:textSize="24dp"
+        android:textSize="28dp"
         tools:text="제목"
-
-        android:fontFamily="@font/bagelfat"
+        android:fontFamily="@font/singledayregular"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/text_review_item_nickname"
-        android:textSize="14dp"
+        android:textSize="18dp"
         tools:text="기본닉네임"
-        android:fontFamily="@font/bagelfat"
+        android:fontFamily="@font/singledayregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"/>
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:id="@+id/text_review_item_main"
-        android:textSize="18dp"
+        android:textSize="24dp"
         tools:text="내용"
-        android:fontFamily="@font/bagelfat"
+        android:fontFamily="@font/singledayregular"
         android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

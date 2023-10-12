@@ -86,7 +86,6 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
     ): View {
         binding = FragmentStoreMapBinding.inflate(inflater)
 
-
         if(MyGlobals.instance!!.firstExplain) {
             Toast.makeText(mContext, "목록에서 보고싶은 카테고리를 체크해주세요", Toast.LENGTH_SHORT).show()
             MyGlobals.instance!!.firstExplain = false
@@ -118,35 +117,39 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
         val markerList = mutableMapOf<Marker, String>()
 
         CoroutineScope(IO).launch {
-            for (document in petLocationViewModel.petAllLiveDataList.value!!) {
+            val job = launch{
+                for (document in petLocationViewModel.petAllLiveDataList.value!!) {
 
-                val overlayIcon = storeMapSetEditor.getMarkerIcon(document.CTGRY_THREE_NM)
+                    val overlayIcon = storeMapSetEditor.getMarkerIcon(document.CTGRY_THREE_NM)
 
-                val infoWindow = InfoWindow().apply {
-                    this.onClickListener = storeMapSetEditor.setMarkerInfoWindowOnClickListener(
-                        document, navController, petLocationViewModel
-                    )
-                    this.adapter = object : InfoWindow.DefaultTextAdapter(mContext) {
-                        override fun getText(p0: InfoWindow): CharSequence {
-                            return document.FCLTY_NM
+                    val infoWindow = InfoWindow().apply {
+                        this.onClickListener = storeMapSetEditor.setMarkerInfoWindowOnClickListener(
+                            document, navController, petLocationViewModel
+                        )
+                        this.adapter = object : InfoWindow.DefaultTextAdapter(mContext) {
+                            override fun getText(p0: InfoWindow): CharSequence {
+                                return document.FCLTY_NM
+                            }
                         }
                     }
-                }
 
-                val marker = Marker().apply {
-                    this.position = LatLng(document.LC_LA, document.LC_LO)
-                    this.icon = overlayIcon
-                    this.onClickListener = getOverlayListener(infoWindow)
-                    this.width = 100
-                    this.height = 100
-                }
+                    val marker = Marker().apply {
+                        this.position = LatLng(document.LC_LA, document.LC_LO)
+                        this.icon = overlayIcon
+                        this.onClickListener = getOverlayListener(infoWindow)
+                        this.width = 100
+                        this.height = 100
+                    }
 
-                markerList[marker] = document.CTGRY_THREE_NM
+                    markerList[marker] = document.CTGRY_THREE_NM
+                }
             }
+            job.join()
 
             withContext(Main) {
                 updateMarkerVisibility(markerList)
             }
+            setCheckBoxListener(getCheckBoxListener(markerList))
         }
 
         //지도 클릭시 실행
@@ -158,8 +161,6 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
             }
             binding.filterMenu.layoutDetail01.visibility = View.GONE
         }
-
-        setCheckBoxListener(getCheckBoxListener(markerList))
     }
 
     private fun getFilterMenuOnClickListener() : OnClickListener {

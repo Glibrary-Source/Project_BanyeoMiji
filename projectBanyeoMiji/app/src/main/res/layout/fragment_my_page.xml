@@ -10,9 +10,9 @@
         android:id="@+id/framelayout_title"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
+        android:background="@drawable/activity_main_title_background"
         android:elevation="15dp"
-        app:layout_constraintVertical_weight="10"
+        app:layout_constraintVertical_weight="12"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -62,8 +62,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:background="@drawable/fragment_my_page_frame_background"
-                android:elevation="8dp" >
+                android:elevation="8dp"
+                android:background="@drawable/fragment_my_page_frame_background" >
 
                 <TextView
                     android:id="@+id/text_hint_nick_name"
@@ -99,6 +99,7 @@
                     android:fontFamily="@font/bagelfat"
                     android:hint="최대 여덟글자"
                     android:maxLength="8"
+                    android:inputType="textFilter"
                     android:layout_marginStart="4dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -135,7 +136,7 @@
                     android:id="@+id/text_email"
                     android:textSize="18dp"
                     android:fontFamily="@font/bagelfat"
-                    tools:text="salkjckl@layo.com"
+                    tools:text="kimcasadianchle@naver.com"
                     android:layout_gravity="end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

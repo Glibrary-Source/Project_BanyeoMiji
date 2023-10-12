@@ -2,7 +2,6 @@ package com.twproject.banyeomiji.view.login
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.twproject.banyeomiji.MyGlobals
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentMyPageBinding
 import com.twproject.banyeomiji.datastore.UserSelectManager
@@ -22,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FragmentMyPage : Fragment() {
 
@@ -55,47 +54,39 @@ class FragmentMyPage : Fragment() {
         val gso = googleLoginModule.getGoogleSignInOption(getString(R.string.default_web_client_id))
         val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
-        val userUid = GoogleObjectAuth.mAuth.currentUser?.uid
-        if (userUid != null) {
-            db.collection("user_db").document(userUid)
-                .get()
-                .addOnSuccessListener { user ->
-                    MyGlobals.instance!!.userNickName = user.data!!["nickname"].toString()
-                }
-        }
-
         binding.btnLogoutGoogle.setOnClickListener {
 
             CoroutineScope(IO).launch {
                 userSelectManager.setLoginState(0)
                 auth.signOut()
                 googleSignInClient.signOut()
+
+                withContext(Main){
+                    val transaction = parentFragmentManager.beginTransaction()
+                    transaction.replace(R.id.frame_fragment_host, FragmentLogin())
+                    transaction.commit()
+                }
             }
 
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.frame_fragment_host, FragmentLogin())
-            transaction.commit()
+//            val transaction = parentFragmentManager.beginTransaction()
+//            transaction.replace(R.id.frame_fragment_host, FragmentLogin())
+//            transaction.commit()
         }
 
-        CoroutineScope(Main).launch { userDataCheckChange() }
+        userDataCheckChange()
 
         binding.btnExtendChangeNickname.setOnClickListener {
             checkExpandNickNameView()
             val editChangeText = binding.editNickName.text
             binding.btnChangeNickname.setOnClickListener {
-                val nickname = editChangeText.toString()
+                val nickname = editChangeText.toString().replace("\\s".toRegex(), "")
                 if (nickname == "") {
                     Toast.makeText(mContext, "닉네임을 입력해주세요", Toast.LENGTH_SHORT).show()
                 } else {
                     editChangeText.clear()
-
                     val uid = auth.currentUser!!.uid
-
                     db.collection("user_db").document(uid)
                         .update("nickname", nickname)
-                        .addOnSuccessListener {
-                            nickNameChangeGlobal(nickname)
-                        }
                     binding.frameChangeNickname.visibility = View.GONE
                 }
 
@@ -106,7 +97,7 @@ class FragmentMyPage : Fragment() {
         return binding.root
     }
 
-    private suspend fun userDataCheckChange() {
+    private fun userDataCheckChange() {
         try {
             val userDocRef = db.collection("user_db").document(auth.currentUser!!.uid)
             userDocRef.addSnapshotListener { value, _ ->
@@ -127,8 +118,5 @@ class FragmentMyPage : Fragment() {
 
     }
 
-    private fun nickNameChangeGlobal(nickname: String) {
-        MyGlobals.instance!!.userNickName = nickname
-    }
 
 }

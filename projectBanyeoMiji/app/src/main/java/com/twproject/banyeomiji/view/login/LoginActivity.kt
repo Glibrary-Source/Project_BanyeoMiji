@@ -3,6 +3,7 @@ package com.twproject.banyeomiji.view.login
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.gms.ads.AdRequest
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.ActivityLoginBinding
 
@@ -18,6 +19,6 @@ class LoginActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame_fragment_host, FragmentLogin())
         transaction.commit()
-    }
 
+    }
 }

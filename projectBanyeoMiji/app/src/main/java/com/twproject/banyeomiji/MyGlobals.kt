@@ -2,7 +2,6 @@ package com.twproject.banyeomiji
 
 class MyGlobals {
 
-    var userNickName = " "
     var firstExplain = true
 
     companion object {
