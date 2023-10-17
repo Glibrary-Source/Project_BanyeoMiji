@@ -67,10 +67,6 @@ class FragmentMyPage : Fragment() {
                     transaction.commit()
                 }
             }
-
-//            val transaction = parentFragmentManager.beginTransaction()
-//            transaction.replace(R.id.frame_fragment_host, FragmentLogin())
-//            transaction.commit()
         }
 
         userDataCheckChange()

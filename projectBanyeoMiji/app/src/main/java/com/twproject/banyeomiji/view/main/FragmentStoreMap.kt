@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class FragmentStoreMap : Fragment(), OnMapReadyCallback {
+class FragmentStoreMap() : Fragment(), OnMapReadyCallback {
 
     private lateinit var binding: FragmentStoreMapBinding
     private lateinit var mContext: Context

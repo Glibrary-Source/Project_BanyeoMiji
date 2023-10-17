@@ -22,22 +22,24 @@
 
 -keep class com.twproject.banyeomiji.view.main.datamodel.** {*; }
 -keep class com.twproject.banyeomiji.view.login.datamodel.** {*; }
--keep class com.naver.** {*; }
--keep class com.naver.maps.map.** {*; }
--keep class com.naver.maps.geometry.** {*; }
-
-#-keep class com.naver.maps.map.a.** {*; }
-#-keep class com.naver.maps.map.app.** {*; }
-#-keep class com.naver.maps.map.indoor.** {*; }
-#-keep class com.naver.maps.map.internal.** {*; }
-#-keep class com.naver.maps.map.log.** {*; }
-#-keep class com.naver.maps.map.offline.** {*; }
-#-keep class com.naver.maps.map.overlay.** {*; }
-#-keep class com.naver.maps.map.renderer.** {*; }
-#-keep class com.naver.maps.map.snapshotter.** {*; }
-#-keep class com.naver.maps.map.style.** {*; }
-#-keep class com.naver.maps.map.text.** {*; }
-#-keep class com.naver.maps.map.util.** {*; }
-#-keep class com.naver.maps.map.widget.** {*; }
 -keepclassmembers class com.twproject.banyeomiji.view.main.datamodel.PetLocationData
 -keepclassmembers class com.twproject.banyeomiji.view.login.datamodel.UserDataModel
+
+-keep class com.naver.maps.map.** {*; }
+-keep class com.naver.maps.geometry.** {*; }
+-keep class com.naver.maps.map.LocationTrackingMode
+-keep class com.naver.maps.map.MapFragment
+-keep class com.naver.maps.map.NaverMap
+-keep class com.naver.maps.map.OnMapReadyCallback
+-keep class com.naver.maps.map.util.FusedLocationSource
+-keepclassmembers class com.naver.maps.map.LocationTrackingMode
+-keepclassmembers class com.naver.maps.map.MapFragment
+-keepclassmembers class com.naver.maps.map.NaverMap
+-keepclassmembers class com.naver.maps.map.OnMapReadyCallback
+-keepclassmembers class com.naver.maps.map.util.FusedLocationSource
+
+-dontwarn com.naver.maps.map.LocationTrackingMode
+-dontwarn com.naver.maps.map.MapFragment
+-dontwarn com.naver.maps.map.NaverMap
+-dontwarn com.naver.maps.map.OnMapReadyCallback
+-dontwarn com.naver.maps.map.util.FusedLocationSource
