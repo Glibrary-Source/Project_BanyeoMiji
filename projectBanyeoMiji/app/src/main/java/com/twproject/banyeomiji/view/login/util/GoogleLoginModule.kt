@@ -1,6 +1,5 @@
 package com.twproject.banyeomiji.view.login.util
 
-import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -9,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.twproject.banyeomiji.MyGlobals
 import com.twproject.banyeomiji.datastore.UserSelectManager
 import com.twproject.banyeomiji.view.login.LoginActivity
 import kotlinx.coroutines.CoroutineScope
@@ -29,7 +29,7 @@ class GoogleLoginModule {
         account: GoogleSignInAccount,
         activity: LoginActivity,
         auth: FirebaseAuth,
-        userSelectManager: UserSelectManager,
+//        userSelectManager: UserSelectManager,
         transaction: FragmentTransaction
     ) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
@@ -37,7 +37,8 @@ class GoogleLoginModule {
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     CoroutineScope(Dispatchers.IO).launch {
-                        userSelectManager.setLoginState(1)
+//                        userSelectManager.setLoginState(1)
+                        MyGlobals.instance!!.userLogin = 1
                         val currentUser = auth.currentUser
                         setUserDb(currentUser!!.uid, currentUser.email!!.toString())
                     }
@@ -52,7 +53,8 @@ class GoogleLoginModule {
         val setUserData = hashMapOf(
             "uid" to uid,
             "email" to email,
-            "nickname" to "기본닉네임"
+            "nickname" to "기본닉네임",
+            "change_counter" to false
         )
         db.collection("user_db").document(uid)
             .get()
@@ -61,12 +63,6 @@ class GoogleLoginModule {
                     db.collection("user_db")
                         .document(uid)
                         .set(setUserData)
-                        .addOnSuccessListener {
-                            Log.d("testSet", "성공")
-                        }
-                        .addOnFailureListener {
-                            Log.d("testSet", "실패")
-                        }
                 }
             }
 

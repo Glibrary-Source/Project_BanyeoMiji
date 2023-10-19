@@ -15,7 +15,8 @@ class ButtonAnimation {
         val animationDuration = 300L  // You can adjust this value as needed
 
         // Create a ValueAnimator for the width and height
-        val widthAnimator = ValueAnimator.ofInt(buttonView.width, (initialWidth * 0.9).toInt())
+        val widthAnimator =
+            ValueAnimator.ofInt(buttonView.width, (initialWidth * 0.9).toInt())
         val heightAnimator =
             ValueAnimator.ofInt(buttonView.height, (initialHeight * 0.9).toInt())
 

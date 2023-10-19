@@ -1,11 +1,11 @@
 package com.twproject.banyeomiji.view.login.util
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.twproject.banyeomiji.MyGlobals
 import com.twproject.banyeomiji.datastore.UserSelectManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,14 +23,14 @@ class EmailLoginModule(
         email: String,
         password: String,
         transaction: FragmentTransaction,
-        userSelectManager: UserSelectManager
+//        userSelectManager: UserSelectManager
     ) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     emailVerificationCheck(
                         transaction,
-                        userSelectManager
+//                        userSelectManager
                     )
                 } else {
                     Toast.makeText(mContext, "이메일 또는 비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show()
@@ -41,13 +41,14 @@ class EmailLoginModule(
     // 이메일 인증 확인 체크
     private fun emailVerificationCheck(
         transaction: FragmentTransaction,
-        userSelectManager: UserSelectManager
+//        userSelectManager: UserSelectManager
     ) {
         auth.currentUser!!.reload()
         if(auth.currentUser?.isEmailVerified == true) {
             transaction.commit()
             CoroutineScope(Dispatchers.IO).launch {
-                userSelectManager.setLoginState(1)
+//                userSelectManager.setLoginState(1)
+                MyGlobals.instance!!.userLogin = 1
                 val currentUser = auth.currentUser
                 setUserDb(currentUser!!.uid, currentUser.email!!)
             }
@@ -87,9 +88,8 @@ class EmailLoginModule(
             ?.addOnCompleteListener {
                 if(it.isSuccessful) {
                     Toast.makeText(mContext, "이메일을 인증해주세요", Toast.LENGTH_SHORT).show()
-                    Log.d("testLogin", "성공")
                 } else {
-                    Log.d("testLogin", "실패")
+                    Toast.makeText(mContext, "인증을 다시 시도해주세요", Toast.LENGTH_SHORT).show()
                 }
             }
     }
@@ -98,7 +98,8 @@ class EmailLoginModule(
         val setUserData = hashMapOf(
             "uid" to uid,
             "email" to email,
-            "nickname" to "기본닉네임"
+            "nickname" to "기본닉네임",
+            "change_counter" to false
         )
         db.collection("user_db").document(uid)
             .get()
@@ -107,12 +108,6 @@ class EmailLoginModule(
                     db.collection("user_db")
                         .document(uid)
                         .set(setUserData)
-                        .addOnSuccessListener {
-                            Log.d("testSet", "성공")
-                        }
-                        .addOnFailureListener {
-                            Log.d("testSet", "실패")
-                        }
                 }
             }
     }

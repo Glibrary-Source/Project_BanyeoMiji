@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linear_item"
     android:orientation="vertical"
-    android:background="@drawable/btn_category_state"
+    android:background="@drawable/category_list_card_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"

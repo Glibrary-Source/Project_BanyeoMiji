@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.widget.Toast
@@ -72,7 +71,7 @@ class SplashRemoteConfig(
         val builder = AlertDialog.Builder(context)
         val dialog =
             builder.setTitle("[${context.getString(R.string.app_name)}] 공지사항")
-                .setMessage("업데이트를 해주세요")
+                .setMessage("앱을 사용하려면 업데이트를 해주세요")
                 .setNegativeButton("연결")
                 { _, _ ->
                     val intent = Intent(Intent.ACTION_VIEW)

@@ -22,7 +22,7 @@
         <activity
             android:name=".view.splash.SplashActivity"
             android:exported="true"
-            android:launchMode="singleInstance" >
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,10 +35,9 @@
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="zkb01tooss" />
+            android:value="${NAVER_MAP_API}" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
     </application>
-
 </manifest>

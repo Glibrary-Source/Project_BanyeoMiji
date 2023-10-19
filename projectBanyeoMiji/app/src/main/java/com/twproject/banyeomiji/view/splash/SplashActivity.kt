@@ -1,13 +1,7 @@
 package com.twproject.banyeomiji.view.splash
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.os.Build
-import android.os.Build.VERSION_CODES
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.twproject.banyeomiji.R
@@ -27,7 +21,6 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
     private lateinit var splashRemoteConfig: SplashRemoteConfig
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
@@ -44,18 +37,6 @@ class SplashActivity : AppCompatActivity() {
                 splashRemoteConfig = SplashRemoteConfig(this@SplashActivity)
                 splashRemoteConfig.initRemoteConfig()
             }
-
-
-//        if(!NetworkManager.checkNetworkState(this)) {
-//            CoroutineScope(Main).launch{
-//                delay(2000)
-//                Toast.makeText(this@SplashActivity, "네트워크 상태를 확인해주세요", Toast.LENGTH_SHORT).show()
-//                this@SplashActivity.finish()
-//            }
-//        } else {
-//            splashRemoteConfig = SplashRemoteConfig(this)
-//            splashRemoteConfig.initRemoteConfig()
-//        }
         }
     }
 }

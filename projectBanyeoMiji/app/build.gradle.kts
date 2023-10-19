@@ -1,9 +1,15 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("androidx.navigation.safeargs.kotlin")
 }
+
+val localProperties = Properties()
+localProperties.load(FileInputStream(rootProject.file("local.properties")))
 
 android {
     namespace = "com.twproject.banyeomiji"
@@ -18,18 +24,19 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
+
+        manifestPlaceholders["NAVER_MAP_API"] = localProperties["NAVER_MAP_API"].toString()
     }
 
     buildTypes {
         debug {
             isDebuggable = true
-//            isMinifyEnabled = true
-//            proguardFiles(
-//                getDefaultProguardFile("proguard-android-optimize.txt"),
-//                "proguard-rules.pro"
-//            )
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
-
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -77,15 +84,14 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
-    // Glide
-    implementation("com.github.bumptech.glide:glide:4.12.0")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
-
     // preference datastore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // navMap
     implementation("com.naver.maps:map-sdk:3.17.0")
+
+    // naverLogin
+    implementation("com.navercorp.nid:oauth:5.8.0") // jdk 11
 
     // google location
     implementation("com.google.android.gms:play-services-location:21.0.1")
@@ -97,6 +103,12 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:20.2.0")
     implementation("com.google.firebase:firebase-auth-ktx:21.0.4")
 
+    // lottie
+    implementation("com.airbnb.android:lottie:3.1.0")
 
+    // retrofit2
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:converter-scalars:2.6.4")
 
 }

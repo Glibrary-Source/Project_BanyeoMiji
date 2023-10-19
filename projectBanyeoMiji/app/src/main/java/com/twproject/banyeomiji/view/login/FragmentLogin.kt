@@ -3,6 +3,7 @@ package com.twproject.banyeomiji.view.login
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
+import com.navercorp.nid.NaverIdLoginSDK
+import com.twproject.banyeomiji.MyGlobals
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentLoginBinding
 import com.twproject.banyeomiji.datastore.UserSelectManager
@@ -23,8 +26,12 @@ import com.twproject.banyeomiji.view.login.util.GoogleLoginModule
 import com.twproject.banyeomiji.view.login.util.GoogleObjectAuth
 import com.twproject.banyeomiji.vbutility.ButtonAnimation
 import com.twproject.banyeomiji.view.login.util.EmailLoginModule
+import com.twproject.banyeomiji.view.login.util.NaverLoginModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class FragmentLogin : Fragment() {
@@ -32,11 +39,12 @@ class FragmentLogin : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var mContext: Context
     private lateinit var activity: LoginActivity
-    private lateinit var userSelectManager: UserSelectManager
+//    private lateinit var userSelectManager: UserSelectManager
     private lateinit var transaction: FragmentTransaction
     private lateinit var emailLoginModule: EmailLoginModule
 
     private val googleLoginModule = GoogleLoginModule()
+    private val naverLoginModule = NaverLoginModule()
     private val auth = GoogleObjectAuth.getFirebaseAuth()
     private var localState = 0
     private var email = " "
@@ -52,7 +60,7 @@ class FragmentLogin : Fragment() {
                     account,
                     activity,
                     auth,
-                    userSelectManager,
+//                    userSelectManager,
                     transaction
                 )
             } catch (_: ApiException) {}
@@ -69,12 +77,17 @@ class FragmentLogin : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        userSelectManager = UserSelectManager(mContext.dataStore)
+//        userSelectManager = UserSelectManager(mContext.dataStore)
+
 
         CoroutineScope(IO).launch {
-            userSelectManager.userLoginState.collect { state ->
-                localState = state ?: 0
-            }
+//            userSelectManager.userLoginState.collectLatest {state ->
+//                localState = state ?: 0
+//                Log.d("testState", state.toString())
+//            }
+//            userSelectManager.userLoginState.collect { state ->
+//                localState = state ?: 0
+//            }
         }
     }
 
@@ -93,14 +106,28 @@ class FragmentLogin : Fragment() {
         setChangeListener()
 
         binding.btnLoginEmail.setOnClickListener {
-            emailLoginModule.onlyEmailSignIn(email, password, transaction, userSelectManager)
+            emailLoginModule.onlyEmailSignIn(
+                email,
+                password,
+                transaction,
+//                userSelectManager
+            )
+        }
+
+        binding.btnLoginNaver.setOnClickListener {
+            ButtonAnimation().startAnimation(it)
+
+            NaverIdLoginSDK.initialize(mContext, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "com.twproject.banyeomiji")
+            NaverIdLoginSDK.authenticate(mContext, naverLoginModule.getOAuthLoginCallback(transaction,
+//                userSelectManager
+            ))
         }
 
         binding.textSignUp.onThrottleClick {
             ButtonAnimation().startAnimation(it)
 
             val btnSignUp = binding.btnSignUp
-            btnSignUp.visibility = View.VISIBLE
+            signUpVisibleControl()
             btnSignUp.onThrottleClick {
                 val pattern = Patterns.EMAIL_ADDRESS
                 if(pattern.matcher(email).matches()) {
@@ -115,7 +142,10 @@ class FragmentLogin : Fragment() {
     }
 
     private fun checkAlreadyLogin() {
-        if (localState == 1) {
+//        if (localState == 1) {
+//            transaction.commit()
+//        }
+        if (MyGlobals.instance!!.userLogin == 1) {
             transaction.commit()
         }
     }
@@ -140,6 +170,9 @@ class FragmentLogin : Fragment() {
         }
     }
 
+    private fun signUpVisibleControl() {
+        binding.btnSignUp.visibility = if(binding.btnSignUp.visibility == View.GONE) View.VISIBLE else View.GONE
+    }
 
 }
 

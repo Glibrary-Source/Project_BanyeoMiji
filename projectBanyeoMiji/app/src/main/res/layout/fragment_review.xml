@@ -30,6 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 
+
         <EditText
             android:id="@+id/edit_review_title"
             android:hint="제목"
@@ -59,15 +60,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/btn_review_upload"
-            android:text="작성"
-            android:fontFamily="@font/bagelfat"
-            android:layout_marginTop="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <RatingBar
+                android:id="@+id/rating_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="false"
+                android:layout_gravity="center_vertical"
+                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                android:progressTint="@android:color/holo_blue_light"
+                android:numStars="5"
+                android:rating="5"
+                android:stepSize="1" />
+
+            <Button
+                android:id="@+id/btn_review_upload"
+                android:text="작성"
+                android:fontFamily="@font/bagelfat"
+                android:layout_marginTop="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"/>
+        </FrameLayout>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

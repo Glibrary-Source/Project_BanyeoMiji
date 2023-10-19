@@ -116,7 +116,7 @@
         android:fontFamily="@font/bagelfat"
         android:text="@string/login_or"
         android:layout_marginTop="48dp"
-        android:textSize="14dp"
+        android:textSize="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linear_sign_in_out"/>
@@ -136,23 +136,28 @@
             android:src="@drawable/btn_google_login"
             android:scaleType="centerCrop"
             android:backgroundTint="@android:color/transparent"
-            android:layout_width="56dp"
-            android:layout_height="56dp" />
+            android:layout_width="64dp"
+            android:layout_height="64dp" />
 
         <ImageButton
             android:id="@+id/btn_login_naver"
-            android:layout_width="56dp"
-            android:layout_height="56dp" />
+            android:src="@drawable/btn_naver_login"
+            android:scaleType="centerCrop"
+            android:backgroundTint="@android:color/transparent"
+            android:layout_width="64dp"
+            android:layout_height="64dp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/text_sign_up"
-        android:textSize="18dp"
+        android:textSize="24dp"
         android:text="회원가입"
         android:fontFamily="@font/bagelfat"
-        android:layout_width="90dp"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
         android:gravity="center"
-        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:background="@drawable/btn_text_sign_up_background"
         android:layout_marginBottom="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

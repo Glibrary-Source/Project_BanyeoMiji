@@ -4,5 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="category_sub_text">#858585</color>
     <color name="spinner_text">#959191</color>
-    <color name="tempback">#EDEDED</color>
+    <color name="tempback">#F2FFFF</color>
+    <color name="category_list">#dbe1ff</color>
 </resources>

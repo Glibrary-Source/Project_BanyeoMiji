@@ -88,7 +88,7 @@
                 android:id="@+id/frame_change_nickname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:visibility="gone"
                 android:background="@drawable/fragment_my_page_frame_background"
                 android:elevation="8dp" >
@@ -116,8 +116,8 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="12dp"
+
                 android:padding="8dp"
                 android:elevation="8dp"
                 android:background="@drawable/fragment_my_page_frame_background"
@@ -141,9 +141,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frame_my_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="8dp"
+                android:padding="8dp"
+                android:elevation="8dp"
+                android:background="@drawable/fragment_my_page_frame_background" >
+
+                <TextView
+                    android:id="@+id/text_my_review"
+                    android:textSize="18dp"
+                    android:fontFamily="@font/bagelfat"
+                    android:text="내가 작성한 리뷰보기"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <FrameLayout
         android:id="@+id/framelayout_logout"

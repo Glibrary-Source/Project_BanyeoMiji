@@ -13,7 +13,7 @@ class UserSelectManager(
 ) {
     companion object {
         val USER_SELECT_KEY = intPreferencesKey("LOCATION_SELECT")
-        val USER_LOGIN_STATE = intPreferencesKey("LOGIN_STATE")
+//        val USER_LOGIN_STATE = intPreferencesKey("LOGIN_STATE")
     }
 
     suspend fun selectUser(
@@ -24,19 +24,19 @@ class UserSelectManager(
         }
     }
 
-    suspend fun setLoginState(
-        state: Int
-    ) {
-        dataStore.edit {
-            it[USER_LOGIN_STATE] = state
-        }
-    }
+//    suspend fun setLoginState(
+//        state: Int
+//    ) {
+//        dataStore.edit {
+//            it[USER_LOGIN_STATE] = state
+//        }
+//    }
 
     val userSelectFlow: Flow<Int?> = dataStore.data.map {
         it[USER_SELECT_KEY]
     }
 
-    val userLoginState: Flow<Int?> = dataStore.data.map {
-        it[USER_LOGIN_STATE]
-    }
+//    val userLoginState: Flow<Int?> = dataStore.data.map {
+//        it[USER_LOGIN_STATE]
+//    }
 }

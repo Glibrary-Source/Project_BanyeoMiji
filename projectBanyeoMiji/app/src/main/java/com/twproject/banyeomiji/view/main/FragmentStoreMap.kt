@@ -37,11 +37,12 @@ import com.twproject.banyeomiji.view.main.viewmodel.PetLocationViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class FragmentStoreMap() : Fragment(), OnMapReadyCallback {
+class FragmentStoreMap : Fragment(), OnMapReadyCallback {
 
     private lateinit var binding: FragmentStoreMapBinding
     private lateinit var mContext: Context
@@ -148,18 +149,17 @@ class FragmentStoreMap() : Fragment(), OnMapReadyCallback {
 
             withContext(Main) {
                 updateMarkerVisibility(markerList)
-            }
-            setCheckBoxListener(getCheckBoxListener(markerList))
-        }
-
-        //지도 클릭시 실행
-        naverFragmentMap.setOnMapClickListener { _, _ ->
-            for ((marker) in markerList) {
-                if (marker.infoWindow != null) {
-                    marker.infoWindow!!.close()
+                //지도 클릭시 실행
+                naverFragmentMap.setOnMapClickListener { _, _ ->
+                    for ((marker) in markerList) {
+                        if (marker.infoWindow != null) {
+                            marker.infoWindow!!.close()
+                        }
+                    }
+                    binding.filterMenu.layoutDetail01.visibility = View.GONE
                 }
             }
-            binding.filterMenu.layoutDetail01.visibility = View.GONE
+            setCheckBoxListener(getCheckBoxListener(markerList))
         }
     }
 

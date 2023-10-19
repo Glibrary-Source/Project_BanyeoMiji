@@ -14,8 +14,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/btn_my_review_erase"
+        android:layout_gravity="end"
+        android:src="@drawable/icon_erase"
+        android:scaleType="centerCrop"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        tools:ignore="ContentDescription" />
+
     <TextView
-        android:id="@+id/text_review_item_title"
+        android:id="@+id/text_my_review_store_name"
+        android:textSize="28dp"
+        tools:text="가게이름"
+        android:gravity="center"
+        android:fontFamily="@font/singledayregular"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/text_my_review_item_title"
         android:textSize="28dp"
         tools:text="제목"
         android:fontFamily="@font/singledayregular"
@@ -25,12 +45,12 @@
         android:layout_height="wrap_content" />
 
     <FrameLayout
-        android:id="@+id/frame_nickname_time"
+        android:id="@+id/frame_my_nickname_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/text_review_item_nickname"
+            android:id="@+id/text_my_review_item_nickname"
             android:textSize="18dp"
             tools:text="기본닉네임"
             android:layout_marginBottom="14dp"
@@ -40,7 +60,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/text_review_item_time"
+            android:id="@+id/text_my_review_item_time"
             android:textSize="18dp"
             tools:text="2023-4-15"
             android:layout_marginBottom="14dp"
@@ -52,7 +72,7 @@
     </FrameLayout>
 
     <RatingBar
-        android:id="@+id/rating_review_item"
+        android:id="@+id/rating_my_review_item"
         android:layout_gravity="end"
         android:progressTint="@android:color/holo_blue_light"
         style="@style/Widget.AppCompat.RatingBar.Small"
@@ -60,7 +80,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/text_review_item_main"
+        android:id="@+id/text_my_review_item_main"
         android:textSize="24dp"
         tools:text="내용"
         android:fontFamily="@font/singledayregular"

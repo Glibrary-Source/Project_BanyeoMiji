@@ -31,14 +31,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/btn_user_account"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="15dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="20dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/baseline_account_box_24"
-            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/icon_login"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -61,9 +60,11 @@
         android:id="@+id/bottom_nav_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="10dp"
         android:background="@drawable/activity_main_bottomnav_background"
         app:menu="@menu/bottom_navigation_menu"
+        android:padding="4dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
         app:layout_constraintVertical_weight="10"
         app:layout_constraintBottom_toBottomOf="@id/adViewBanner"
         app:layout_constraintTop_toBottomOf="@id/nav_host_fragment" />
@@ -74,7 +75,7 @@
         android:layout_height="0dp"
         app:adSize="BANNER"
         app:adUnitId="ca-app-pub-3940256099942544/6300978111"
-        app:layout_constraintVertical_weight="12"
+        app:layout_constraintVertical_weight="14"
         app:layout_constraintTop_toBottomOf="@id/bottom_nav_bar"
         app:layout_constraintBottom_toBottomOf="parent" />
 

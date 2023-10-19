@@ -49,6 +49,14 @@ class AdapterStringManager {
         return if(item.RDNMADR_NM == "") return item.LNM_ADDR else item.RDNMADR_NM
     }
 
+    fun checkRestDay(item: PetLocationData): String {
+        return if(item.RSTDE_GUID_CN == "") return "정보 없음" else item.RSTDE_GUID_CN
+    }
+
+    fun checkOpenTime(item: PetLocationData): String {
+        return if(item.OPER_TIME == "") return "정보 없음" else item.OPER_TIME
+    }
+
     fun checkHotel(itemName: String) : String {
         return if(itemName == "펜션") "펜션 & 호텔" else itemName
     }

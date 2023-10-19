@@ -25,7 +25,6 @@ class PetLocationViewModel(application: Application) : AndroidViewModel(applicat
     private val _checkChange = MutableLiveData<Boolean>()
     private val _selectPosition = MutableLiveData<String>()
     private val _checkDirectionStoreMap = MutableLiveData<Boolean>()
-    private val _reviewDocData = MutableLiveData<Map<String, Any>>()
 
     private val _petLocationGateData = MutableLiveData<MutableList<PetLocationData>>()
     private val _petLocationCafeData = MutableLiveData<MutableList<PetLocationData>>()
@@ -46,7 +45,6 @@ class PetLocationViewModel(application: Application) : AndroidViewModel(applicat
     val checkChange: LiveData<Boolean> get() = _checkChange
     val selectPosition: LiveData<String> get() = _selectPosition
     val checkDirectionStoreMap: LiveData<Boolean> get() = _checkDirectionStoreMap
-    val reviewDocData: LiveData<Map<String, Any>> get() = _reviewDocData
 
     val petLocationGateData: LiveData<MutableList<PetLocationData>> get() = _petLocationGateData
     val petLocationCafeData: LiveData<MutableList<PetLocationData>> get() = _petLocationCafeData
@@ -154,40 +152,4 @@ class PetLocationViewModel(application: Application) : AndroidViewModel(applicat
     fun setCheckDirection(check: Boolean) {
         _checkDirectionStoreMap.value = check
     }
-
 }
-
-
-//suspend fun getLocationData(
-//    category: String, location: String, loadD: LoadingDialog
-//) {
-//    db.collection("pet_location_data")
-//        .whereEqualTo("CTGRY_THREE_NM", category)
-//        .whereEqualTo("CTPRVN_NM", location)
-//        .get()
-//        .addOnSuccessListener {
-//            for (document in it) {
-//                val petLocationData = document.toObject(PetLocationData::class.java)
-//                petDataList.add(petLocationData)
-//                petAllDataList.add(petLocationData)
-//            }
-//            when(category) {
-//                "문예회관" -> { _petLocationGateData.value = petDataList }
-//                "카페" -> { _petLocationCafeData.value = petDataList }
-//                "미술관" -> { _petLocationArtGalleryData.value = petDataList }
-//                "미용" -> { _petLocationPetSalonData.value = petDataList }
-//                "박물관" -> { _petLocationMuseumData.value = petDataList }
-//                "반려동물용품" -> { _petLocationToolsData.value = petDataList }
-//                "식당" -> { _petLocationRestaurantData.value = petDataList }
-//                "여행지" -> { _petLocationTripData.value = petDataList }
-//                "위탁관리" -> { _petLocationManagementData.value = petDataList }
-//                "펜션" -> { _petLocationSwimmingData.value = petDataList }
-//            }
-//            petDataList = mutableListOf()
-//
-//            loadD.cancel()
-//        }
-//        .addOnFailureListener {
-//            loadD.cancel()
-//        }
-//}

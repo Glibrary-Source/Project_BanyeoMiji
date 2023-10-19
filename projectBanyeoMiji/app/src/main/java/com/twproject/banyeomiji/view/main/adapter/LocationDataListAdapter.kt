@@ -55,8 +55,8 @@ class LocationDataListAdapter(
         val item = cafeData[position]
         holder.itemTitle.text = item.FCLTY_NM
         holder.itemAddress.text = "주소: ${stringManager.checkAddress(item)}"
-        holder.itemRestDay.text = "휴일: ${item.RSTDE_GUID_CN}"
-        holder.itemOpenTime.text = "영업 시간: ${item.OPER_TIME}"
+        holder.itemRestDay.text = "휴일: ${stringManager.checkRestDay(item)}"
+        holder.itemOpenTime.text = "영업 시간: ${stringManager.checkOpenTime(item)}"
         holder.itemLimit.text = stringManager.checkLimited(item)
         holder.itemPark.text = stringManager.checkParking(item)
         holder.itemLink.text = stringManager.checkHomePage(item, holder)
@@ -64,7 +64,7 @@ class LocationDataListAdapter(
             stringManager.checkItemLink(item, context, holder)
         }
         holder.itemReview.setOnClickListener {
-            val action = FragmentLocationListDirections.actionFragmentLocationListToFragmentReview(categoryName, item.DOC_ID)
+            val action = FragmentLocationListDirections.actionFragmentLocationListToFragmentReview(categoryName, item.DOC_ID, item.FCLTY_NM)
             it.findNavController().navigate(action)
 
             val mainActivity = context as MainActivity

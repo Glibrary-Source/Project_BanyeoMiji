@@ -8,7 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
+import com.navercorp.nid.NaverIdLoginSDK
+import com.twproject.banyeomiji.MyGlobals
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.ActivityMainBinding
 import com.twproject.banyeomiji.datastore.UserSelectManager
@@ -22,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -30,13 +32,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var petLocationViewModel: PetLocationViewModel
     private lateinit var userSelectManager: UserSelectManager
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         userSelectManager = UserSelectManager(this.dataStore)
+        NaverIdLoginSDK.initialize(this, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "com.twproject.banyeomiji")
 
         petLocationViewModel = ViewModelProvider(this)[PetLocationViewModel::class.java]
         petLocationViewModel.setPermissionCheck(true)
@@ -45,12 +47,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNavBar.setupWithNavController(navController)
-
-        MobileAds.initialize(this)
-
-        val mAdView = binding.adViewBanner
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
 
         binding.btnUserAccount.onThrottleClick {
             ButtonAnimation().startAnimation(it)
@@ -61,9 +57,29 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val mAdView = binding.adViewBanner
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+
+        setLoginState()
+    }
+
+    private fun setLoginState() {
+        var googleLogin = true
+
         if(GoogleObjectAuth.getFirebaseAuth().currentUser == null) {
-            CoroutineScope(IO).launch{ userSelectManager.setLoginState(0) }
+            googleLogin = false
         }
 
+        val naverLogin: Boolean = when(NaverIdLoginSDK.getState().name) {
+            "NEED_LOGIN" -> false
+            "NEED_INIT" -> false
+            "NEED_REFRESH_TOKEN" -> false
+            else -> true
+        }
+
+        if( !googleLogin && !naverLogin ) {
+            MyGlobals.instance!!.userLogin = 0
+        }
     }
 }

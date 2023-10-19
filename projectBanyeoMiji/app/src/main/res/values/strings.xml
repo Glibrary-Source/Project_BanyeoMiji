@@ -30,4 +30,7 @@
     <string name="logout_kr">로그아웃</string>
     <string name="my_page_kr">마이 페이지</string>
     <string name="first_review_kr">첫 리뷰를 남겨주세요!</string>
+    <string name="naver_client_id">96f1wy57Jnx2tKzmwchp</string>
+    <string name="naver_client_secret">c38bb1CjsW</string>
+    <string name="my_review_kr">마이 리뷰</string>
 </resources>

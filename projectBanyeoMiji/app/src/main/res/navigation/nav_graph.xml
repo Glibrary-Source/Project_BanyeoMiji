@@ -85,5 +85,8 @@
         <argument
             android:name="DocId"
             app:argType="string" />
+        <argument
+            android:name="StoreName"
+            app:argType="string" />
     </fragment>
 </navigation>
