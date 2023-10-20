@@ -2,6 +2,7 @@ package com.twproject.banyeomiji.view.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
@@ -101,6 +102,8 @@ class MainActivity : AppCompatActivity() {
             } else {
                 MyGlobals.instance!!.userLogin = 0
             }
+
+            Log.d("loginState", "${NaverIdLoginSDK.getState().name} // ${GoogleObjectAuth.getFirebaseAuth().currentUser}")
         }
     }
 }

@@ -3,6 +3,7 @@ package com.twproject.banyeomiji.view.login
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -51,7 +52,6 @@ class FragmentMyPage : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setLoginStateAndUid()
     }
 
     override fun onCreateView(
@@ -79,7 +79,7 @@ class FragmentMyPage : Fragment() {
             }
         }
 
-        userDataCheckChange()
+        setLoginStateAndUid()
 
         binding.btnExtendChangeNickname.setOnClickListener {
 
@@ -99,6 +99,7 @@ class FragmentMyPage : Fragment() {
                     Toast.makeText(mContext, "이미 존재하는 닉네임입니다.", Toast.LENGTH_SHORT).show()
                 } else {
                     changeNickName(nickname, editChangeText)
+                    userDataCheckChange()
                 }
             }
         }
@@ -123,6 +124,49 @@ class FragmentMyPage : Fragment() {
         return binding.root
     }
 
+    private fun setLoginStateAndUid() {
+        if (auth.currentUser != null && MyGlobals.instance!!.userDataCheck == 1) {
+            loginState = "google"
+        } else if (NaverIdLoginSDK.getState().name != "NEED_LOGIN" && NaverIdLoginSDK.getState().name != "NEED_INIT" && NaverIdLoginSDK.getState().name != "NEED_REFRESH_TOKEN") {
+            loginState = "naver"
+        }
+        Log.d("LoginTAG", auth.currentUser.toString() + "//" + NaverIdLoginSDK.getState().name)
+        setStateUid()
+    }
+
+    private fun setStateUid() {
+        when (loginState) {
+            "google" -> {
+                currentUid = auth.currentUser!!.uid
+                userDataCheckChange()
+            }
+            "naver" -> {
+                NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
+                    override fun onSuccess(result: NidProfileResponse) {
+                        currentUid = result.profile?.id.toString()
+                        userDataCheckChange()
+                    }
+                    override fun onError(errorCode: Int, message: String) {}
+                    override fun onFailure(httpStatus: Int, message: String) {}
+                })
+            }
+        }
+        Log.d("LoginTAG", loginState)
+    }
+
+    private fun userDataCheckChange() {
+        CoroutineScope(Main).launch{
+            db.collection("user_db").document(currentUid)
+                .get()
+                .addOnSuccessListener { value ->
+                    val userData = value.data!!
+                    binding.textEmail.text = userData["email"].toString()
+                    binding.textNickName.text = userData["nickname"].toString()
+                }
+            Log.d("LoginTAG", currentUid)
+        }
+    }
+
     private fun getAllUserNickName(): MutableList<String> {
         val nickNameList = mutableListOf<String>()
         db.collection("user_db")
@@ -135,75 +179,7 @@ class FragmentMyPage : Fragment() {
         return nickNameList
     }
 
-    private fun userDataCheckChange() {
-        try {
-            CoroutineScope(Main).launch{
-                when (loginState) {
-                    "google" -> {
-                        val userDocRef = db.collection("user_db").document(auth.currentUser!!.uid)
-                        userDocRef.addSnapshotListener { value, _ ->
-                            if (value != null && value.exists()) {
-                                val userData = value.data!!
-                                binding.textEmail.text = userData["email"].toString()
-                                binding.textNickName.text = userData["nickname"].toString()
-                            }
-                        }
-                    }
-
-                    "naver" -> {
-                        NidOAuthLogin().callProfileApi(object :
-                            NidProfileCallback<NidProfileResponse> {
-                            override fun onSuccess(result: NidProfileResponse) {
-                                val uid = result.profile?.id.toString()
-                                val userDocRef = db.collection("user_db").document(uid)
-                                userDocRef.addSnapshotListener { value, _ ->
-                                    if (value != null && value.exists()) {
-                                        val userData = value.data!!
-                                        binding.textEmail.text = userData["email"].toString()
-                                        binding.textNickName.text = userData["nickname"].toString()
-                                    }
-                                }
-                            }
-
-                            override fun onError(errorCode: Int, message: String) {}
-                            override fun onFailure(httpStatus: Int, message: String) {}
-                        })
-                    }
-                }
-            }
-        } catch (_: Exception) {}
-    }
-
-    private fun setLoginStateAndUid() {
-        if (auth.currentUser != null && MyGlobals.instance!!.userDataCheck == 1) {
-            loginState = "google"
-        } else if (NaverIdLoginSDK.getState().name != "NEED_LOGIN" && NaverIdLoginSDK.getState().name != "NEED_INIT" && NaverIdLoginSDK.getState().name != "NEED_REFRESH_TOKEN") {
-            loginState = "naver"
-        }
-        setStateUid()
-    }
-
-    private fun setStateUid() {
-        when (loginState) {
-            "google" -> {
-                currentUid = auth.currentUser!!.uid
-            }
-
-            "naver" -> {
-                NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
-                    override fun onSuccess(result: NidProfileResponse) {
-                        currentUid = result.profile?.id.toString()
-                    }
-
-                    override fun onError(errorCode: Int, message: String) {}
-                    override fun onFailure(httpStatus: Int, message: String) {}
-                })
-            }
-        }
-    }
-
     private fun checkCounterNickName() {
-
         db.collection("user_db").document(currentUid)
             .get()
             .addOnSuccessListener {

@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.ktx.Firebase
@@ -24,19 +25,22 @@ class SplashRemoteConfig(
 ) {
     companion object {
         const val REMOTE_KEY_APP_VERSION = "app_version"
+        const val REMOTE_KEY_EMERGENCY = "update_emergency"
     }
 
     private val versionName = context.getPackageInfo().versionName
     private val activity = context as SplashActivity
 
     private var appVersion: String? = null
+    private var appEmergency: Boolean? = null
     fun initRemoteConfig() {
         val remoteConfig = Firebase.remoteConfig  //Remote Config 객체 가져오기
         val configSettings = remoteConfigSettings {
             minimumFetchIntervalInSeconds = 3600
             mapOf(
                 //default 값 설정
-                REMOTE_KEY_APP_VERSION to versionName
+                REMOTE_KEY_APP_VERSION to versionName,
+                REMOTE_KEY_EMERGENCY to false
             )
         }
 
@@ -48,9 +52,17 @@ class SplashRemoteConfig(
                 if (task.isSuccessful) {
                     //매개 변수 KEY 값 설정
                     appVersion = remoteConfig.getString(REMOTE_KEY_APP_VERSION)
+                    appEmergency = remoteConfig.getBoolean(REMOTE_KEY_EMERGENCY)
 
-                    if (appVersion == versionName) {
+
+                    if (appVersion == versionName && appEmergency == false) {
                         startMain()
+                    } else if(appVersion != versionName && appEmergency == false) {
+                        startMain()
+                        Toast.makeText(
+                            context, "버전 업데이트를 추천드려요",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
                         showAlert()
                     }
@@ -75,7 +87,8 @@ class SplashRemoteConfig(
                 .setNegativeButton("연결")
                 { _, _ ->
                     val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse("https://play.google.com/store/apps/details?id=com.kapitalletter.wardoffice")
+                    intent.data =
+                        Uri.parse("https://play.google.com/store/apps/details?id=com.kapitalletter.wardoffice")
                     activity.startActivity(intent)
                     activity.finish()
                 }
