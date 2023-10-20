@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.twproject.banyeomiji.MyGlobals
-import com.twproject.banyeomiji.datastore.UserSelectManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,14 +22,12 @@ class EmailLoginModule(
         email: String,
         password: String,
         transaction: FragmentTransaction,
-//        userSelectManager: UserSelectManager
     ) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     emailVerificationCheck(
-                        transaction,
-//                        userSelectManager
+                        transaction
                     )
                 } else {
                     Toast.makeText(mContext, "이메일 또는 비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show()
@@ -40,15 +37,14 @@ class EmailLoginModule(
 
     // 이메일 인증 확인 체크
     private fun emailVerificationCheck(
-        transaction: FragmentTransaction,
-//        userSelectManager: UserSelectManager
+        transaction: FragmentTransaction
     ) {
         auth.currentUser!!.reload()
         if(auth.currentUser?.isEmailVerified == true) {
             transaction.commit()
             CoroutineScope(Dispatchers.IO).launch {
-//                userSelectManager.setLoginState(1)
                 MyGlobals.instance!!.userLogin = 1
+                MyGlobals.instance!!.userDataCheck = 1
                 val currentUser = auth.currentUser
                 setUserDb(currentUser!!.uid, currentUser.email!!)
             }

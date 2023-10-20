@@ -9,7 +9,6 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.twproject.banyeomiji.MyGlobals
-import com.twproject.banyeomiji.datastore.UserSelectManager
 import com.twproject.banyeomiji.view.login.LoginActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +28,6 @@ class GoogleLoginModule {
         account: GoogleSignInAccount,
         activity: LoginActivity,
         auth: FirebaseAuth,
-//        userSelectManager: UserSelectManager,
         transaction: FragmentTransaction
     ) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
@@ -37,8 +35,8 @@ class GoogleLoginModule {
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     CoroutineScope(Dispatchers.IO).launch {
-//                        userSelectManager.setLoginState(1)
                         MyGlobals.instance!!.userLogin = 1
+                        MyGlobals.instance!!.userDataCheck = 1
                         val currentUser = auth.currentUser
                         setUserDb(currentUser!!.uid, currentUser.email!!.toString())
                     }

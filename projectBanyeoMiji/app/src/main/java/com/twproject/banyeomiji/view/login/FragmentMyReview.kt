@@ -42,21 +42,38 @@ class FragmentMyReview : Fragment() {
             db.collection("user_db")
                 .document(currentUid)
                 .addSnapshotListener { snapshot, _ ->
-                    try {
-                        val test = snapshot!!.data!!["USER_REVIEW"] as Map<*, *>
-                        val addMap = mutableMapOf<String, Any>()
-                        for ((key, value) in test) {
-                            addMap[key.toString()] = value as Any
-                        }
-
-                        binding.recyclerViewMyReview.adapter = MyReviewListAdapter(addMap, mContext)
-                    } catch (_: Exception) {
-
+                    if (snapshot != null && snapshot.exists()) {
+                        try {
+                            val item = snapshot.data?.get("USER_REVIEW")
+                            val emptyMap = mutableMapOf<String, Any>()
+                            if(item == null) {
+                                emptyReviewControl(currentUid, emptyMap)
+                            } else {
+                                val test = snapshot.data!!["USER_REVIEW"] as Map<*, *>
+                                if(test.isEmpty()) {
+                                    emptyReviewControl(currentUid, emptyMap)
+                                } else {
+                                    val addMap = mutableMapOf<String, Any>()
+                                    for ((key, value) in test) {
+                                        addMap[key.toString()] = value as Any
+                                    }
+                                    binding.recyclerViewMyReview.adapter =
+                                        MyReviewListAdapter(addMap, mContext, db, currentUid)
+                                    binding.textReviewGone.visibility = View.GONE
+                                }
+                            }
+                        } catch (_: Exception) {}
                     }
                 }
         }
 
         return binding.root
+    }
+
+    private fun emptyReviewControl(currentUid: String, emptyMap:MutableMap<String, Any> ) {
+        binding.textReviewGone.visibility = View.VISIBLE
+        binding.recyclerViewMyReview.adapter =
+            MyReviewListAdapter(emptyMap, mContext, db, currentUid)
     }
 
 }

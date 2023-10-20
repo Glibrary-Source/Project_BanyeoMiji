@@ -15,7 +15,6 @@ class PetLocationViewModel(application: Application) : AndroidViewModel(applicat
 
     val db = Firebase.firestore
 
-    //    private var petDataList = mutableListOf<PetLocationData>()
     private var petAllDataList = mutableListOf<PetLocationData>()
 
     private val _permissionCheck = MutableLiveData<Boolean>()

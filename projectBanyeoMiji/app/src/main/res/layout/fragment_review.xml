@@ -16,7 +16,8 @@
         android:src="@drawable/icon_pen"
         android:background="@drawable/fragment_review_extend_edit_background"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:id="@+id/linear_review_edit"
@@ -33,7 +34,7 @@
 
         <EditText
             android:id="@+id/edit_review_title"
-            android:hint="제목"
+            android:hint="@string/review_hint"
             android:textSize="28dp"
             android:maxLines="1"
             android:maxLength="19"
@@ -43,12 +44,13 @@
             android:textStyle="bold"
             android:fontFamily="@font/singledayregular"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:ignore="Autofill,SpUsage" />
 
         <EditText
             android:id="@+id/edit_review"
-            android:hint="내용"
-            android:textSize="24dp"
+            android:hint="@string/review_main"
+            android:textSize="24sp"
             android:padding="4dp"
             android:background="@drawable/fragment_review_review_bord"
             android:fontFamily="@font/singledayregular"
@@ -58,7 +60,8 @@
             android:maxLines="9"
             android:maxLength="300"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:autofillHints="" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -78,7 +81,7 @@
 
             <Button
                 android:id="@+id/btn_review_upload"
-                android:text="작성"
+                android:text="@string/btn_review_edit"
                 android:fontFamily="@font/bagelfat"
                 android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
@@ -105,6 +108,7 @@
         android:animateLayoutChanges="false"
         android:textSize="36dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:ignore="SpUsage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

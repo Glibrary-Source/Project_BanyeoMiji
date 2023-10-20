@@ -18,8 +18,6 @@ import com.navercorp.nid.profile.data.NidProfileResponse
 import com.twproject.banyeomiji.MyGlobals
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentMyPageBinding
-import com.twproject.banyeomiji.datastore.UserSelectManager
-import com.twproject.banyeomiji.datastore.dataStore
 import com.twproject.banyeomiji.vbutility.ButtonAnimation
 import com.twproject.banyeomiji.view.login.util.GoogleLoginModule
 import com.twproject.banyeomiji.view.login.util.GoogleObjectAuth
@@ -36,7 +34,6 @@ class FragmentMyPage : Fragment() {
     private lateinit var activity: LoginActivity
 
     private lateinit var binding: FragmentMyPageBinding
-//    private lateinit var userSelectManager: UserSelectManager
 
     private val googleLoginModule = GoogleLoginModule()
     private val auth = GoogleObjectAuth.getFirebaseAuth()
@@ -54,7 +51,6 @@ class FragmentMyPage : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        userSelectManager = UserSelectManager(mContext.dataStore)
         setLoginStateAndUid()
     }
 
@@ -70,7 +66,6 @@ class FragmentMyPage : Fragment() {
         binding.btnLogoutGoogle.setOnClickListener {
 
             CoroutineScope(IO).launch {
-//                userSelectManager.setLoginState(0)
                 MyGlobals.instance!!.userLogin = 0
                 auth.signOut()
                 googleSignInClient.signOut()
@@ -142,44 +137,47 @@ class FragmentMyPage : Fragment() {
 
     private fun userDataCheckChange() {
         try {
-            when (loginState) {
-                "google" -> {
-                    val userDocRef = db.collection("user_db").document(auth.currentUser!!.uid)
-                    userDocRef.addSnapshotListener { value, _ ->
-                        if (value != null && value.exists()) {
-                            val userData = value.data!!
-                            binding.textEmail.text = userData["email"].toString()
-                            binding.textNickName.text = userData["nickname"].toString()
-                        }
-                    }
-                }
-
-                "naver" -> {
-                    NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
-                        override fun onSuccess(result: NidProfileResponse) {
-                            val uid = result.profile?.id.toString()
-                            val userDocRef = db.collection("user_db").document(uid)
-                            userDocRef.addSnapshotListener { value, _ ->
-                                if (value != null && value.exists()) {
-                                    val userData = value.data!!
-                                    binding.textEmail.text = userData["email"].toString()
-                                    binding.textNickName.text = userData["nickname"].toString()
-                                }
+            CoroutineScope(Main).launch{
+                when (loginState) {
+                    "google" -> {
+                        val userDocRef = db.collection("user_db").document(auth.currentUser!!.uid)
+                        userDocRef.addSnapshotListener { value, _ ->
+                            if (value != null && value.exists()) {
+                                val userData = value.data!!
+                                binding.textEmail.text = userData["email"].toString()
+                                binding.textNickName.text = userData["nickname"].toString()
                             }
                         }
+                    }
 
-                        override fun onError(errorCode: Int, message: String) {}
-                        override fun onFailure(httpStatus: Int, message: String) {}
-                    })
+                    "naver" -> {
+                        NidOAuthLogin().callProfileApi(object :
+                            NidProfileCallback<NidProfileResponse> {
+                            override fun onSuccess(result: NidProfileResponse) {
+                                val uid = result.profile?.id.toString()
+                                val userDocRef = db.collection("user_db").document(uid)
+                                userDocRef.addSnapshotListener { value, _ ->
+                                    if (value != null && value.exists()) {
+                                        val userData = value.data!!
+                                        binding.textEmail.text = userData["email"].toString()
+                                        binding.textNickName.text = userData["nickname"].toString()
+                                    }
+                                }
+                            }
+
+                            override fun onError(errorCode: Int, message: String) {}
+                            override fun onFailure(httpStatus: Int, message: String) {}
+                        })
+                    }
                 }
             }
         } catch (_: Exception) {}
     }
 
     private fun setLoginStateAndUid() {
-        if (auth.currentUser != null) {
+        if (auth.currentUser != null && MyGlobals.instance!!.userDataCheck == 1) {
             loginState = "google"
-        } else if (NaverIdLoginSDK.getState().name != "NEED_LOGIN" && NaverIdLoginSDK.getState().name != "NEED_INIT") {
+        } else if (NaverIdLoginSDK.getState().name != "NEED_LOGIN" && NaverIdLoginSDK.getState().name != "NEED_INIT" && NaverIdLoginSDK.getState().name != "NEED_REFRESH_TOKEN") {
             loginState = "naver"
         }
         setStateUid()

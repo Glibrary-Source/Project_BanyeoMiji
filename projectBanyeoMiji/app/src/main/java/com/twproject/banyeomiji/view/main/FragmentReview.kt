@@ -23,6 +23,7 @@ import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
+import com.twproject.banyeomiji.MyGlobals
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentReviewBinding
 import com.twproject.banyeomiji.view.login.util.GoogleObjectAuth
@@ -82,7 +83,6 @@ class FragmentReview : Fragment() {
         binding = FragmentReviewBinding.inflate(inflater)
 
         binding.btnExtendEditReview.bringToFront()
-
         binding.btnExtendEditReview.setOnClickListener {
 
             setLoginStateAndUid()
@@ -105,11 +105,10 @@ class FragmentReview : Fragment() {
             setLoginStateAndUid()
 
             if (currentUid == "null") {
-                Toast.makeText(mContext, "리뷰를 남기려면 로그인을 해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mContext, "로그인을 해주세요", Toast.LENGTH_SHORT).show()
             } else if (reviewListData.keys.toList().contains(currentUid)) {
                 Toast.makeText(mContext, "이미 리뷰를 작성하셨습니다", Toast.LENGTH_SHORT).show()
             } else {
-
                 val reviewTitle = binding.editReviewTitle.text.toString()
                 val reviewMain = binding.editReview.text.toString()
                 val countLine = reviewMain.count { it == '\n' }
@@ -118,32 +117,49 @@ class FragmentReview : Fragment() {
                 db.collection("user_db").document(currentUid)
                     .get()
                     .addOnSuccessListener {
-
-                        val reviewItem = setUserReviewItem(reviewTitle, reviewMain, it.data!!["nickname"], currentTime, reviewScore)
-                        val myProfileReviewItem = setUserReviewMyPageItem(reviewTitle, reviewMain, it.data!!["nickname"], currentTime, reviewScore, reviewData.DocId, reviewData.StoreName)
-
-                        if (reviewTitle == "" || reviewMain == "") {
-                            Toast.makeText(mContext, "내용을 작성해주세요", Toast.LENGTH_SHORT).show()
-                        } else if (countLine > 15) {
-                            Toast.makeText(mContext, "15줄 이하로 작성해주세요", Toast.LENGTH_SHORT).show()
+                        val data = it.data
+                        if(data == null) {
+                            Toast.makeText(mContext, "로그인을 해주세요", Toast.LENGTH_SHORT).show()
                         } else {
+                            val reviewItem = setUserReviewItem(
+                                reviewTitle,
+                                reviewMain,
+                                it.data!!["nickname"],
+                                currentTime,
+                                reviewScore
+                            )
+                            val myProfileReviewItem = setUserReviewMyPageItem(
+                                reviewTitle,
+                                reviewMain,
+                                it.data!!["nickname"],
+                                currentTime,
+                                reviewScore,
+                                reviewData.DocId,
+                                reviewData.StoreName
+                            )
 
-                            CoroutineScope(IO).launch {
+                            if (reviewTitle == "" || reviewMain == "") {
+                                Toast.makeText(mContext, "내용을 작성해주세요", Toast.LENGTH_SHORT).show()
+                            } else if (countLine > 15) {
+                                Toast.makeText(mContext, "15줄 이하로 작성해주세요", Toast.LENGTH_SHORT).show()
+                            } else {
+                                CoroutineScope(IO).launch {
 
-                                db.collection("pet_location_data")
-                                    .document(reviewData.DocId)
-                                    .set(reviewItem, SetOptions.merge())
-                                    .addOnSuccessListener {
-                                        Toast.makeText(mContext, "리뷰가 작성되었습니다", Toast.LENGTH_SHORT)
-                                            .show()
-                                        reviewEditExtendControl()
-                                    }
+                                    db.collection("pet_location_data")
+                                        .document(reviewData.DocId)
+                                        .set(reviewItem, SetOptions.merge())
+                                        .addOnSuccessListener {
+                                            Toast.makeText(mContext, "리뷰가 작성되었습니다", Toast.LENGTH_SHORT)
+                                                .show()
+                                            reviewEditExtendControl()
+                                        }
 
-                                db.collection("user_db")
-                                    .document(currentUid)
-                                    .set(myProfileReviewItem, SetOptions.merge())
+                                    db.collection("user_db")
+                                        .document(currentUid)
+                                        .set(myProfileReviewItem, SetOptions.merge())
+                                }
+
                             }
-
                         }
                     }
             }
@@ -151,30 +167,31 @@ class FragmentReview : Fragment() {
 
         val reviewRecycler = binding.recyclerReviewList
 
-        for (doc in petLocationViewModel.petAllLiveDataList.value!!) {
-            if (doc.DOC_ID == reviewData.DocId) {
-                reviewListData = doc.USER_REVIEW
-                if (reviewListData.isEmpty()) {
-                    binding.textReviewGone.visibility = View.VISIBLE
-                }
-            }
-        }
-
         CoroutineScope(IO).launch {
             db.collection("pet_location_data")
                 .document(reviewData.DocId)
                 .addSnapshotListener { snapshot, _ ->
                     if (snapshot != null && snapshot.exists()) {
                         try {
-                            val test = snapshot.data!!["USER_REVIEW"] as Map<*, *>
-                            val addMap = mutableMapOf<String, Any>()
-                            for ((key, value) in test) {
-                                addMap[key.toString()] = value as Any
+                            val item = snapshot.data?.get("USER_REVIEW")
+                            if (item == null) {
+                                reviewListData = mapOf()
+                                reviewRecycler.adapter = ReviewListAdapter(reviewListData)
+                                reviewGoneVisibleControl()
+                            } else {
+                                val test = snapshot.data!!["USER_REVIEW"] as Map<*, *>
+                                val addMap = mutableMapOf<String, Any>()
+                                for ((key, value) in test) {
+                                    addMap[key.toString()] = value as Any
+                                }
+                                reviewListData = addMap
+                                reviewRecycler.adapter = ReviewListAdapter(reviewListData)
+                                reviewGoneVisibleControl()
                             }
-                            reviewListData = addMap
-                            reviewRecycler.adapter = ReviewListAdapter(addMap)
-                            binding.textReviewGone.visibility = View.GONE
-                        } catch (_: Exception) {}
+                            Log.d("testStart", "실행됨 $reviewListData")
+                        } catch (e: Exception) {
+                            Log.d("testStart", e.message.toString())
+                        }
                     }
                 }
         }
@@ -201,9 +218,9 @@ class FragmentReview : Fragment() {
     }
 
     private fun setLoginStateAndUid() {
-        loginState = if (auth.currentUser != null) {
+        loginState = if (auth.currentUser != null && MyGlobals.instance!!.userDataCheck == 1) {
             "google"
-        } else if (NaverIdLoginSDK.getState().name != "NEED_LOGIN" && NaverIdLoginSDK.getState().name != "NEED_INIT") {
+        } else if (NaverIdLoginSDK.getState().name != "NEED_LOGIN" && NaverIdLoginSDK.getState().name != "NEED_INIT" && NaverIdLoginSDK.getState().name != "NEED_REFRESH_TOKEN") {
             "naver"
         } else {
             "null"

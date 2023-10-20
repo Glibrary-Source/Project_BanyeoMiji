@@ -23,7 +23,8 @@
             android:layout_gravity="center"
             android:fontFamily="@font/bagelfat"
             android:text="@string/my_review_kr"
-            android:textSize="28dp" />
+            android:textSize="28dp"
+            tools:ignore="SpUsage" />
     </FrameLayout>
 
 
@@ -34,5 +35,17 @@
         app:layout_constraintVertical_weight="115"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/framelayout_title_my_review" />
+
+    <TextView
+        android:id="@+id/text_review_gone"
+        android:text="@string/my_review_gone"
+        android:fontFamily="@font/bagelfat"
+        android:gravity="center"
+        android:visibility="gone"
+        android:animateLayoutChanges="false"
+        android:textSize="36dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="SpUsage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

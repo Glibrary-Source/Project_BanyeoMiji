@@ -24,9 +24,7 @@ import com.twproject.banyeomiji.view.main.datamodel.PetLocationData
 import com.twproject.banyeomiji.view.main.util.LocationListViewManager
 import com.twproject.banyeomiji.view.main.viewmodel.PetLocationViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Delay
 import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class FragmentLocationList : Fragment() {
@@ -108,8 +106,8 @@ class FragmentLocationList : Fragment() {
     }
 
     private fun admobControl() {
-        MyGlobals.instance!!.fullAdCount++
-        if( MyGlobals.instance!!.fullAdCount ++ % 5 == 0 ) {
+        MyGlobals.instance!!.fullAdCount ++
+        if( MyGlobals.instance!!.fullAdCount % 5 == 0 ) {
             CoroutineScope(Main).launch{
                 MobileAds.initialize(mContext) { loadAds() }
             }
@@ -133,12 +131,9 @@ class FragmentLocationList : Fragment() {
                         object : FullScreenContentCallback() {
                             override fun onAdDismissedFullScreenContent() {}
 
-                            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-                                Log.d("ADLoadFail", "Ad failed to show")
-                            }
+                            override fun onAdFailedToShowFullScreenContent(p0: AdError) {}
 
                             override fun onAdShowedFullScreenContent() {
-                                Log.d("ADLoadFail", "Ad showed fullscreen content")
                                 mInterstitialAd = null
                             }
                         }

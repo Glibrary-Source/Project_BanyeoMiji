@@ -33,4 +33,8 @@
     <string name="naver_client_id">96f1wy57Jnx2tKzmwchp</string>
     <string name="naver_client_secret">c38bb1CjsW</string>
     <string name="my_review_kr">마이 리뷰</string>
+    <string name="btn_review_edit">작성</string>
+    <string name="review_hint">제목</string>
+    <string name="review_main">내용</string>
+    <string name="my_review_gone">작성한 리뷰가 없습니다.</string>
 </resources>
