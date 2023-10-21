@@ -121,7 +121,6 @@ class FragmentLocationList : Fragment() {
             "ca-app-pub-3940256099942544/1033173712",
             adRequest, object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
-                    Log.d("ADLoadFail", adError.message)
                     mInterstitialAd = null
                 }
 

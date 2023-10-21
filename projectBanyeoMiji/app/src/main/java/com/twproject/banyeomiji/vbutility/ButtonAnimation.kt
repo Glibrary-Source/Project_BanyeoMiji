@@ -7,6 +7,7 @@ import android.view.View
 class ButtonAnimation {
 
     fun startAnimation(buttonView: View) {
+
         // Define the initial width and height
         val initialWidth = buttonView.width
         val initialHeight = buttonView.height

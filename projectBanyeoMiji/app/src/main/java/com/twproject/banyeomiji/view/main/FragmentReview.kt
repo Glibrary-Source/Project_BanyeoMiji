@@ -188,10 +188,7 @@ class FragmentReview : Fragment() {
                                 reviewRecycler.adapter = ReviewListAdapter(reviewListData)
                                 reviewGoneVisibleControl()
                             }
-                            Log.d("testStart", "실행됨 $reviewListData")
-                        } catch (e: Exception) {
-                            Log.d("testStart", e.message.toString())
-                        }
+                        } catch (_: Exception) {}
                     }
                 }
         }
@@ -262,7 +259,6 @@ class FragmentReview : Fragment() {
             val utilDate = Date()
             val formatType = SimpleDateFormat("yyyy-MM-dd")
             timeDate = formatType.format(utilDate)
-            Log.d("testTime", timeDate)
             timeDate
         }
     }

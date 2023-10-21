@@ -77,18 +77,14 @@ class MyReviewListAdapter(
             "USER_REVIEW.$docId" to FieldValue.delete()
         )
 
-        userDB.update(userUpdates).addOnSuccessListener{
-            Log.d("deleteRV", "유저 제거 성공")
-        }
+        userDB.update(userUpdates).addOnSuccessListener{}
 
         val docDB = db.collection("pet_location_data").document(docId)
         val docUpdates = hashMapOf<String, Any>(
             "USER_REVIEW.$currentUid" to FieldValue.delete()
         )
 
-        docDB.update(docUpdates).addOnSuccessListener {
-            Log.d("deleteRV", "doc 제거 성공")
-        }
+        docDB.update(docUpdates).addOnSuccessListener {}
 
 
     }

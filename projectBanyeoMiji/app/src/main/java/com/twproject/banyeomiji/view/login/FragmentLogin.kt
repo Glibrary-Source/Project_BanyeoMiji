@@ -88,7 +88,6 @@ class FragmentLogin : Fragment() {
         binding.btnLoginNaver.setOnClickListener {
             ButtonAnimation().startAnimation(it)
 
-            NaverIdLoginSDK.initialize(mContext, getString(R.string.naver_client_id), getString(R.string.naver_client_secret), "com.twproject.banyeomiji")
             NaverIdLoginSDK.authenticate(mContext, naverLoginModule.getOAuthLoginCallback(transaction))
         }
 

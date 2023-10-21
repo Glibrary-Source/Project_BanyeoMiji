@@ -30,7 +30,7 @@
         android:gravity="center"
         android:fontFamily="@font/singledayregular"
         android:textStyle="bold"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

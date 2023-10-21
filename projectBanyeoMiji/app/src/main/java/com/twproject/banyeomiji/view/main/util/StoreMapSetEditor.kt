@@ -81,9 +81,7 @@ class StoreMapSetEditor(
                 naverFragmentMap.moveCamera(cameraUpdate)
                 petLocationViewModel.setCheckChange(false)
             }
-        } catch (e: Exception) {
-            Log.d("testLog", e.message.toString())
-        }
+        } catch (_: Exception) {}
     }
 
 }

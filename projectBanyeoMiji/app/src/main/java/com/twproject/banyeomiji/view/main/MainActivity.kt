@@ -2,7 +2,6 @@ package com.twproject.banyeomiji.view.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
@@ -40,11 +39,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         userSelectManager = UserSelectManager(this.dataStore)
+
         NaverIdLoginSDK.initialize(
             this,
             getString(R.string.naver_client_id),
             getString(R.string.naver_client_secret),
-            "com.twproject.banyeomiji"
+            getString(R.string.app_package_name)
         )
 
         petLocationViewModel = ViewModelProvider(this)[PetLocationViewModel::class.java]
@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
                 "NEED_REFRESH_TOKEN" -> false
                 else -> true
             }
+
             var googleLogin = GoogleObjectAuth.getFirebaseAuth().currentUser != null
             if (googleLogin) {
                 db.collection("user_db")
@@ -102,8 +103,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 MyGlobals.instance!!.userLogin = 0
             }
-
-            Log.d("loginState", "${NaverIdLoginSDK.getState().name} // ${GoogleObjectAuth.getFirebaseAuth().currentUser}")
         }
     }
 }

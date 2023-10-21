@@ -130,7 +130,6 @@ class FragmentMyPage : Fragment() {
         } else if (NaverIdLoginSDK.getState().name != "NEED_LOGIN" && NaverIdLoginSDK.getState().name != "NEED_INIT" && NaverIdLoginSDK.getState().name != "NEED_REFRESH_TOKEN") {
             loginState = "naver"
         }
-        Log.d("LoginTAG", auth.currentUser.toString() + "//" + NaverIdLoginSDK.getState().name)
         setStateUid()
     }
 
@@ -151,7 +150,6 @@ class FragmentMyPage : Fragment() {
                 })
             }
         }
-        Log.d("LoginTAG", loginState)
     }
 
     private fun userDataCheckChange() {
@@ -163,7 +161,6 @@ class FragmentMyPage : Fragment() {
                     binding.textEmail.text = userData["email"].toString()
                     binding.textNickName.text = userData["nickname"].toString()
                 }
-            Log.d("LoginTAG", currentUid)
         }
     }
 

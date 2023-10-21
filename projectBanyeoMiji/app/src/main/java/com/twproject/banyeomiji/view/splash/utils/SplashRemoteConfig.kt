@@ -26,6 +26,7 @@ class SplashRemoteConfig(
     companion object {
         const val REMOTE_KEY_APP_VERSION = "app_version"
         const val REMOTE_KEY_EMERGENCY = "update_emergency"
+        const val REMOTE_STORE_URL = "store_url"
     }
 
     private val versionName = context.getPackageInfo().versionName
@@ -33,6 +34,7 @@ class SplashRemoteConfig(
 
     private var appVersion: String? = null
     private var appEmergency: Boolean? = null
+    private var appStoreUrl: String? = null
     fun initRemoteConfig() {
         val remoteConfig = Firebase.remoteConfig  //Remote Config 객체 가져오기
         val configSettings = remoteConfigSettings {
@@ -40,7 +42,8 @@ class SplashRemoteConfig(
             mapOf(
                 //default 값 설정
                 REMOTE_KEY_APP_VERSION to versionName,
-                REMOTE_KEY_EMERGENCY to false
+                REMOTE_KEY_EMERGENCY to false,
+                REMOTE_STORE_URL to "test"
             )
         }
 
@@ -53,18 +56,18 @@ class SplashRemoteConfig(
                     //매개 변수 KEY 값 설정
                     appVersion = remoteConfig.getString(REMOTE_KEY_APP_VERSION)
                     appEmergency = remoteConfig.getBoolean(REMOTE_KEY_EMERGENCY)
+                    appStoreUrl = remoteConfig.getString(REMOTE_STORE_URL)
 
-
-                    if (appVersion == versionName && appEmergency == false) {
+                    if (appVersion == versionName) {
                         startMain()
-                    } else if(appVersion != versionName && appEmergency == false) {
+                    } else if(appEmergency == true) {
+                        showAlert(appStoreUrl!!)
+                    } else {
                         startMain()
                         Toast.makeText(
                             context, "버전 업데이트를 추천드려요",
                             Toast.LENGTH_SHORT
                         ).show()
-                    } else {
-                        showAlert()
                     }
                 } else {
                     Toast.makeText(
@@ -79,7 +82,7 @@ class SplashRemoteConfig(
             }
     }
 
-    private fun showAlert() {
+    private fun showAlert(storeUrl: String) {
         val builder = AlertDialog.Builder(context)
         val dialog =
             builder.setTitle("[${context.getString(R.string.app_name)}] 공지사항")
@@ -88,7 +91,7 @@ class SplashRemoteConfig(
                 { _, _ ->
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data =
-                        Uri.parse("https://play.google.com/store/apps/details?id=com.kapitalletter.wardoffice")
+                        Uri.parse(storeUrl)
                     activity.startActivity(intent)
                     activity.finish()
                 }
