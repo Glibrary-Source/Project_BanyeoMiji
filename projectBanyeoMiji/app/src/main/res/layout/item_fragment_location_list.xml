@@ -19,9 +19,12 @@
         android:textColor="@color/black"
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:fontFamily="@font/bagelfat"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:ignore="SpUsage" />
 
     <TextView
         android:id="@+id/text_location_item_address"
@@ -32,7 +35,8 @@
         android:layout_marginEnd="2dp"
         android:fontFamily="@font/bagelfat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:ignore="SpUsage" />
 
     <TextView
         android:id="@+id/text_location_item_rest_day"
@@ -44,7 +48,8 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/bagelfat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:ignore="SpUsage" />
 
     <TextView
         android:id="@+id/text_location_item_open_time"
@@ -56,7 +61,8 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/bagelfat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:ignore="SpUsage" />
 
     <TextView
         android:id="@+id/text_location_item_limit"
@@ -68,7 +74,8 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/bagelfat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:ignore="SpUsage" />
 
     <TextView
         android:id="@+id/text_location_item_parking"
@@ -80,7 +87,8 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/bagelfat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:ignore="SpUsage" />
 
     <FrameLayout
         android:layout_marginStart="2dp"
@@ -96,16 +104,18 @@
             android:textColor="#3D3D3D"
             android:fontFamily="@font/bagelfat"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:ignore="SpUsage"/>
 
         <Button
             android:id="@+id/btn_location_item_review"
             android:textSize="18dp"
-            android:text="리뷰보기"
+            android:text="@string/location_list_review_btn_kr"
             android:textColor="#3D3D3D"
             android:layout_gravity="end"
             android:fontFamily="@font/bagelfat"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:ignore="SpUsage"/>
     </FrameLayout>
 </LinearLayout>

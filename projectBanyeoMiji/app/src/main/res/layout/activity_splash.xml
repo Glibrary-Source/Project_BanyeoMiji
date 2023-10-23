@@ -10,10 +10,11 @@
         android:layout_gravity="center"
         android:padding="4dp"
         android:textSize="48dp"
-        android:text="반려 미지"
+        android:text="@string/app_name_kr"
         android:fontFamily="@font/bagelfat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:drawableLeftCompat="@drawable/app_dog_traning_size" />
+        app:drawableLeftCompat="@drawable/icon_main_dog_adjust"
+        tools:ignore="SpUsage" />
 
 </FrameLayout>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:drawable="@drawable/app_dog_traning"
-        android:right="4dp"
+        android:drawable="@drawable/icon_app_main_pet"
+        android:right="8dp"
         android:width="48dp"
         android:height="48dp" />
 </layer-list>

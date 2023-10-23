@@ -8,6 +8,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.ads.AdRequest
 import com.google.firebase.firestore.ktx.firestore
+import com.twproject.banyeomiji.BuildConfig
 import com.google.firebase.ktx.Firebase
 import com.navercorp.nid.NaverIdLoginSDK
 import com.twproject.banyeomiji.MyGlobals
@@ -42,8 +43,8 @@ class MainActivity : AppCompatActivity() {
 
         NaverIdLoginSDK.initialize(
             this,
-            getString(R.string.naver_client_id),
-            getString(R.string.naver_client_secret),
+            BuildConfig.NAVER_CLIENT_ID,
+            BuildConfig.NAVER_CLIENT_SECRET,
             getString(R.string.app_package_name)
         )
 

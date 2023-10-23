@@ -32,7 +32,8 @@
         android:textStyle="bold"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:ignore="SpUsage" />
 
     <TextView
         android:id="@+id/text_my_review_item_title"
@@ -42,7 +43,8 @@
         android:textStyle="bold"
         android:layout_marginBottom="4dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:ignore="SpUsage" />
 
     <FrameLayout
         android:id="@+id/frame_my_nickname_time"
@@ -57,7 +59,8 @@
             android:fontFamily="@font/singledayregular"
             android:textColor="@color/category_sub_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:ignore="SpUsage" />
 
         <TextView
             android:id="@+id/text_my_review_item_time"
@@ -68,7 +71,8 @@
             android:fontFamily="@font/singledayregular"
             android:textColor="@color/category_sub_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:ignore="SpUsage" />
     </FrameLayout>
 
     <RatingBar
@@ -86,6 +90,7 @@
         android:fontFamily="@font/singledayregular"
         android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:ignore="SpUsage" />
 
 </LinearLayout>

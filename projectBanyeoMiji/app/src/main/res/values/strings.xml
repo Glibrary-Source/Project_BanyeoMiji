@@ -31,11 +31,19 @@
     <string name="logout_kr">로그아웃</string>
     <string name="my_page_kr">마이 페이지</string>
     <string name="first_review_kr">첫 리뷰를 남겨주세요!</string>
-    <string name="naver_client_id">96f1wy57Jnx2tKzmwchp</string>
-    <string name="naver_client_secret">c38bb1CjsW</string>
     <string name="my_review_kr">마이 리뷰</string>
     <string name="btn_review_edit">작성</string>
     <string name="review_hint">제목</string>
     <string name="review_main">내용</string>
     <string name="my_review_gone">작성한 리뷰가 없습니다.</string>
+    <string name="app_name_kr">반려 미지</string>
+    <string name="location_list_no_data">목록이 없습니다</string>
+    <string name="signup_kr">회원가입</string>
+    <string name="nick_name_change_kr">닉네임 변경</string>
+    <string name="nick_name_kr">닉네임</string>
+    <string name="text_limit">최대 여덟글자</string>
+    <string name="nick_name_change_btn_kr">변경</string>
+    <string name="user_mypage_email_kr">대표 이메일</string>
+    <string name="user_mypage_my_review_kr">내가 작성한 리뷰보기</string>
+    <string name="location_list_review_btn_kr">리뷰보기</string>
 </resources>

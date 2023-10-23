@@ -23,7 +23,8 @@
             android:layout_gravity="center"
             android:fontFamily="@font/bagelfat"
             android:text="@string/my_page_kr"
-            android:textSize="28dp" />
+            android:textSize="28dp"
+            tools:ignore="SpUsage" />
 
     </FrameLayout>
 
@@ -41,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/bagelfat"
-            android:text="닉네임 변경"
+            android:text="@string/nick_name_change_kr"
             app:layout_constraintBottom_toTopOf="@id/linear_my_data"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -69,10 +70,11 @@
                     android:id="@+id/text_hint_nick_name"
                     android:textSize="18dp"
                     android:fontFamily="@font/bagelfat"
-                    android:text="닉네임"
+                    android:text="@string/nick_name_kr"
                     android:layout_gravity="start"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="SpUsage" />
 
                 <TextView
                     android:id="@+id/text_nick_name"
@@ -81,7 +83,8 @@
                     tools:text="또치와뿌꾸"
                     android:layout_gravity="end"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="SpUsage" />
             </FrameLayout>
 
             <FrameLayout
@@ -97,16 +100,18 @@
                     android:id="@+id/edit_nick_name"
                     android:textSize="18dp"
                     android:fontFamily="@font/bagelfat"
-                    android:hint="최대 여덟글자"
+                    android:hint="@string/text_limit"
+                    android:importantForAutofill="no"
                     android:maxLength="8"
                     android:inputType="textFilter"
                     android:layout_marginStart="4dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="SpUsage" />
 
                 <Button
                     android:id="@+id/btn_change_nickname"
-                    android:text="변경"
+                    android:text="@string/nick_name_change_btn_kr"
                     android:layout_marginEnd="8dp"
                     android:layout_width="80dp"
                     android:layout_height="40dp"
@@ -127,10 +132,11 @@
                     android:id="@+id/text_hint_email"
                     android:textSize="18dp"
                     android:fontFamily="@font/bagelfat"
-                    android:text="대표 이메일"
+                    android:text="@string/user_mypage_email_kr"
                     android:layout_gravity="start"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="SpUsage" />
 
                 <TextView
                     android:id="@+id/text_email"
@@ -139,7 +145,8 @@
                     tools:text="kimcasadianchle@naver.com"
                     android:layout_gravity="end"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="SpUsage" />
             </FrameLayout>
 
             <FrameLayout
@@ -156,10 +163,11 @@
                     android:id="@+id/text_my_review"
                     android:textSize="18dp"
                     android:fontFamily="@font/bagelfat"
-                    android:text="내가 작성한 리뷰보기"
+                    android:text="@string/user_mypage_my_review_kr"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="SpUsage" />
             </FrameLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

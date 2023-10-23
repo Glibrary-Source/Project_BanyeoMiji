@@ -8,4 +8,5 @@
     android:gravity="center"
     tools:text="서울특별시"
     android:layout_width="match_parent"
-    android:layout_height="60dp" />
+    android:layout_height="60dp"
+    tools:ignore="SpUsage" />

@@ -16,11 +16,12 @@
     <TextView
         android:id="@+id/text_empty_list"
         android:gravity="center"
-        android:text="목록이 없습니다"
+        android:text="@string/location_list_no_data"
         android:textSize="28dp"
         android:visibility="gone"
         android:fontFamily="@font/bagelfat"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:ignore="SpUsage" />
 
 </FrameLayout>
