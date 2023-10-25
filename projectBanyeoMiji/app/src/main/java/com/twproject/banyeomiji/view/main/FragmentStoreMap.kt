@@ -9,6 +9,7 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.CompoundButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -52,6 +53,7 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
     private lateinit var callback: OnBackPressedCallback
     private lateinit var fragmentActivity: FragmentActivity
     private lateinit var navController: NavController
+    private lateinit var activity: MainActivity
 
     private val requestMultiplePermission = getPermissionLauncher()
     private val permissionManager = PermissionManager()
@@ -65,6 +67,7 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
         super.onAttach(context)
 
         mContext = context
+        activity = context as MainActivity
         fragmentActivity = requireActivity()
 
         callback = BackPressCallBackManager.setBackPressCallBack(fragmentActivity, mContext)

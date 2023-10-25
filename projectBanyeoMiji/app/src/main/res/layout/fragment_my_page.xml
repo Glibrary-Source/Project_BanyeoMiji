@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintVertical_weight="100"
-        app:layout_constraintBottom_toTopOf="@+id/framelayout_logout"
+        app:layout_constraintBottom_toTopOf="@+id/Linearlayout_logout"
         app:layout_constraintTop_toBottomOf="@+id/framelayout_title" >
 
         <Button
@@ -170,12 +170,15 @@
                     tools:ignore="SpUsage" />
             </FrameLayout>
         </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <FrameLayout
-        android:id="@+id/framelayout_logout"
+    <LinearLayout
+        android:id="@+id/Linearlayout_logout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
         app:layout_constraintVertical_weight="15"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -185,12 +188,29 @@
 
         <Button
             android:id="@+id/btn_logout_google"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="start|center"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/bagelfat"
-            android:text="@string/logout_kr" />
-    </FrameLayout>
+            android:text="@string/logout_kr"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/btn_user_resign"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bagelfat"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/user_resign_kr"
+            android:layout_gravity="end|center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ButtonStyle" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

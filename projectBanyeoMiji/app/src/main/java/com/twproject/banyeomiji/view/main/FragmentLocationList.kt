@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +20,7 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.twproject.banyeomiji.MyGlobals
+import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentLocationListBinding
 import com.twproject.banyeomiji.view.main.datamodel.PetLocationData
 import com.twproject.banyeomiji.view.main.util.LocationListViewManager

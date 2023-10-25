@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="12dp"
@@ -11,8 +12,14 @@
     android:layout_marginTop="8dp"
     android:elevation="8dp"
     android:background="@drawable/standard_border_background"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/btn_user_declaration"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_gravity="end"
+        android:src="@drawable/icon_user_review_alert"/>
 
     <TextView
         android:id="@+id/text_review_item_title"
@@ -20,7 +27,7 @@
         tools:text="제목"
         android:fontFamily="@font/singledayregular"
         android:textStyle="bold"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="SpUsage" />
@@ -58,6 +65,7 @@
         android:id="@+id/rating_review_item"
         android:layout_gravity="end"
         android:progressTint="@android:color/holo_blue_light"
+        android:layout_marginBottom="8dp"
         style="@style/Widget.AppCompat.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

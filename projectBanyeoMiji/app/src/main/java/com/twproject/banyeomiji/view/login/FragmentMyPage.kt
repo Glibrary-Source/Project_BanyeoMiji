@@ -1,5 +1,6 @@
 package com.twproject.banyeomiji.view.login
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.navercorp.nid.NaverIdLoginSDK
@@ -41,6 +43,7 @@ class FragmentMyPage : Fragment() {
     private val db = Firebase.firestore
     private var loginState = "init"
     private var currentUid = "default"
+    private var count = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -116,6 +119,10 @@ class FragmentMyPage : Fragment() {
             }
         }
 
+        binding.btnUserResign.setOnClickListener {
+            userShowResignDialog(googleSignInClient)
+        }
+
         return binding.root
     }
 
@@ -134,12 +141,14 @@ class FragmentMyPage : Fragment() {
                 currentUid = auth.currentUser!!.uid
                 userDataCheckChange()
             }
+
             "naver" -> {
                 NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
                     override fun onSuccess(result: NidProfileResponse) {
                         currentUid = result.profile?.id.toString()
                         userDataCheckChange()
                     }
+
                     override fun onError(errorCode: Int, message: String) {}
                     override fun onFailure(httpStatus: Int, message: String) {}
                 })
@@ -148,15 +157,31 @@ class FragmentMyPage : Fragment() {
     }
 
     private fun userDataCheckChange() {
-        CoroutineScope(Main).launch{
-            db.collection("user_db").document(currentUid)
-                .get()
-                .addOnSuccessListener { value ->
-                    val userData = value.data!!
-                    binding.textEmail.text = userData["email"].toString()
+        db.collection("user_db").document(currentUid)
+            .get()
+            .addOnSuccessListener { value ->
+                count++
+                val userData = value.data
+                if(userData == null && count < 6) {
+                    userDataCheckChange()
+                } else {
+                    binding.textEmail.text = userData!!["email"].toString()
                     binding.textNickName.text = userData["nickname"].toString()
                 }
-        }
+            }
+            .addOnFailureListener {
+                count ++
+                if(count < 6) {
+                    userDataCheckChange()
+                }
+            }
+            .addOnCanceledListener {
+                count ++
+                if(count < 6) {
+                    userDataCheckChange()
+                }
+                userDataCheckChange()
+            }
     }
 
     private fun getAllUserNickName(): MutableList<String> {
@@ -201,6 +226,55 @@ class FragmentMyPage : Fragment() {
                 binding.frameChangeNickname.visibility = View.GONE
                 Toast.makeText(mContext, "닉네임 변경 완료", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun userShowResignDialog(googleSignInClient: GoogleSignInClient) {
+        val builder = AlertDialog.Builder(context)
+        val eraseDialog =
+            builder.setTitle("반려미지 회원탈퇴 알림")
+                .setMessage("정말 회원을 탈퇴 하시겠습니까?")
+                .setPositiveButton("탈퇴") { _, _ ->
+                    userResign(googleSignInClient)
+                }
+                .setNegativeButton("취소") { _, _ ->}
+                .setCancelable(false)
+                .create()
+        eraseDialog.show()
+    }
+
+    private fun userResign(googleSignInClient: GoogleSignInClient) {
+        db.collection("user_db").document(currentUid)
+            .delete()
+            .addOnSuccessListener {
+
+                Toast.makeText(mContext, "회원 탈퇴 성공", Toast.LENGTH_SHORT).show()
+                MyGlobals.instance!!.userLogin = 0
+                MyGlobals.instance!!.userDataCheck = 0
+
+                logoutAction(googleSignInClient)
+
+                val transaction = parentFragmentManager.beginTransaction()
+                transaction.replace(R.id.frame_fragment_host, FragmentLogin())
+                transaction.commit()
+            }
+    }
+
+    private fun logoutAction(googleSignInClient: GoogleSignInClient) {
+        when( loginState ) {
+            "google" -> {
+                try{
+                    auth.currentUser!!.delete()
+                    googleSignInClient.signOut()
+                }
+                catch (_:Exception){}
+            }
+            "naver" -> {
+                NaverIdLoginSDK.logout()
+            }
+            else -> {
+
+            }
+        }
     }
 
 }

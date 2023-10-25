@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -29,6 +30,7 @@ import com.twproject.banyeomiji.databinding.FragmentReviewBinding
 import com.twproject.banyeomiji.view.login.util.GoogleObjectAuth
 import com.twproject.banyeomiji.view.main.adapter.ReviewListAdapter
 import com.twproject.banyeomiji.view.main.viewmodel.PetLocationViewModel
+import com.vane.badwordfiltering.BadWordFiltering
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -49,6 +51,7 @@ class FragmentReview : Fragment() {
     private val auth = GoogleObjectAuth.getFirebaseAuth()
     private var loginState = "init"
     private var currentUid = "default"
+    private val badWordFilter = BadWordFiltering()
 
     private val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -140,9 +143,12 @@ class FragmentReview : Fragment() {
 
                             if (reviewTitle == "" || reviewMain == "") {
                                 Toast.makeText(mContext, "내용을 작성해주세요", Toast.LENGTH_SHORT).show()
-                            } else if (countLine > 15) {
-                                Toast.makeText(mContext, "15줄 이하로 작성해주세요", Toast.LENGTH_SHORT).show()
-                            } else {
+                            } else if (countLine > 20) {
+                                Toast.makeText(mContext, "20줄 이하로 작성해주세요", Toast.LENGTH_SHORT).show()
+                            } else if(badWordFilter.check(reviewTitle) || badWordFilter.check(reviewMain)){
+                                Toast.makeText(mContext, "욕설을 제거해주세요", Toast.LENGTH_SHORT).show()
+                            }
+                            else {
                                 CoroutineScope(IO).launch {
 
                                     db.collection("pet_location_data")
@@ -176,7 +182,7 @@ class FragmentReview : Fragment() {
                             val item = snapshot.data?.get("USER_REVIEW")
                             if (item == null) {
                                 reviewListData = mapOf()
-                                reviewRecycler.adapter = ReviewListAdapter(reviewListData)
+                                reviewRecycler.adapter = ReviewListAdapter(reviewListData, mContext, db)
                                 reviewGoneVisibleControl()
                             } else {
                                 val test = snapshot.data!!["USER_REVIEW"] as Map<*, *>
@@ -185,7 +191,7 @@ class FragmentReview : Fragment() {
                                     addMap[key.toString()] = value as Any
                                 }
                                 reviewListData = addMap
-                                reviewRecycler.adapter = ReviewListAdapter(reviewListData)
+                                reviewRecycler.adapter = ReviewListAdapter(reviewListData, mContext, db)
                                 reviewGoneVisibleControl()
                             }
                         } catch (_: Exception) {}

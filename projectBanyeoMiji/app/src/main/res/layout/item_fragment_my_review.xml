@@ -41,7 +41,7 @@
         tools:text="제목"
         android:fontFamily="@font/singledayregular"
         android:textStyle="bold"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="SpUsage" />
@@ -80,6 +80,7 @@
         android:layout_gravity="end"
         android:progressTint="@android:color/holo_blue_light"
         style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_marginBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
