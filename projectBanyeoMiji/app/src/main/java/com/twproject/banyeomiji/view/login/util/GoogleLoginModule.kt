@@ -1,6 +1,5 @@
 package com.twproject.banyeomiji.view.login.util
 
-import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount

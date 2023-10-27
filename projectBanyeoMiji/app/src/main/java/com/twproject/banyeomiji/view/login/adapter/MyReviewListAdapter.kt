@@ -3,7 +3,6 @@ package com.twproject.banyeomiji.view.login.adapter
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,7 +78,7 @@ class MyReviewListAdapter(
 
         userDB.update(userUpdates).addOnSuccessListener{}
 
-        val docDB = db.collection("pet_location_data").document(docId)
+        val docDB = db.collection( "pet_location_data").document(docId)
         val docUpdates = hashMapOf<String, Any>(
             "USER_REVIEW.$currentUid" to FieldValue.delete()
         )

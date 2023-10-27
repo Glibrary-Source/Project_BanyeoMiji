@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.twproject.banyeomiji.R
@@ -67,6 +68,7 @@ class ReviewListAdapter(
                     .setCancelable(false)
                     .create()
             declarationDialog.show()
+            Toast.makeText(context, "부적절한 리뷰로 신고되었습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 

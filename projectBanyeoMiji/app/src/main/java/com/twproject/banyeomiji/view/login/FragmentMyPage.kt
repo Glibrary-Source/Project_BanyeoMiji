@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -167,6 +166,9 @@ class FragmentMyPage : Fragment() {
                 } else {
                     binding.textEmail.text = userData!!["email"].toString()
                     binding.textNickName.text = userData["nickname"].toString()
+                }
+                if(count > 6) {
+                    Toast.makeText(mContext, "인터넷 연결을 확인해주세요.", Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener {

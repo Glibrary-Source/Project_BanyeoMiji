@@ -1,6 +1,5 @@
 package com.twproject.banyeomiji.view.main.util
 
-import android.util.Log
 import androidx.navigation.NavController
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds

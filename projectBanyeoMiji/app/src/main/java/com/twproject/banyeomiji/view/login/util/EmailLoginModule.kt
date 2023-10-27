@@ -17,7 +17,6 @@ class EmailLoginModule(
     private val auth = GoogleObjectAuth.getFirebaseAuth()
     private val db = Firebase.firestore
 
-    // 이미 있는 email 로그인이 가능한지 확인
     fun onlyEmailSignIn(
         email: String,
         password: String,
@@ -35,7 +34,6 @@ class EmailLoginModule(
             }
     }
 
-    // 이메일 인증 확인 체크
     private fun emailVerificationCheck(
         transaction: FragmentTransaction
     ) {
@@ -54,7 +52,6 @@ class EmailLoginModule(
         }
     }
 
-    // 회원가입 코드
     fun emailSignUp(email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -66,7 +63,6 @@ class EmailLoginModule(
             }
     }
 
-    // 새로 회원가입을 했을 때 임시 로그인 및 확인메일 발송
     private fun emailSignInAndCheck(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -78,7 +74,6 @@ class EmailLoginModule(
             }
     }
 
-    // 회원가입한 아이디로 이메일 보내는 코드
     private fun verificationEmailSend() {
         auth.currentUser?.sendEmailVerification()
             ?.addOnCompleteListener {

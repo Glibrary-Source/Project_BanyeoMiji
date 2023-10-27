@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -146,7 +144,7 @@ class FragmentReview : Fragment() {
                             } else if (countLine > 20) {
                                 Toast.makeText(mContext, "20줄 이하로 작성해주세요", Toast.LENGTH_SHORT).show()
                             } else if(badWordFilter.check(reviewTitle) || badWordFilter.check(reviewMain)){
-                                Toast.makeText(mContext, "욕설을 제거해주세요", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(mContext, "비속어를 제거해주세요", Toast.LENGTH_SHORT).show()
                             }
                             else {
                                 CoroutineScope(IO).launch {
