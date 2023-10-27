@@ -35,24 +35,23 @@ class SplashRemoteConfig(
     private var appEmergency: Boolean? = null
     private var appStoreUrl: String? = null
     fun initRemoteConfig() {
-        val remoteConfig = Firebase.remoteConfig  //Remote Config 객체 가져오기
+        val remoteConfig = Firebase.remoteConfig
         val configSettings = remoteConfigSettings {
             minimumFetchIntervalInSeconds = 3600
             mapOf(
-                //default 값 설정
                 REMOTE_KEY_APP_VERSION to versionName,
                 REMOTE_KEY_EMERGENCY to false,
                 REMOTE_STORE_URL to "test"
             )
         }
 
-        remoteConfig.setConfigSettingsAsync(configSettings)  //객체 default 값 설정 - map 형태
+        remoteConfig.setConfigSettingsAsync(configSettings)
 
-        //값 가져 오기 및 활성화
+
         remoteConfig.fetchAndActivate()
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-                    //매개 변수 KEY 값 설정
+
                     appVersion = remoteConfig.getString(REMOTE_KEY_APP_VERSION)
                     appEmergency = remoteConfig.getBoolean(REMOTE_KEY_EMERGENCY)
                     appStoreUrl = remoteConfig.getString(REMOTE_STORE_URL)
