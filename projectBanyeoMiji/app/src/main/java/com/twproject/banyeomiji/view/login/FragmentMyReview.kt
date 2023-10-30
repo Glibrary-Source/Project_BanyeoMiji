@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -38,33 +39,41 @@ class FragmentMyReview : Fragment() {
         val currentUid = arguments?.getString("currentUid").toString()
         binding.recyclerViewMyReview.layoutManager = LinearLayoutManager(mContext)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            db.collection("user_db")
-                .document(currentUid)
-                .addSnapshotListener { snapshot, _ ->
-                    if (snapshot != null && snapshot.exists()) {
-                        try {
-                            val item = snapshot.data?.get("USER_REVIEW")
-                            val emptyMap = mutableMapOf<String, Any>()
-                            if(item == null) {
-                                emptyReviewControl(currentUid, emptyMap)
-                            } else {
-                                val test = snapshot.data!!["USER_REVIEW"] as Map<*, *>
-                                if(test.isEmpty()) {
-                                    emptyReviewControl(currentUid, emptyMap)
-                                } else {
-                                    val addMap = mutableMapOf<String, Any>()
-                                    for ((key, value) in test) {
-                                        addMap[key.toString()] = value as Any
+        when(currentUid){
+            "wait" -> {
+                Toast.makeText(mContext, "로그인을 다시시도해주세요", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                CoroutineScope(Dispatchers.IO).launch {
+                    db.collection("user_db")
+                        .document(currentUid)
+                        .addSnapshotListener { snapshot, _ ->
+                            if (snapshot != null && snapshot.exists()) {
+                                try {
+                                    val item = snapshot.data?.get("USER_REVIEW")
+                                    val emptyMap = mutableMapOf<String, Any>()
+                                    if (item == null) {
+                                        emptyReviewControl(currentUid, emptyMap)
+                                    } else {
+                                        val test = snapshot.data!!["USER_REVIEW"] as Map<*, *>
+                                        if (test.isEmpty()) {
+                                            emptyReviewControl(currentUid, emptyMap)
+                                        } else {
+                                            val addMap = mutableMapOf<String, Any>()
+                                            for ((key, value) in test) {
+                                                addMap[key.toString()] = value as Any
+                                            }
+                                            binding.recyclerViewMyReview.adapter =
+                                                MyReviewListAdapter(addMap, mContext, db, currentUid)
+                                            binding.textReviewGone.visibility = View.GONE
+                                        }
                                     }
-                                    binding.recyclerViewMyReview.adapter =
-                                        MyReviewListAdapter(addMap, mContext, db, currentUid)
-                                    binding.textReviewGone.visibility = View.GONE
+                                } catch (_: Exception) {
                                 }
                             }
-                        } catch (_: Exception) {}
-                    }
+                        }
                 }
+            }
         }
 
         return binding.root

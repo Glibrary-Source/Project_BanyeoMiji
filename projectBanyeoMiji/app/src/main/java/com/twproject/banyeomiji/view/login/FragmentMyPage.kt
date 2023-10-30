@@ -42,7 +42,6 @@ class FragmentMyPage : Fragment() {
     private val db = Firebase.firestore
     private var loginState = "init"
     private var currentUid = "default"
-    private var count = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -61,7 +60,6 @@ class FragmentMyPage : Fragment() {
         val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         binding.btnLogoutGoogle.setOnClickListener {
-
             CoroutineScope(IO).launch {
                 MyGlobals.instance!!.userLogin = 0
                 auth.signOut()
@@ -126,10 +124,12 @@ class FragmentMyPage : Fragment() {
     }
 
     private fun setLoginStateAndUid() {
-        if (auth.currentUser != null && MyGlobals.instance!!.userDataCheck == 1) {
-            loginState = "google"
+        loginState = if (auth.currentUser != null && MyGlobals.instance!!.userDataCheck == 1) {
+            "google"
         } else if (NaverIdLoginSDK.getState().name != "NEED_LOGIN" && NaverIdLoginSDK.getState().name != "NEED_INIT" && NaverIdLoginSDK.getState().name != "NEED_REFRESH_TOKEN") {
-            loginState = "naver"
+            "naver"
+        } else {
+            "wait"
         }
         setStateUid()
     }
@@ -138,19 +138,23 @@ class FragmentMyPage : Fragment() {
         when (loginState) {
             "google" -> {
                 currentUid = auth.currentUser!!.uid
-                userDataCheckChange()
+                CoroutineScope(Main).launch { userDataCheckChange() }
             }
 
             "naver" -> {
                 NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
                     override fun onSuccess(result: NidProfileResponse) {
                         currentUid = result.profile?.id.toString()
-                        userDataCheckChange()
+                        CoroutineScope(Main).launch { userDataCheckChange() }
                     }
 
                     override fun onError(errorCode: Int, message: String) {}
                     override fun onFailure(httpStatus: Int, message: String) {}
                 })
+            }
+
+            "wait" -> {
+
             }
         }
     }
@@ -159,31 +163,21 @@ class FragmentMyPage : Fragment() {
         db.collection("user_db").document(currentUid)
             .get()
             .addOnSuccessListener { value ->
-                count++
                 val userData = value.data
-                if(userData == null && count < 6) {
+                if (userData == null) {
                     userDataCheckChange()
                 } else {
-                    binding.textEmail.text = userData!!["email"].toString()
+                    binding.textEmail.text = userData["email"].toString()
                     binding.textNickName.text = userData["nickname"].toString()
-                }
-                if(count > 6) {
-                    Toast.makeText(mContext, "인터넷 연결을 확인해주세요.", Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener {
-                count ++
-                if(count < 6) {
-                    userDataCheckChange()
-                }
+                Toast.makeText(mContext, "불러오기 실패.", Toast.LENGTH_SHORT).show()
             }
             .addOnCanceledListener {
-                count ++
-                if(count < 6) {
-                    userDataCheckChange()
-                }
-                userDataCheckChange()
+                Toast.makeText(mContext, "불러오기 실패.", Toast.LENGTH_SHORT).show()
             }
+
     }
 
     private fun getAllUserNickName(): MutableList<String> {
@@ -199,16 +193,28 @@ class FragmentMyPage : Fragment() {
     }
 
     private fun checkCounterNickName() {
-        db.collection("user_db").document(currentUid)
-            .get()
-            .addOnSuccessListener {
-                if (it.data!!["change_counter"] as Boolean) {
-                    Toast.makeText(mContext, "이미 닉네임을 변경하셨습니다.", Toast.LENGTH_SHORT).show()
-                } else {
-                    checkExpandNickNameView()
-                    Toast.makeText(mContext, "닉네임 변경은 1회만 가능합니다.", Toast.LENGTH_SHORT).show()
-                }
+        when (currentUid) {
+            "wait" -> {
+                Toast.makeText(mContext, "잠시 기다렸다 다시시도해주세요.", Toast.LENGTH_SHORT).show()
             }
+
+            else -> {
+                db.collection("user_db").document(currentUid)
+                    .get()
+                    .addOnSuccessListener {
+                        val data = it.data
+                        if (data == null) {
+                            Toast.makeText(mContext, "잠시후 다시 시도해 주세요", Toast.LENGTH_SHORT).show()
+                        } else if (it.data!!["change_counter"] as Boolean) {
+                            Toast.makeText(mContext, "이미 닉네임을 변경하셨습니다.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            checkExpandNickNameView()
+                            Toast.makeText(mContext, "닉네임 변경은 1회만 가능합니다.", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+            }
+        }
     }
 
     private fun checkExpandNickNameView() {
@@ -217,17 +223,25 @@ class FragmentMyPage : Fragment() {
     }
 
     private fun changeNickName(nickname: String, editChangeText: Editable) {
-        val item = mapOf(
-            "nickname" to nickname,
-            "change_counter" to true
-        )
-        db.collection("user_db").document(currentUid)
-            .update(item)
-            .addOnSuccessListener {
-                editChangeText.clear()
-                binding.frameChangeNickname.visibility = View.GONE
-                Toast.makeText(mContext, "닉네임 변경 완료", Toast.LENGTH_SHORT).show()
+        when (currentUid) {
+            "wait" -> {
+                Toast.makeText(mContext, "잠시 기다려 주세요.", Toast.LENGTH_SHORT).show()
             }
+
+            else -> {
+                val item = mapOf(
+                    "nickname" to nickname,
+                    "change_counter" to true
+                )
+                db.collection("user_db").document(currentUid)
+                    .update(item)
+                    .addOnSuccessListener {
+                        editChangeText.clear()
+                        binding.frameChangeNickname.visibility = View.GONE
+                        Toast.makeText(mContext, "닉네임 변경 완료", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }
     }
 
     private fun userShowResignDialog(googleSignInClient: GoogleSignInClient) {
@@ -236,43 +250,63 @@ class FragmentMyPage : Fragment() {
             builder.setTitle("반려미지 회원탈퇴 알림")
                 .setMessage("정말 회원을 탈퇴 하시겠습니까?")
                 .setPositiveButton("탈퇴") { _, _ ->
+                    binding.btnUserResign.isEnabled = false
+                    binding.btnChangeNickname.isEnabled = false
+                    binding.btnLogoutGoogle.isEnabled = false
+                    binding.textMyReview.isEnabled = false
+
                     userResign(googleSignInClient)
                 }
-                .setNegativeButton("취소") { _, _ ->}
+                .setNegativeButton("취소") { _, _ -> }
                 .setCancelable(false)
                 .create()
         eraseDialog.show()
     }
 
     private fun userResign(googleSignInClient: GoogleSignInClient) {
-        db.collection("user_db").document(currentUid)
-            .delete()
-            .addOnSuccessListener {
-
-                Toast.makeText(mContext, "회원 탈퇴 성공", Toast.LENGTH_SHORT).show()
-                MyGlobals.instance!!.userLogin = 0
-                MyGlobals.instance!!.userDataCheck = 0
-
-                logoutAction(googleSignInClient)
-
-                val transaction = parentFragmentManager.beginTransaction()
-                transaction.replace(R.id.frame_fragment_host, FragmentLogin())
-                transaction.commit()
+        when (loginState) {
+            "wait" -> {
+                Toast.makeText(mContext, "잠시 기다려 주세요.", Toast.LENGTH_SHORT).show()
             }
+
+            else -> {
+                db.collection("user_db").document(currentUid)
+                    .delete()
+                    .addOnSuccessListener {
+                        Toast.makeText(mContext, "회원 탈퇴 성공", Toast.LENGTH_SHORT).show()
+                        MyGlobals.instance!!.userLogin = 0
+                        MyGlobals.instance!!.userDataCheck = 0
+
+                        logoutAction(googleSignInClient)
+
+                        try {
+                            val transaction = parentFragmentManager.beginTransaction()
+                            transaction.replace(R.id.frame_fragment_host, FragmentLogin())
+                            transaction.commit()
+                        } catch (_: Exception) {
+                            Toast.makeText(mContext, "회원 탈퇴 성공", Toast.LENGTH_SHORT).show()
+                        }
+
+
+                    }
+            }
+        }
     }
 
     private fun logoutAction(googleSignInClient: GoogleSignInClient) {
-        when( loginState ) {
+        when (loginState) {
             "google" -> {
-                try{
+                try {
                     auth.currentUser!!.delete()
                     googleSignInClient.signOut()
+                } catch (_: Exception) {
                 }
-                catch (_:Exception){}
             }
+
             "naver" -> {
                 NaverIdLoginSDK.logout()
             }
+
             else -> {
 
             }

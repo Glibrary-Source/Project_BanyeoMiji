@@ -47,7 +47,7 @@ class GoogleLoginModule {
             }
     }
 
-    private suspend fun setUserDb(uid: String, email: String) {
+    private fun setUserDb(uid: String, email: String) {
         val setUserData = hashMapOf(
             "uid" to uid,
             "email" to email,

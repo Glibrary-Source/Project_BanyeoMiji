@@ -80,7 +80,7 @@
                     android:id="@+id/text_nick_name"
                     android:textSize="18dp"
                     android:fontFamily="@font/bagelfat"
-                    tools:text="또치와뿌꾸"
+                    android:text="@string/mypage_retry_kr"
                     android:layout_gravity="end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -118,14 +118,15 @@
                     android:layout_gravity="end|center" />
             </FrameLayout>
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-
                 android:padding="8dp"
                 android:elevation="8dp"
+                android:weightSum="3"
                 android:background="@drawable/fragment_my_page_frame_background"
+                android:orientation="horizontal"
                 >
 
                 <TextView
@@ -133,8 +134,9 @@
                     android:textSize="18dp"
                     android:fontFamily="@font/bagelfat"
                     android:text="@string/user_mypage_email_kr"
+                    android:layout_weight="1"
                     android:layout_gravity="start"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     tools:ignore="SpUsage" />
 
@@ -142,12 +144,16 @@
                     android:id="@+id/text_email"
                     android:textSize="18dp"
                     android:fontFamily="@font/bagelfat"
-                    tools:text="kimcasadianchle@naver.com"
+                    android:layout_weight="2"
+                    android:text="@string/mypage_retry_kr"
                     android:layout_gravity="end"
-                    android:layout_width="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:gravity="end"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     tools:ignore="SpUsage" />
-            </FrameLayout>
+            </LinearLayout>
 
             <FrameLayout
                 android:id="@+id/frame_my_review"

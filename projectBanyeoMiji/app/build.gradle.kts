@@ -19,14 +19,13 @@ android {
         applicationId = "com.twproject.banyeomiji"
         minSdk = 24
         targetSdk = 33
-        versionCode = 1
+        versionCode = 7
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
 
         manifestPlaceholders["NAVER_MAP_API"] = localProperties["NAVER_MAP_API"].toString()
-        manifestPlaceholders["ADMOB_APP_ID"] = localProperties["ADMOB_APP_ID"].toString()
     }
 
     buildTypes {
@@ -48,6 +47,9 @@ android {
             )
             buildConfigField("String", "NAVER_CLIENT_ID", "" + localProperties["NAVER_CLIENT_ID"] + "")
             buildConfigField("String", "NAVER_CLIENT_SECRET", "" + localProperties["NAVER_CLIENT_SECRET"] + "")
+            ndk {
+                debugSymbolLevel = "FULL"
+            }
         }
     }
     compileOptions {

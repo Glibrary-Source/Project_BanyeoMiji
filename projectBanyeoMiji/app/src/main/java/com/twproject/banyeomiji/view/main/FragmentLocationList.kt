@@ -117,6 +117,7 @@ class FragmentLocationList : Fragment() {
         val adRequest = AdRequest.Builder().build()
         InterstitialAd.load(
             mContext,
+//            "ca-app-pub-6758764449876389/5682667595",
             "ca-app-pub-6758764449876389/5682667595",
             adRequest, object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {

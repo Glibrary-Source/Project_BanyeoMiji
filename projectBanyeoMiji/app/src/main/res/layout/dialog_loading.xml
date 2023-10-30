@@ -14,7 +14,7 @@
     <TextView
         android:text="@string/dialog_loading_text"
         android:layout_width="wrap_content"
-        android:textSize="14dp"
+        android:textSize="18dp"
         android:fontFamily="@font/bagelfat"
         android:layout_height="wrap_content"
         android:gravity="center"
