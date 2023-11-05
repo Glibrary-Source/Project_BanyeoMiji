@@ -7,45 +7,6 @@
     android:animateLayoutChanges="true"
     tools:context=".view.main.MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:background="@drawable/activity_main_title_background"
-        android:elevation="10dp"
-        android:gravity="center"
-        app:layout_constraintVertical_weight="15"
-        app:layout_constraintBottom_toTopOf="@id/nav_host_fragment"
-        app:layout_constraintTop_toTopOf="parent" >
-
-        <TextView
-            android:id="@+id/text_main_title"
-            android:textSize="28dp"
-            android:text="@string/app_name_kr"
-            android:fontFamily="@font/bagelfat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="SpUsage" />
-
-        <ImageView
-            android:id="@+id/btn_user_account"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="20dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_login"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:ignore="ContentDescription" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -53,20 +14,23 @@
         android:layout_height="0dp"
         app:navGraph="@navigation/nav_graph"
         app:defaultNavHost="true"
-        app:layout_constraintVertical_weight="130"
+        app:layout_constraintVertical_weight="40"
         app:layout_constraintBottom_toTopOf="@id/bottom_nav_bar"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/activity_main_bottomnav_background"
+        android:layout_height="0dp"
         app:menu="@menu/bottom_navigation_menu"
-        android:padding="4dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintVertical_weight="10"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
+        style="@style/BottomNavigationViewNoRipple"
+        android:background="@drawable/activity_main_bottomnav_background"
+        app:itemPaddingTop="15dp"
+        app:itemPaddingBottom="15dp"
+        android:elevation="20dp"
+        app:layout_constraintVertical_weight="5"
         app:layout_constraintBottom_toBottomOf="@id/adViewBanner"
         app:layout_constraintTop_toBottomOf="@id/nav_host_fragment" />
 
@@ -76,8 +40,7 @@
         android:layout_height="0dp"
         app:adSize="BANNER"
         app:adUnitId="ca-app-pub-6758764449876389/5488278822"
-        app:layout_constraintVertical_weight="14"
+        app:layout_constraintVertical_weight="5"
         app:layout_constraintTop_toBottomOf="@id/bottom_nav_bar"
         app:layout_constraintBottom_toBottomOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,15 +2,15 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.BanyeoMiji" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@android:color/holo_blue_light</item>
-        <item name="colorPrimaryDark">@android:color/holo_blue_light</item>
-        <item name="colorAccent">@android:color/holo_orange_light</item>
+        <item name="colorPrimary">@color/holo_blue</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/holo_blue</item>
 
         <!-- color high light -->
-        <item name="colorControlHighlight">@android:color/holo_blue_light</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="Theme.BanyeoMiji" parent="Base.Theme.BanyeoMiji" >
+    <style name="Theme.BanyeoMiji" parent="Base.Theme.BanyeoMiji">
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
@@ -25,6 +25,13 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+
+    <style name="BottomNavigationViewNoRipple" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:itemBackground">@android:color/transparent</item>
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
+        <item name="android:radius">10dp</item>
     </style>
 
 </resources>

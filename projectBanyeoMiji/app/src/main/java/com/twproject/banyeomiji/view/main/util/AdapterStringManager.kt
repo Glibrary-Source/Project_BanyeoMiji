@@ -1,9 +1,12 @@
 package com.twproject.banyeomiji.view.main.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.util.Log
+import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.view.main.adapter.LocationDataListAdapter
 import com.twproject.banyeomiji.view.main.datamodel.PetLocationData
 
@@ -13,12 +16,14 @@ class AdapterStringManager {
         return if (item.PARKNG_POSBL_AT == "Y") "주차: 가능" else "주차: 불가능"
     }
 
-    fun checkHomePage(item: PetLocationData, holder: LocationDataListAdapter.ItemViewHolder): String {
+    @SuppressLint("ResourceType")
+    fun checkHomePage(item: PetLocationData, holder: LocationDataListAdapter.ItemViewHolder, context: Context): String {
         return if (item.HMPG_URL == "") {
             holder.itemLink.setBackgroundColor(Color.parseColor("#CCCCCC"))
             "홈페이지 없음"
         } else {
-            holder.itemLink.setBackgroundColor(Color.parseColor("#33b5e5"))
+            val color = context.getString(R.color.holo_blue)
+            holder.itemLink.setBackgroundColor(Color.parseColor(color))
             "홈페이지"
         }
     }

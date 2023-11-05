@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- margin 값 -->
+    <dimen name="pageMargin">260dp</dimen>
+    <dimen name="pageWidth">80dp</dimen>
+</resources>

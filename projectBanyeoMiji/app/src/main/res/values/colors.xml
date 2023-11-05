@@ -6,4 +6,12 @@
     <color name="spinner_text">#959191</color>
     <color name="tempback">#F2FFFF</color>
     <color name="category_list">#dbe1ff</color>
+    <color name="stroke_default">#EAEAEA</color>
+    <color name="default_btn_text_color">#FF000000</color>
+    <color name="white_grey">#E2E2E2</color>
+    <color name="holo_blue">@android:color/holo_blue_light</color>
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryDark">#c8c8b4</color>
+    <color name="colorAccent">#d195ff</color>
+    <color name="colorControlHighlight">#bd71ff</color>
 </resources>

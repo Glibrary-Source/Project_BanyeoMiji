@@ -3,11 +3,13 @@
     <item
         android:id="@+id/fragmentCategory"
         android:title="@string/bottom_menu_list"
-        android:enabled="true"
         android:icon="@drawable/ic_main_activity_categories" />
     <item
         android:id="@+id/fragmentStoreMap"
         android:title="@string/bottom_menu_map"
-        android:enabled="true"
         android:icon="@drawable/ic_main_activity_map" />
+    <item
+        android:id="@+id/fragmentEmptyLogin"
+        android:title="내정보"
+        android:icon="@drawable/icon_login" />
 </menu>

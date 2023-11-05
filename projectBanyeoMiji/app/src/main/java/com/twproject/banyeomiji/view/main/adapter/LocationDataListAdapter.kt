@@ -2,6 +2,7 @@ package com.twproject.banyeomiji.view.main.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,7 +60,7 @@ class LocationDataListAdapter(
         holder.itemOpenTime.text = "영업 시간: ${stringManager.checkOpenTime(item)}"
         holder.itemLimit.text = stringManager.checkLimited(item)
         holder.itemPark.text = stringManager.checkParking(item)
-        holder.itemLink.text = stringManager.checkHomePage(item, holder)
+        holder.itemLink.text = stringManager.checkHomePage(item, holder, context)
         holder.itemLink.setOnClickListener {
             stringManager.checkItemLink(item, context, holder)
         }

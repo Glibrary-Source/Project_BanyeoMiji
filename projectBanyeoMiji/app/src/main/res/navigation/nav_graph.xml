@@ -26,8 +26,9 @@
             app:exitAnim="@anim/exit_to_right"
             app:popEnterAnim="@anim/enter_from_right"
             app:popExitAnim="@anim/exit_to_right"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/fragmentStoreMap"/>
+            />
+<!--        app:popUpToInclusive="true"-->
+<!--        app:popUpTo="@id/fragmentStoreMap"-->
     </fragment>
     <fragment
         android:id="@+id/fragmentLocationList"
@@ -52,9 +53,9 @@
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/exit_to_right"
             app:popEnterAnim="@anim/enter_from_right"
-            app:popExitAnim="@anim/exit_to_right"
-            app:popUpTo="@id/fragmentCategory"
-            app:popUpToInclusive="true"/>
+            app:popExitAnim="@anim/exit_to_right" />
+<!--        app:popUpTo="@id/fragmentCategory"-->
+<!--        app:popUpToInclusive="true"-->
         <action
             android:id="@+id/action_fragmentStoreMap_to_fragmentLocationList"
             app:destination="@id/fragmentLocationList"
@@ -63,7 +64,8 @@
             app:popEnterAnim="@anim/enter_from_right"
             app:popExitAnim="@anim/exit_to_right"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/fragmentLocationList" />
+            app:popUpTo="@id/fragmentLocationList"/>
+
     </fragment>
     <fragment
         android:id="@+id/fragmentReview"
@@ -89,4 +91,9 @@
             android:name="StoreName"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentEmptyLogin"
+        android:name="com.twproject.banyeomiji.view.main.FragmentEmptyLogin"
+        android:label="fragment_empty_login"
+        tools:layout="@layout/fragment_empty_login" />
 </navigation>

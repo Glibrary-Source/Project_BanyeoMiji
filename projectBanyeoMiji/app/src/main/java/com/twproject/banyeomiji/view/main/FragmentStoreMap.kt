@@ -80,6 +80,7 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
         petLocationViewModel = ViewModelProvider(fragmentActivity)[PetLocationViewModel::class.java]
         petLocationViewModel.getAllLocationData()
         navController = findNavController()
+
     }
 
     override fun onCreateView(
@@ -97,6 +98,7 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
         mapFragment!!.getMapAsync(this)
 
         binding.filterMenu.layout01.setOnClickListener(getFilterMenuOnClickListener())
+        MyGlobals.instance!!.navState = "map"
 
         return binding.root
     }

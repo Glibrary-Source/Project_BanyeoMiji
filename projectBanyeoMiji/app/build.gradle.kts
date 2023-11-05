@@ -31,11 +31,11 @@ android {
     buildTypes {
         debug {
             isDebuggable = true
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+//            isMinifyEnabled = true
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//                "proguard-rules.pro"
+//            )
             buildConfigField("String", "NAVER_CLIENT_ID", "" + localProperties["NAVER_CLIENT_ID"] + "")
             buildConfigField("String", "NAVER_CLIENT_SECRET", "" + localProperties["NAVER_CLIENT_SECRET"] + "")
         }
@@ -121,5 +121,8 @@ dependencies {
 
     // bad_word_filter
     implementation("io.github.vaneproject:badwordfiltering:1.0.0")
+
+    // indicator
+    implementation("com.tbuonomo:dotsindicator:5.0")
 
 }

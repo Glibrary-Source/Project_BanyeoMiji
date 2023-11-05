@@ -9,27 +9,44 @@
     <Spinner
         android:id="@+id/spinner_category_location_select"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:elevation="8dp"
         android:textAlignment="center"
         android:background="@drawable/fragment_category_location_spinner_bacground"
-        app:layout_constraintBottom_toTopOf="@+id/rc_category_list"
+        app:layout_constraintVertical_weight="5"
+        app:layout_constraintBottom_toTopOf="@+id/vp_category_list"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rc_category_list"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_category_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinner_category_location_select"
-        tools:layout_editor_absoluteX="12dp"
-        tools:listitem="@layout/item_fragment_category_list" />
+        android:orientation="horizontal"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        app:layout_constraintVertical_weight="40"
+        app:layout_constraintBottom_toBottomOf="@id/frame_indicator"
+        app:layout_constraintTop_toBottomOf="@id/spinner_category_location_select" />
 
+    <RelativeLayout
+        android:id="@+id/frame_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="top|center"
+        app:layout_constraintVertical_weight="5"
+        app:layout_constraintTop_toBottomOf="@id/vp_category_list"
+        app:layout_constraintBottom_toBottomOf="parent" >
 
+        <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+            android:id="@+id/dot_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dotsColor="@android:color/holo_blue_light"
+            app:dotsSpacing="3dp"
+            app:dotsSize="12dp"/>
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

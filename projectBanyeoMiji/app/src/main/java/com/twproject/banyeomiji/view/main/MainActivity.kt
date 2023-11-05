@@ -4,9 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.ads.AdRequest
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.ktx.firestore
 import com.twproject.banyeomiji.BuildConfig
 import com.google.firebase.ktx.Firebase
@@ -32,6 +34,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var petLocationViewModel: PetLocationViewModel
     private lateinit var userSelectManager: UserSelectManager
+    private lateinit var navHostFragment: NavHostFragment
+    private lateinit var navController: NavController
     val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,19 +55,10 @@ class MainActivity : AppCompatActivity() {
         petLocationViewModel = ViewModelProvider(this)[PetLocationViewModel::class.java]
         petLocationViewModel.setPermissionCheck(true)
 
-        val navHostFragment =
+        navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
         binding.bottomNavBar.setupWithNavController(navController)
-
-        binding.btnUserAccount.onThrottleClick {
-            ButtonAnimation().startAnimation(it)
-            CoroutineScope(Main).launch {
-                val intent = Intent(this@MainActivity, LoginActivity::class.java)
-                delay(300)
-                startActivity(intent)
-            }
-        }
 
         val mAdView = binding.adViewBanner
         val adRequest = AdRequest.Builder().build()

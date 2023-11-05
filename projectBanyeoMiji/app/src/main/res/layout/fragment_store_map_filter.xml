@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <CheckBox
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cb_korea_gate"
                 android:text="@string/korea_gate"
                 android:layout_marginStart="8dp"

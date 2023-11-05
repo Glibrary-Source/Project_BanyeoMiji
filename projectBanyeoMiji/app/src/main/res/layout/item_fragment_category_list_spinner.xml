@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/spinner_text_view"
     android:fontFamily="@font/bagelfat"
-    android:background="@drawable/spinner_location_state"
     android:textSize="18dp"
     android:gravity="center"
     tools:text="서울특별시"
