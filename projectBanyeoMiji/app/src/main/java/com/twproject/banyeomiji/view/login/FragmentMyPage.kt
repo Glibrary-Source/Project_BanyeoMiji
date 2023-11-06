@@ -9,6 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.firestore.ktx.firestore
@@ -33,9 +36,10 @@ import kotlinx.coroutines.withContext
 class FragmentMyPage : Fragment() {
 
     private lateinit var mContext: Context
-    private lateinit var activity: LoginActivity
 
     private lateinit var binding: FragmentMyPageBinding
+    private lateinit var navController: NavController
+    private lateinit var actionLoginPage: NavDirections
 
     private val googleLoginModule = GoogleLoginModule()
     private val auth = GoogleObjectAuth.getFirebaseAuth()
@@ -47,7 +51,6 @@ class FragmentMyPage : Fragment() {
         super.onAttach(context)
 
         mContext = context
-        activity = mContext as LoginActivity
     }
 
     override fun onCreateView(
@@ -55,6 +58,9 @@ class FragmentMyPage : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMyPageBinding.inflate(inflater)
+
+        actionLoginPage = FragmentMyPageDirections.actionFragmentMyPageToFragmentLogin()
+        navController = findNavController()
 
         val gso = googleLoginModule.getGoogleSignInOption(getString(R.string.default_web_client_id))
         val googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
@@ -67,9 +73,7 @@ class FragmentMyPage : Fragment() {
                 NaverIdLoginSDK.logout()
 
                 withContext(Main) {
-                    val transaction = parentFragmentManager.beginTransaction()
-                    transaction.replace(R.id.frame_fragment_host, FragmentLogin())
-                    transaction.commit()
+                    navController.navigate(actionLoginPage)
                 }
             }
         }
@@ -101,18 +105,12 @@ class FragmentMyPage : Fragment() {
 
         binding.frameMyReview.setOnClickListener {
             ButtonAnimation().startAnimation(it)
-            val bundle = Bundle()
-            bundle.putString("currentUid", currentUid)
 
-            val myFragment = FragmentMyReview()
-            myFragment.arguments = bundle
+            val actionMyReview = FragmentMyPageDirections.actionFragmentMyPageToFragmentMyReview(currentUid)
 
             CoroutineScope(Main).launch {
                 delay(500)
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.frame_fragment_host, myFragment)
-                    .addToBackStack(null)
-                    .commit()
+                navController.navigate(actionMyReview)
             }
         }
 
@@ -280,9 +278,7 @@ class FragmentMyPage : Fragment() {
                         logoutAction(googleSignInClient)
 
                         try {
-                            val transaction = parentFragmentManager.beginTransaction()
-                            transaction.replace(R.id.frame_fragment_host, FragmentLogin())
-                            transaction.commit()
+                            navController.navigate(actionLoginPage)
                         } catch (_: Exception) {
                             Toast.makeText(mContext, "회원 탈퇴 성공", Toast.LENGTH_SHORT).show()
                         }

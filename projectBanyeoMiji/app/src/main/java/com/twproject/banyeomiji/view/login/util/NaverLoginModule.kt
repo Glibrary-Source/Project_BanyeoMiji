@@ -1,6 +1,8 @@
 package com.twproject.banyeomiji.view.login.util
 
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.navercorp.nid.oauth.NidOAuthLogin
@@ -8,6 +10,7 @@ import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
 import com.twproject.banyeomiji.MyGlobals
+import com.twproject.banyeomiji.view.login.FragmentLoginDirections
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
@@ -17,7 +20,8 @@ class NaverLoginModule {
     private val db = Firebase.firestore
 
     fun getOAuthLoginCallback(
-        transaction: FragmentTransaction
+        navController: NavController,
+        action: NavDirections
     ): OAuthLoginCallback {
         return object : OAuthLoginCallback {
             override fun onSuccess() {
@@ -26,7 +30,7 @@ class NaverLoginModule {
                         val email: String = result.profile?.email.toString()
                         val uid: String = result.profile?.id.toString()
                         CoroutineScope(Main).launch {
-                            setUserDb(uid, email, transaction)
+                            setUserDb(uid, email, navController, action)
                         }
                         MyGlobals.instance!!.userDataCheck = 0
                         GoogleObjectAuth.getFirebaseAuth().signOut()
@@ -46,7 +50,8 @@ class NaverLoginModule {
     private suspend fun setUserDb(
         uid: String,
         email: String,
-        transaction: FragmentTransaction
+        navController: NavController,
+        action: NavDirections
     ) {
         val setUserData = hashMapOf(
             "uid" to uid,
@@ -62,12 +67,12 @@ class NaverLoginModule {
                         .document(uid)
                         .set(setUserData)
                         .addOnSuccessListener {
-                            transaction.commit()
+                            navController.navigate(action)
                             MyGlobals.instance!!.userLogin = 1
                         }
                         .addOnFailureListener {}
                 } else {
-                    transaction.commit()
+                    navController.navigate(action)
                     MyGlobals.instance!!.userLogin = 1
                 }
             }

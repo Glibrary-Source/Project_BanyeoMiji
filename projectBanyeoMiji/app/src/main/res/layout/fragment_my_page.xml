@@ -6,34 +6,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.login.FragmentMyPage">
 
-    <FrameLayout
-        android:id="@+id/framelayout_title"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@drawable/activity_main_title_background"
-        app:layout_constraintVertical_weight="5"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/bagelfat"
-            android:text="@string/my_page_kr"
-            android:textSize="28dp"
-            tools:ignore="SpUsage" />
-
-    </FrameLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintVertical_weight="56"
+        android:paddingTop="32dp"
+        app:layout_constraintVertical_weight="42"
         app:layout_constraintBottom_toTopOf="@+id/Linearlayout_logout"
-        app:layout_constraintTop_toBottomOf="@+id/framelayout_title" >
+        app:layout_constraintTop_toTopOf="parent" >
 
         <Button
             android:id="@+id/btn_extend_change_nickname"

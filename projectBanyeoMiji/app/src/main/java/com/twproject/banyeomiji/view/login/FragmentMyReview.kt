@@ -7,11 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.twproject.banyeomiji.databinding.FragmentMyReviewBinding
 import com.twproject.banyeomiji.view.login.adapter.MyReviewListAdapter
+import com.twproject.banyeomiji.view.main.FragmentLocationListArgs
+import com.twproject.banyeomiji.view.main.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,15 +22,16 @@ import kotlinx.coroutines.launch
 class FragmentMyReview : Fragment() {
 
     private lateinit var mContext: Context
-    private lateinit var activity: LoginActivity
+    private lateinit var activity: MainActivity
     private lateinit var binding: FragmentMyReviewBinding
+    private val myReviewData by navArgs<FragmentMyReviewArgs>()
 
     private val db = Firebase.firestore
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
-        activity = mContext as LoginActivity
+        activity = mContext as MainActivity
     }
 
     override fun onCreateView(
@@ -36,7 +40,7 @@ class FragmentMyReview : Fragment() {
     ): View {
         binding = FragmentMyReviewBinding.inflate(inflater)
 
-        val currentUid = arguments?.getString("currentUid").toString()
+        val currentUid = myReviewData.currentUid
         binding.recyclerViewMyReview.layoutManager = LinearLayoutManager(mContext)
 
         when(currentUid){

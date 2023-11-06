@@ -9,7 +9,7 @@
         android:title="@string/bottom_menu_map"
         android:icon="@drawable/ic_main_activity_map" />
     <item
-        android:id="@+id/fragmentEmptyLogin"
+        android:id="@+id/fragmentLogin"
         android:title="내정보"
         android:icon="@drawable/icon_login" />
 </menu>

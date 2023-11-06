@@ -2,7 +2,8 @@ package com.twproject.banyeomiji.view.login.util
 
 import android.content.Context
 import android.widget.Toast
-import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.twproject.banyeomiji.MyGlobals
@@ -20,13 +21,15 @@ class EmailLoginModule(
     fun onlyEmailSignIn(
         email: String,
         password: String,
-        transaction: FragmentTransaction,
+        navController: NavController,
+        action: NavDirections
     ) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     emailVerificationCheck(
-                        transaction
+                        navController,
+                        action
                     )
                 } else {
                     Toast.makeText(mContext, "이메일 또는 비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show()
@@ -35,11 +38,12 @@ class EmailLoginModule(
     }
 
     private fun emailVerificationCheck(
-        transaction: FragmentTransaction
+        navController: NavController,
+        action: NavDirections
     ) {
         auth.currentUser!!.reload()
         if(auth.currentUser?.isEmailVerified == true) {
-            transaction.commit()
+            navController.navigate(action)
             CoroutineScope(Dispatchers.IO).launch {
                 MyGlobals.instance!!.userLogin = 1
                 MyGlobals.instance!!.userDataCheck = 1

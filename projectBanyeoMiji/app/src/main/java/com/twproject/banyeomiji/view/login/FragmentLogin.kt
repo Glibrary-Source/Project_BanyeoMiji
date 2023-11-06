@@ -20,7 +20,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.navercorp.nid.NaverIdLoginSDK
@@ -33,13 +35,15 @@ import com.twproject.banyeomiji.view.login.util.GoogleObjectAuth
 import com.twproject.banyeomiji.vbutility.ButtonAnimation
 import com.twproject.banyeomiji.view.login.util.EmailLoginModule
 import com.twproject.banyeomiji.view.login.util.NaverLoginModule
+import com.twproject.banyeomiji.view.main.MainActivity
 
 class FragmentLogin : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var mContext: Context
-    private lateinit var activity: LoginActivity
-    private lateinit var transaction: FragmentTransaction
+    private lateinit var activity: MainActivity
+    private lateinit var navController: NavController
+    private lateinit var action: NavDirections
     private lateinit var emailLoginModule: EmailLoginModule
 
     private val googleLoginModule = GoogleLoginModule()
@@ -58,7 +62,8 @@ class FragmentLogin : Fragment() {
                     account,
                     activity,
                     auth,
-                    transaction
+                    navController,
+                    action
                 )
             } catch (_: ApiException) {}
         }
@@ -67,7 +72,7 @@ class FragmentLogin : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
-        activity = context as LoginActivity
+        activity = context as MainActivity
 
         emailLoginModule = EmailLoginModule(mContext)
     }
@@ -78,8 +83,8 @@ class FragmentLogin : Fragment() {
     ): View {
         binding = FragmentLoginBinding.inflate(inflater)
 
-        transaction = parentFragmentManager.beginTransaction()
-        transaction.replace(R.id.frame_fragment_host, FragmentMyPage())
+        action = FragmentLoginDirections.actionFragmentLoginToFragmentMyPage()
+        navController = findNavController()
 
         checkAlreadyLogin()
         initializeGoogleSignIn()
@@ -89,19 +94,18 @@ class FragmentLogin : Fragment() {
             emailLoginModule.onlyEmailSignIn(
                 email,
                 password,
-                transaction
+                navController,
+                action
             )
         }
 
         binding.btnLoginNaver.setOnClickListener {
             ButtonAnimation().startAnimation(it)
 
-            NaverIdLoginSDK.authenticate(mContext, naverLoginModule.getOAuthLoginCallback(transaction))
+            NaverIdLoginSDK.authenticate(mContext, naverLoginModule.getOAuthLoginCallback(navController,action))
         }
 
-        binding.textSignUp.onThrottleClick {
-            ButtonAnimation().startAnimation(it)
-
+        binding.btnSignUp.setOnClickListener {
             privateDataAgreement()
         }
 
@@ -110,7 +114,7 @@ class FragmentLogin : Fragment() {
 
     private fun checkAlreadyLogin() {
         if (MyGlobals.instance!!.userLogin == 1) {
-            transaction.commit()
+            navController.navigate(action)
         }
     }
 
@@ -132,10 +136,6 @@ class FragmentLogin : Fragment() {
         binding.editLoginPassword.addTextChangedListener {
             password = binding.editLoginPassword.text.toString()
         }
-    }
-
-    private fun signUpVisibleControl() {
-        binding.btnSignUp.visibility = View.VISIBLE
     }
 
     private fun privateDataAgreement() {
@@ -166,7 +166,7 @@ class FragmentLogin : Fragment() {
                 .setTitle("반려미지 개인정보 동의 알림")
                 .setMessage(message)
                 .setPositiveButton("동의") { _, _ ->
-                    signUpVisibleControl()
+                    Toast.makeText(mContext, "이메일과 비밀번호를 입력해 회원가입을 진행해주세요", Toast.LENGTH_SHORT).show()
                     val btnSignUp = binding.btnSignUp
                     btnSignUp.onThrottleClick {
                         val pattern = Patterns.EMAIL_ADDRESS
@@ -178,7 +178,7 @@ class FragmentLogin : Fragment() {
                     }
                 }
                 .setNegativeButton("취소") { _, _ ->
-                    Toast.makeText(mContext, "개인정보 동의를 확인해주세요", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(mContext, "개인정보 처리방침에 동의해주세요", Toast.LENGTH_SHORT).show()
                 }
                 .setCancelable(false)
                 .create()

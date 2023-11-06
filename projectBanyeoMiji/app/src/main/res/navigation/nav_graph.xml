@@ -19,16 +19,6 @@
             app:popExitAnim="@anim/exit_to_right"
             app:popUpTo="@id/fragmentCategory"
             app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_fragmentCategory_to_fragmentStoreMap"
-            app:destination="@id/fragmentStoreMap"
-            app:enterAnim="@anim/enter_from_right"
-            app:exitAnim="@anim/exit_to_right"
-            app:popEnterAnim="@anim/enter_from_right"
-            app:popExitAnim="@anim/exit_to_right"
-            />
-<!--        app:popUpToInclusive="true"-->
-<!--        app:popUpTo="@id/fragmentStoreMap"-->
     </fragment>
     <fragment
         android:id="@+id/fragmentLocationList"
@@ -47,15 +37,6 @@
         android:name="com.twproject.banyeomiji.view.main.FragmentStoreMap"
         android:label="fragment_store_map"
         tools:layout="@layout/fragment_store_map" >
-        <action
-            android:id="@+id/action_fragmentStoreMap_to_fragmentCategory"
-            app:destination="@id/fragmentCategory"
-            app:enterAnim="@anim/enter_from_right"
-            app:exitAnim="@anim/exit_to_right"
-            app:popEnterAnim="@anim/enter_from_right"
-            app:popExitAnim="@anim/exit_to_right" />
-<!--        app:popUpTo="@id/fragmentCategory"-->
-<!--        app:popUpToInclusive="true"-->
         <action
             android:id="@+id/action_fragmentStoreMap_to_fragmentLocationList"
             app:destination="@id/fragmentLocationList"
@@ -92,8 +73,37 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/fragmentEmptyLogin"
-        android:name="com.twproject.banyeomiji.view.main.FragmentEmptyLogin"
-        android:label="fragment_empty_login"
-        tools:layout="@layout/fragment_empty_login" />
+        android:id="@+id/fragmentLogin"
+        android:name="com.twproject.banyeomiji.view.login.FragmentLogin"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_fragmentLogin_to_fragmentMyPage"
+            app:destination="@id/fragmentMyPage"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/fragmentLogin" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentMyPage"
+        android:name="com.twproject.banyeomiji.view.login.FragmentMyPage"
+        android:label="fragment_my_page"
+        tools:layout="@layout/fragment_my_page" >
+        <action
+            android:id="@+id/action_fragmentMyPage_to_fragmentMyReview"
+            app:destination="@id/fragmentMyReview" />
+        <action
+            android:id="@+id/action_fragmentMyPage_to_fragmentLogin"
+            app:destination="@id/fragmentLogin"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/fragmentMyPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentMyReview"
+        android:name="com.twproject.banyeomiji.view.login.FragmentMyReview"
+        android:label="fragment_my_review"
+        tools:layout="@layout/fragment_my_review" >
+        <argument
+            android:name="currentUid"
+            app:argType="string" />
+    </fragment>
 </navigation>

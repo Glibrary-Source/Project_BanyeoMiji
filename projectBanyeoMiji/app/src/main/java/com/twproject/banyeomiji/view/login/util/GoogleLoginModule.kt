@@ -1,7 +1,8 @@
 package com.twproject.banyeomiji.view.login.util
 
 import android.widget.Toast
-import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -9,7 +10,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.twproject.banyeomiji.MyGlobals
-import com.twproject.banyeomiji.view.login.LoginActivity
+import com.twproject.banyeomiji.view.main.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,9 +27,10 @@ class GoogleLoginModule {
 
     fun firebaseAuthWithGoogle(
         account: GoogleSignInAccount,
-        activity: LoginActivity,
+        activity: MainActivity,
         auth: FirebaseAuth,
-        transaction: FragmentTransaction
+        navController: NavController,
+        action: NavDirections
     ) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         auth.signInWithCredential(credential)
@@ -40,7 +42,7 @@ class GoogleLoginModule {
                         val currentUser = auth.currentUser
                         setUserDb(currentUser!!.uid, currentUser.email!!.toString())
                     }
-                    transaction.commit()
+                    navController.navigate(action)
                 } else {
                     Toast.makeText(activity,"인터넷 연결을 확인해주세요",Toast.LENGTH_SHORT).show()
                 }

@@ -3,7 +3,7 @@
     <style name="Base.Theme.BanyeoMiji" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/holo_blue</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/white_grey</item>
         <item name="colorAccent">@color/holo_blue</item>
 
         <!-- color high light -->
@@ -33,5 +33,4 @@
         <item name="android:colorControlHighlight">@android:color/transparent</item>
         <item name="android:radius">10dp</item>
     </style>
-
 </resources>
