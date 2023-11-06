@@ -140,7 +140,7 @@ class FragmentLogin : Fragment() {
 
     private fun privateDataAgreement() {
         val agreementText = "개인정보 처리방침"
-        val message = SpannableString("개인정보 처리방침을 읽어보시고 동의해주세요")
+        val message = SpannableString("개인정보 처리방침을 읽어보시고 동의해주세요.")
         val webUrl = "https://sites.google.com/view/banyeomiji-privacy-policy"
 
         val clickableSpan = object : ClickableSpan() {

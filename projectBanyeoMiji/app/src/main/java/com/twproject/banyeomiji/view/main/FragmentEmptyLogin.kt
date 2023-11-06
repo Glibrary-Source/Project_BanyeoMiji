@@ -39,7 +39,6 @@ class FragmentEmptyLogin : Fragment() {
             else -> R.id.fragmentStoreMap
         }
         bottomNavigationView.selectedItemId = itemId
-
     }
 
     override fun onCreateView(
