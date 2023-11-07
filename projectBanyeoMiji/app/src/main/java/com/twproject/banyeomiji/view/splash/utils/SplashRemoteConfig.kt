@@ -47,7 +47,6 @@ class SplashRemoteConfig(
 
         remoteConfig.setConfigSettingsAsync(configSettings)
 
-
         remoteConfig.fetchAndActivate()
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
@@ -83,7 +82,7 @@ class SplashRemoteConfig(
     private fun showAlert(storeUrl: String) {
         val builder = AlertDialog.Builder(context)
         val dialog =
-            builder.setTitle("[${context.getString(R.string.app_name)}] 공지사항")
+            builder.setTitle("[${context.getString(R.string.app_title_kr)}] 공지사항")
                 .setMessage("앱을 사용하려면 업데이트를 해주세요")
                 .setNegativeButton("연결")
                 { _, _ ->

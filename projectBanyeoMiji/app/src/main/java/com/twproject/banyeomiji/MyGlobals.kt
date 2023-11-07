@@ -7,7 +7,6 @@ class MyGlobals {
     var userLogin = 0
     var userDataCheck = 0
     var navState = "category"
-    var navState2 = "category"
 
     companion object {
         @get:Synchronized

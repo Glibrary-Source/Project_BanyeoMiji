@@ -152,7 +152,6 @@ class FragmentStoreMap : Fragment(), OnMapReadyCallback {
 
             withContext(Main) {
                 updateMarkerVisibility(markerList)
-                //지도 클릭시 실행
                 naverFragmentMap.setOnMapClickListener { _, _ ->
                     for ((marker) in markerList) {
                         if (marker.infoWindow != null) {

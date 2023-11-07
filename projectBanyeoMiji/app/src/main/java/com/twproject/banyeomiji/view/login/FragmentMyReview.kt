@@ -13,7 +13,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.twproject.banyeomiji.databinding.FragmentMyReviewBinding
 import com.twproject.banyeomiji.view.login.adapter.MyReviewListAdapter
-import com.twproject.banyeomiji.view.main.FragmentLocationListArgs
 import com.twproject.banyeomiji.view.main.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -1,6 +1,5 @@
 package com.twproject.banyeomiji.view.login.util
 
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import com.google.firebase.firestore.ktx.firestore
@@ -10,7 +9,6 @@ import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
 import com.twproject.banyeomiji.MyGlobals
-import com.twproject.banyeomiji.view.login.FragmentLoginDirections
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch

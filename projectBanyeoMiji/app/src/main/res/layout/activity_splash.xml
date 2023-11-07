@@ -17,5 +17,4 @@
         android:layout_height="wrap_content"
         app:drawableLeftCompat="@drawable/icon_main_dog_adjust"
         tools:ignore="SpUsage" />
-
 </FrameLayout>
