@@ -78,7 +78,7 @@ class MyReviewListAdapter(
 
         userDB.update(userUpdates).addOnSuccessListener{}
 
-        val docDB = db.collection( "pet_location_data").document(docId)
+        val docDB = db.collection( "user_review_db").document(docId)
         val docUpdates = hashMapOf<String, Any>(
             "USER_REVIEW.$currentUid" to FieldValue.delete()
         )

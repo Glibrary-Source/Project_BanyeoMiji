@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -43,7 +44,8 @@ class FragmentReview : Fragment() {
     private lateinit var petLocationViewModel: PetLocationViewModel
     private lateinit var mContext: Context
     private lateinit var activity: FragmentActivity
-    private lateinit var reviewListData: Map<String, Any>
+//    private lateinit var reviewListData: Map<String, Any>
+    private var reviewListData: Map<String, Any> = mapOf()
     private val reviewData by navArgs<FragmentReviewArgs>()
     val db = Firebase.firestore
     private val auth = GoogleObjectAuth.getFirebaseAuth()
@@ -149,7 +151,7 @@ class FragmentReview : Fragment() {
                             else {
                                 CoroutineScope(IO).launch {
 
-                                    db.collection("pet_location_data")
+                                    db.collection("user_review_db")
                                         .document(reviewData.DocId)
                                         .set(reviewItem, SetOptions.merge())
                                         .addOnSuccessListener {
@@ -172,7 +174,7 @@ class FragmentReview : Fragment() {
         val reviewRecycler = binding.recyclerReviewList
 
         CoroutineScope(IO).launch {
-            db.collection("pet_location_data")
+            db.collection("user_review_db")
                 .document(reviewData.DocId)
                 .addSnapshotListener { snapshot, _ ->
                     if (snapshot != null && snapshot.exists()) {
@@ -193,6 +195,9 @@ class FragmentReview : Fragment() {
                                 reviewGoneVisibleControl()
                             }
                         } catch (_: Exception) {}
+                    }
+                    else {
+                        reviewGoneVisibleControl()
                     }
                 }
         }
