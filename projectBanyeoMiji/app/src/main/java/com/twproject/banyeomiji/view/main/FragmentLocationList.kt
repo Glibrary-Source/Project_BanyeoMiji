@@ -106,7 +106,7 @@ class FragmentLocationList : Fragment() {
 
     private fun admobControl() {
         MyGlobals.instance!!.fullAdCount ++
-        if( MyGlobals.instance!!.fullAdCount % 10 == 0 ) {
+        if( MyGlobals.instance!!.fullAdCount % MyGlobals.instance!!.adCount == 0 ) {
             CoroutineScope(Main).launch{
                 MobileAds.initialize(mContext) { loadAds() }
             }
@@ -117,8 +117,7 @@ class FragmentLocationList : Fragment() {
         val adRequest = AdRequest.Builder().build()
         InterstitialAd.load(
             mContext,
-            "ca-app-pub-3940256099942544/1033173712",
-//진짜 내 id            "ca-app-pub-6758764449876389/5682667595",
+            "ca-app-pub-6758764449876389/5682667595",
             adRequest, object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     mInterstitialAd = null

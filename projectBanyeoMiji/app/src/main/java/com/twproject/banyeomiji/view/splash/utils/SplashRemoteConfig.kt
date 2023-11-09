@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.twproject.banyeomiji.MyGlobals
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.view.main.MainActivity
 import com.twproject.banyeomiji.view.splash.SplashActivity
@@ -26,6 +27,7 @@ class SplashRemoteConfig(
         const val REMOTE_KEY_APP_VERSION = "app_version"
         const val REMOTE_KEY_EMERGENCY = "update_emergency"
         const val REMOTE_STORE_URL = "store_url"
+        const val REMOTE_AD_COUNT = "ad_count"
     }
 
     private val versionName = context.getPackageInfo().versionName
@@ -41,7 +43,8 @@ class SplashRemoteConfig(
             mapOf(
                 REMOTE_KEY_APP_VERSION to versionName,
                 REMOTE_KEY_EMERGENCY to false,
-                REMOTE_STORE_URL to "test"
+                REMOTE_STORE_URL to "test",
+                REMOTE_AD_COUNT to "10"
             )
         }
 
@@ -55,6 +58,7 @@ class SplashRemoteConfig(
                     appVersion = remoteConfig.getString(REMOTE_KEY_APP_VERSION)
                     appEmergency = remoteConfig.getBoolean(REMOTE_KEY_EMERGENCY)
                     appStoreUrl = remoteConfig.getString(REMOTE_STORE_URL)
+                    MyGlobals.instance!!.adCount = remoteConfig.getString(REMOTE_AD_COUNT).toInt()
 
                     if (appVersion == versionName) {
                         startMain()

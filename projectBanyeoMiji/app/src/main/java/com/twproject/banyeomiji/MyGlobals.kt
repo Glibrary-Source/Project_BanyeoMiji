@@ -6,6 +6,7 @@ class MyGlobals {
     var fullAdCount = 0
     var userLogin = 0
     var navState = "category"
+    var adCount = 10
 
     companion object {
         @get:Synchronized
