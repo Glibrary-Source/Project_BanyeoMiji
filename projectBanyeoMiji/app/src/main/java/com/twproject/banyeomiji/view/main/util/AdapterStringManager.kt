@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.util.Log
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.view.main.adapter.LocationDataListAdapter
 import com.twproject.banyeomiji.view.main.datamodel.PetLocationData

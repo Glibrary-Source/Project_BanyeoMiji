@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,11 +18,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.navercorp.nid.NaverIdLoginSDK
-import com.navercorp.nid.oauth.NidOAuthLogin
-import com.navercorp.nid.profile.NidProfileCallback
-import com.navercorp.nid.profile.data.NidProfileResponse
-import com.twproject.banyeomiji.MyGlobals
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentReviewBinding
 import com.twproject.banyeomiji.view.login.util.GoogleObjectAuth
@@ -225,8 +219,6 @@ class FragmentReview : Fragment() {
     private fun setLoginStateAndUid() {
         loginState = if (auth.currentUser != null) {
             "google"
-        } else if (NaverIdLoginSDK.getState().name != "NEED_LOGIN" && NaverIdLoginSDK.getState().name != "NEED_INIT" && NaverIdLoginSDK.getState().name != "NEED_REFRESH_TOKEN") {
-            "naver"
         } else {
             "null"
         }
@@ -238,18 +230,6 @@ class FragmentReview : Fragment() {
             "google" -> {
                 currentUid = auth.currentUser!!.uid
             }
-
-            "naver" -> {
-                NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
-                    override fun onSuccess(result: NidProfileResponse) {
-                        currentUid = result.profile?.id.toString()
-                    }
-
-                    override fun onError(errorCode: Int, message: String) {}
-                    override fun onFailure(httpStatus: Int, message: String) {}
-                })
-            }
-
             "null" -> currentUid = "null"
         }
     }

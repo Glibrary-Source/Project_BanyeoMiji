@@ -76,53 +76,38 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    // firebase
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
-    //remoteconfig
     implementation("com.google.firebase:firebase-config-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
 
-    // fireStore
     implementation("com.google.firebase:firebase-firestore-ktx")
 
-    // firebase storage
     implementation("com.google.firebase:firebase-storage:20.2.1")
 
-    // navGraph
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
-    // preference datastore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
-    // navMap
     implementation("com.naver.maps:map-sdk:3.17.0")
 
-    // naverLogin
     implementation("com.navercorp.nid:oauth:5.8.0") // jdk 11
 
-    // google location
     implementation("com.google.android.gms:play-services-location:21.0.1")
 
-    // admob
     implementation("com.google.android.gms:play-services-ads:21.5.0")
 
-    // firebase auth
     implementation("com.google.android.gms:play-services-auth:20.2.0")
     implementation("com.google.firebase:firebase-auth-ktx:21.0.4")
 
-    // lottie
     implementation("com.airbnb.android:lottie:3.1.0")
 
-    // retrofit2
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.6.4")
 
-    // bad_word_filter
     implementation("io.github.vaneproject:badwordfiltering:1.0.0")
 
-    // indicator
     implementation("com.tbuonomo:dotsindicator:5.0")
 
 }
