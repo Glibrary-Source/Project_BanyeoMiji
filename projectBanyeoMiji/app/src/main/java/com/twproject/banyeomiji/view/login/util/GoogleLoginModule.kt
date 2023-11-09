@@ -38,7 +38,6 @@ class GoogleLoginModule {
                 if (task.isSuccessful) {
                     CoroutineScope(Dispatchers.IO).launch {
                         MyGlobals.instance!!.userLogin = 1
-                        MyGlobals.instance!!.userDataCheck = 1
                         val currentUser = auth.currentUser
                         setUserDb(currentUser!!.uid, currentUser.email!!.toString())
                     }

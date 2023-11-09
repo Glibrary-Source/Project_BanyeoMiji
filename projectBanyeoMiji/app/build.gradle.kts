@@ -19,8 +19,8 @@ android {
         applicationId = "com.twproject.banyeomiji"
         minSdk = 24
         targetSdk = 33
-        versionCode = 7
-        versionName = "1.0.0"
+        versionCode = 9
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
@@ -31,11 +31,11 @@ android {
     buildTypes {
         debug {
             isDebuggable = true
-//            isMinifyEnabled = true
-//            proguardFiles(
-//                getDefaultProguardFile("proguard-android-optimize.txt"),
-//                "proguard-rules.pro"
-//            )
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             buildConfigField("String", "NAVER_CLIENT_ID", "" + localProperties["NAVER_CLIENT_ID"] + "")
             buildConfigField("String", "NAVER_CLIENT_SECRET", "" + localProperties["NAVER_CLIENT_SECRET"] + "")
         }

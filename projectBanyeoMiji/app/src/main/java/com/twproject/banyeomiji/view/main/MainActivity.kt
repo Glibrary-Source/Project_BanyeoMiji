@@ -62,32 +62,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setLoginState() {
         CoroutineScope(IO).launch {
-            val naverLogin = when (NaverIdLoginSDK.getState().name) {
-                "NEED_LOGIN" -> false
-                "NEED_INIT" -> false
-                "NEED_REFRESH_TOKEN" -> false
-                else -> true
-            }
-
-            var googleLogin = GoogleObjectAuth.getFirebaseAuth().currentUser != null
+            val googleLogin = GoogleObjectAuth.getFirebaseAuth().currentUser != null
             if (googleLogin) {
-                db.collection("user_db")
-                    .document(GoogleObjectAuth.getFirebaseAuth().currentUser!!.uid)
-                    .get()
-                    .addOnSuccessListener {
-                        val login = it.data
-                        googleLogin = login != null
-                        if(googleLogin) {
-                            MyGlobals.instance!!.userLogin = 1
-                            MyGlobals.instance!!.userDataCheck = 1
-                        } else {
-                            MyGlobals.instance!!.userLogin = 0
-                            MyGlobals.instance!!.userDataCheck = 0
-                            GoogleObjectAuth.getFirebaseAuth().signOut()
-                        }
-                    }
-            }
-            if (googleLogin || naverLogin) {
                 MyGlobals.instance!!.userLogin = 1
             } else {
                 MyGlobals.instance!!.userLogin = 0

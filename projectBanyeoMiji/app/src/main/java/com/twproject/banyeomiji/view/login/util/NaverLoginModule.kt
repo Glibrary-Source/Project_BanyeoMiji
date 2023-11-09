@@ -1,6 +1,5 @@
 package com.twproject.banyeomiji.view.login.util
 
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import com.google.firebase.firestore.ktx.firestore
@@ -10,14 +9,14 @@ import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
 import com.twproject.banyeomiji.MyGlobals
-import com.twproject.banyeomiji.view.login.FragmentLoginDirections
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class NaverLoginModule {
-
+class NaverLoginModule(
+) {
     private val db = Firebase.firestore
+    private val auth = GoogleObjectAuth.getFirebaseAuth()
 
     fun getOAuthLoginCallback(
         navController: NavController,
@@ -27,25 +26,54 @@ class NaverLoginModule {
             override fun onSuccess() {
                 NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
                     override fun onSuccess(result: NidProfileResponse) {
+                        GoogleObjectAuth.getFirebaseAuth().signOut()
                         val email: String = result.profile?.email.toString()
                         val uid: String = result.profile?.id.toString()
-                        CoroutineScope(Main).launch {
-                            setUserDb(uid, email, navController, action)
-                        }
-                        MyGlobals.instance!!.userDataCheck = 0
-                        GoogleObjectAuth.getFirebaseAuth().signOut()
+                        onlyNaverEmailSignIn(email, uid, navController, action)
                     }
 
                     override fun onError(errorCode: Int, message: String) {}
                     override fun onFailure(httpStatus: Int, message: String) {}
                 })
             }
-
             override fun onError(errorCode: Int, message: String) {}
             override fun onFailure(httpStatus: Int, message: String) {}
         }
     }
 
+    fun onlyNaverEmailSignIn(
+        email: String,
+        password: String,
+        navController: NavController,
+        action: NavDirections
+    ) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    navController.navigate(action)
+                    MyGlobals.instance!!.userLogin = 1
+                } else {
+                    naverEmailSignUp(email, password, navController, action)
+                }
+            }
+    }
+
+    private fun naverEmailSignUp(
+        email: String,
+        password: String,
+        navController: NavController,
+        action: NavDirections
+    ) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    CoroutineScope(Dispatchers.IO).launch{
+                        val currentUser = auth.currentUser!!
+                        setUserDb(currentUser.uid, email, navController, action)
+                    }
+                }
+            }
+    }
 
     private suspend fun setUserDb(
         uid: String,

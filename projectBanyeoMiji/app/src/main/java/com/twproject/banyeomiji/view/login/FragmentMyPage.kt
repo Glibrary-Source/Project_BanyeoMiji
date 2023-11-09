@@ -122,10 +122,8 @@ class FragmentMyPage : Fragment() {
     }
 
     private fun setLoginStateAndUid() {
-        loginState = if (auth.currentUser != null && MyGlobals.instance!!.userDataCheck == 1) {
+        loginState = if (auth.currentUser != null) {
             "google"
-        } else if (NaverIdLoginSDK.getState().name != "NEED_LOGIN" && NaverIdLoginSDK.getState().name != "NEED_INIT" && NaverIdLoginSDK.getState().name != "NEED_REFRESH_TOKEN") {
-            "naver"
         } else {
             "wait"
         }
@@ -138,22 +136,7 @@ class FragmentMyPage : Fragment() {
                 currentUid = auth.currentUser!!.uid
                 CoroutineScope(Main).launch { userDataCheckChange() }
             }
-
-            "naver" -> {
-                NidOAuthLogin().callProfileApi(object : NidProfileCallback<NidProfileResponse> {
-                    override fun onSuccess(result: NidProfileResponse) {
-                        currentUid = result.profile?.id.toString()
-                        CoroutineScope(Main).launch { userDataCheckChange() }
-                    }
-
-                    override fun onError(errorCode: Int, message: String) {}
-                    override fun onFailure(httpStatus: Int, message: String) {}
-                })
-            }
-
-            "wait" -> {
-
-            }
+            "wait" -> {}
         }
     }
 
@@ -195,7 +178,6 @@ class FragmentMyPage : Fragment() {
             "wait" -> {
                 Toast.makeText(mContext, "잠시 기다렸다 다시시도해주세요.", Toast.LENGTH_SHORT).show()
             }
-
             else -> {
                 db.collection("user_db").document(currentUid)
                     .get()
@@ -225,7 +207,6 @@ class FragmentMyPage : Fragment() {
             "wait" -> {
                 Toast.makeText(mContext, "잠시 기다려 주세요.", Toast.LENGTH_SHORT).show()
             }
-
             else -> {
                 val item = mapOf(
                     "nickname" to nickname,
@@ -266,17 +247,13 @@ class FragmentMyPage : Fragment() {
             "wait" -> {
                 Toast.makeText(mContext, "잠시 기다려 주세요.", Toast.LENGTH_SHORT).show()
             }
-
             else -> {
                 db.collection("user_db").document(currentUid)
                     .delete()
                     .addOnSuccessListener {
                         Toast.makeText(mContext, "회원 탈퇴 성공", Toast.LENGTH_SHORT).show()
                         MyGlobals.instance!!.userLogin = 0
-                        MyGlobals.instance!!.userDataCheck = 0
-
                         logoutAction(googleSignInClient)
-
                         try {
                             navController.navigate(actionLoginPage)
                         } catch (_: Exception) {
@@ -295,14 +272,10 @@ class FragmentMyPage : Fragment() {
                 try {
                     auth.currentUser!!.delete()
                     googleSignInClient.signOut()
+                    NaverIdLoginSDK.logout()
                 } catch (_: Exception) {
                 }
             }
-
-            "naver" -> {
-                NaverIdLoginSDK.logout()
-            }
-
             else -> {
 
             }

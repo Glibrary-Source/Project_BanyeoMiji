@@ -32,6 +32,5 @@ data class PetLocationData(
     val TEL_NO: Any = 0,
     val UTILIIZA_PRC_CN: String = "",
     val ZIP_NO: Any = 0,
-    val DOC_ID: String = "",
-    val USER_REVIEW: Map<String, Any> = mapOf()
+    val DOC_ID: String = ""
 )

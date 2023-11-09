@@ -46,8 +46,8 @@ class FragmentLogin : Fragment() {
     private lateinit var action: NavDirections
     private lateinit var emailLoginModule: EmailLoginModule
 
-    private val googleLoginModule = GoogleLoginModule()
     private val naverLoginModule = NaverLoginModule()
+    private val googleLoginModule = GoogleLoginModule()
     private val auth = GoogleObjectAuth.getFirebaseAuth()
     private var email = " "
     private var password = " "
@@ -87,7 +87,9 @@ class FragmentLogin : Fragment() {
         navController = findNavController()
 
         checkAlreadyLogin()
+
         initializeGoogleSignIn()
+
         setChangeListener()
 
         binding.btnLoginEmail.setOnClickListener {

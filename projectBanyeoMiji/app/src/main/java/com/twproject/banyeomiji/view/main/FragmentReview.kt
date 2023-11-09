@@ -44,7 +44,6 @@ class FragmentReview : Fragment() {
     private lateinit var petLocationViewModel: PetLocationViewModel
     private lateinit var mContext: Context
     private lateinit var activity: FragmentActivity
-//    private lateinit var reviewListData: Map<String, Any>
     private var reviewListData: Map<String, Any> = mapOf()
     private val reviewData by navArgs<FragmentReviewArgs>()
     val db = Firebase.firestore
@@ -224,7 +223,7 @@ class FragmentReview : Fragment() {
     }
 
     private fun setLoginStateAndUid() {
-        loginState = if (auth.currentUser != null && MyGlobals.instance!!.userDataCheck == 1) {
+        loginState = if (auth.currentUser != null) {
             "google"
         } else if (NaverIdLoginSDK.getState().name != "NEED_LOGIN" && NaverIdLoginSDK.getState().name != "NEED_INIT" && NaverIdLoginSDK.getState().name != "NEED_REFRESH_TOKEN") {
             "naver"
