@@ -10,6 +10,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:paddingTop="16dp"
+        android:layoutAnimation="@anim/layout_animation_fall"
         tools:listitem="@layout/item_fragment_location_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

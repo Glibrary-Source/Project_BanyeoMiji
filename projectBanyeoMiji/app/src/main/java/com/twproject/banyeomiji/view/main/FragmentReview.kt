@@ -38,13 +38,16 @@ class FragmentReview : Fragment() {
     private lateinit var petLocationViewModel: PetLocationViewModel
     private lateinit var mContext: Context
     private lateinit var activity: FragmentActivity
+
     private var reviewListData: Map<String, Any> = mapOf()
     private val reviewData by navArgs<FragmentReviewArgs>()
-    val db = Firebase.firestore
     private val auth = GoogleObjectAuth.getFirebaseAuth()
     private var loginState = "init"
     private var currentUid = "default"
     private val badWordFilter = BadWordFiltering()
+
+    val db = Firebase.firestore
+
 
     private val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
