@@ -19,6 +19,9 @@
             app:popExitAnim="@anim/exit_to_right"
             app:popUpTo="@id/fragmentCategory"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_fragmentCategory_to_payTestFragment"
+            app:destination="@id/payTestFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLocationList"
@@ -106,4 +109,9 @@
             android:name="currentUid"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/payTestFragment"
+        android:name="com.twproject.banyeomiji.PayTestFragment"
+        android:label="fragment_pay_test"
+        tools:layout="@layout/fragment_pay_test" />
 </navigation>

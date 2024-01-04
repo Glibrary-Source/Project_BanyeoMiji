@@ -48,7 +48,6 @@ class FragmentReview : Fragment() {
 
     val db = Firebase.firestore
 
-
     private val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             activity.findViewById<BottomNavigationView>(R.id.bottom_nav_bar).visibility =

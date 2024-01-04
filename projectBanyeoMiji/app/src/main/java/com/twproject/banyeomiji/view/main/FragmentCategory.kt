@@ -11,6 +11,7 @@ import android.widget.Spinner
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.twproject.banyeomiji.MyGlobals
 import com.twproject.banyeomiji.R
 import com.twproject.banyeomiji.databinding.FragmentCategoryBinding
@@ -63,8 +64,8 @@ class FragmentCategory : Fragment() {
 
         spinner.adapter = ArrayAdapter(mContext, R.layout.item_fragment_category_list_spinner, items)
 
-        categorySpinnerManager.setStartSpinnerPosition()
-        categorySpinnerManager.setSpinnerSelect(items, mContext, petLocationViewModel, categoryLocationDataManager)
+//        categorySpinnerManager.setStartSpinnerPosition()
+//        categorySpinnerManager.setSpinnerSelect(items, mContext, petLocationViewModel, categoryLocationDataManager)
 
         val pageMarginPx = resources.getDimensionPixelOffset(R.dimen.pageMargin) // dimen 파일 안에 크기를 정의해두었다.
         val pagerWidth = resources.getDimensionPixelOffset(R.dimen.pageWidth) // dimen 파일이 없으면 생성해야함
@@ -75,6 +76,7 @@ class FragmentCategory : Fragment() {
         viewPager2.setPageTransformer { page, position ->
             page.translationX = position * -offsetPx
         }
+
         viewPager2.offscreenPageLimit = 1
         viewPager2.adapter = CategoryViewPagerAdapter(CategoryData().getCategoryList())
 
@@ -83,7 +85,15 @@ class FragmentCategory : Fragment() {
 
         MyGlobals.instance!!.navState = "category"
 
+        //TestPay
+        movePay()
+
         return binding.root
+    }
+
+    private fun movePay() {
+        val action = FragmentCategoryDirections.actionFragmentCategoryToPayTestFragment()
+        findNavController().navigate(action)
     }
 
 }

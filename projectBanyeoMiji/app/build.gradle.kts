@@ -19,8 +19,8 @@ android {
         applicationId = "com.twproject.banyeomiji"
         minSdk = 24
         targetSdk = 33
-        versionCode = 9
-        versionName = "1.0.2"
+        versionCode = 10
+        versionName = "1.0.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
@@ -31,7 +31,7 @@ android {
     buildTypes {
         debug {
             isDebuggable = true
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -67,6 +67,7 @@ android {
 
 dependencies {
     val navVersion = "2.5.3"
+    val billing_version = "6.1.0"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -110,4 +111,6 @@ dependencies {
 
     implementation("com.tbuonomo:dotsindicator:5.0")
 
+    // google pay
+    implementation("com.android.billingclient:billing-ktx:$billing_version")
 }
