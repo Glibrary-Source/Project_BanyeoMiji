@@ -2,13 +2,13 @@ package com.twproject.banyeomiji
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.lifecycleScope
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.BillingResponseCode
 import com.android.billingclient.api.BillingClient.ProductType
@@ -16,14 +16,15 @@ import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
 import com.android.billingclient.api.ConsumeParams
-import com.android.billingclient.api.ProductDetails
-import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.consumePurchase
 import com.google.common.collect.ImmutableList
 import com.twproject.banyeomiji.databinding.FragmentPayTestBinding
 import com.twproject.banyeomiji.vbutility.BackPressCallBackManager
 import com.twproject.banyeomiji.view.main.MainActivity
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
 class PayTestFragment : Fragment() {
 
@@ -33,6 +34,7 @@ class PayTestFragment : Fragment() {
     private lateinit var mContext: Context
     private lateinit var activity: MainActivity
 
+    // billing client 지연 선언
     private lateinit var billingClient: BillingClient
     private lateinit var purchasesUpdatedListener: PurchasesUpdatedListener
 
@@ -51,7 +53,7 @@ class PayTestFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        startClient()
+        startGooglePayClient()
     }
 
     override fun onCreateView(
@@ -74,19 +76,21 @@ class PayTestFragment : Fragment() {
         return binding.root
     }
 
-    private fun startClient() {
+    private fun startGooglePayClient() {
+        // billing client listener 선언 -> 결제 후 처리 관리
         purchasesUpdatedListener =
             PurchasesUpdatedListener { billingResult, purchases ->
                 // To be implemented in a later section.
                 if(billingResult.responseCode == BillingResponseCode.OK && purchases != null) {
                     for (purchase in purchases) {
-                        Log.d(TAG, "Purchase Test : $purchase")
-                        Log.d(TAG, "Purchase Test : ${purchase.orderId}")
                         val consumeParams = ConsumeParams.newBuilder()
                             .setPurchaseToken(purchase.purchaseToken)
                             .build()
 
-                        billingClient.consumeAsync(consumeParams, consumeListenser)
+                        // 구매한 purchases 아이템 소비 -> 재구매 가능 설정
+                        lifecycleScope.launch(IO){
+                            billingClient.consumePurchase(consumeParams)
+                        }
                     }
                 } else if (billingResult.responseCode == BillingResponseCode.USER_CANCELED) {
                     Toast.makeText(mContext, "user cancel", Toast.LENGTH_SHORT).show()
@@ -95,6 +99,7 @@ class PayTestFragment : Fragment() {
                 }
             }
 
+        // billing client 초기화 -> purchasesUpdatedListener 등록
         billingClient = BillingClient.newBuilder(mContext)
             .setListener(purchasesUpdatedListener)
             .enablePendingPurchases()
@@ -103,6 +108,7 @@ class PayTestFragment : Fragment() {
 
     private fun callPayClient(productID: String) {
 
+        // 구글 payment system 불러오기
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingResponseCode.OK) {
@@ -116,10 +122,12 @@ class PayTestFragment : Fragment() {
                 // Google Play by calling the startConnection() method.
             }
         })
+
     }
 
     private fun processPurchases(productID: String) {
 
+        //구매 흐름 시작 코드
         val queryProductDetailsParams =
             QueryProductDetailsParams.newBuilder()
                 .setProductList(
@@ -153,11 +161,10 @@ class PayTestFragment : Fragment() {
 
             // Launch the billing flow
             val billingResulted =
-            billingClient.launchBillingFlow(activity, billingFlowParams).responseCode
+                billingClient.launchBillingFlow(activity, billingFlowParams).responseCode
 
         }
     }
-
 }
 
 //상품 2개 한거번에 불러오기
@@ -198,18 +205,5 @@ class PayTestFragment : Fragment() {
 //
 //            val billingResulted =
 //                billingClient.launchBillingFlow(activity, billingFlowParams).responseCode
-//        }
-
-//    }
-
-//    override fun onPurchasesUpdated(billingResult: BillingResult, purchases: List<Purchase>?) {
-//        if (billingResult.responseCode == BillingResponseCode.OK && purchases != null) {
-//            for (purchase in purchases) {
-//                Log.d("testL")
-//            }
-//        } else if (billingResult.responseCode == BillingResponseCode.USER_CANCELED) {
-//            // Handle an error caused by a user cancelling the purchase flow.
-//        } else {
-//            // Handle any other error codes.
 //        }
 //    }
