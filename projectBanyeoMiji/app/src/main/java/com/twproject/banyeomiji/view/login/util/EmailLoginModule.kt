@@ -24,17 +24,21 @@ class EmailLoginModule(
         navController: NavController,
         action: NavDirections
     ) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    emailVerificationCheck(
-                        navController,
-                        action
-                    )
-                } else {
-                    Toast.makeText(mContext, "이메일 또는 비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show()
+        if(email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(mContext, "이메일 또는 비밀번호를 입력하세요", Toast.LENGTH_SHORT).show()
+        } else {
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        emailVerificationCheck(
+                            navController,
+                            action
+                        )
+                    } else {
+                        Toast.makeText(mContext, "이메일 또는 비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show()
+                    }
                 }
-            }
+        }
     }
 
     private fun emailVerificationCheck(
