@@ -19,7 +19,7 @@ android {
         applicationId = "com.twproject.banyeomiji"
         minSdk = 24
         targetSdk = 33
-        versionCode = 11
+        versionCode = 12
         versionName = "1.0.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
